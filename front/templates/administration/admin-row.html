@@ -1,0 +1,19 @@
+<tr> 
+    <!-- place all admin values as non-display field in table row  => so all admin's data is accessible in js -->
+    <td id="admin-id"        class="hide">{{admin-id}}</td>
+    <td id="admin-name"      class="hide">{{admin-name}}</td>
+    <td id="admin-role-name" class="hide">{{role-name}}</td>
+    <td id="admin-role-id"   class="hide">{{role-id}}</td>
+    <td id="admin-phone"     class="hide">{{admin-phone}}</td>
+    <td id="admin-email"     class="hide">{{admin-email}}</td>
+    <td>
+        <div class="info-row-admin-aside">
+            <canvas data-canvas-id={{admin_id}} class="img-fluid info-minor" width="48" height="60"></canvas>
+            <div class="info-container">
+                <span class="text-left">{{admin_name}}&#44;&nbsp;{{role_name}}</span>
+                <span class="text-left">{{admin_phone}}</span>
+                <span class="text-left">{{admin_email}}</span>
+            </div>
+        </div>
+    </td>
+</tr>

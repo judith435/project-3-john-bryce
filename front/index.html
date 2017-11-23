@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CodingSchool</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+            integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"    
+                crossorigin="anonymous">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+        </script>
+        <!-- script file for validation plugin --> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+        <!-- site less file placed after bootstrap files to enable overriding of bootstrap styles --> 
+        <link rel="stylesheet/less" type="text/css" href="styles/style.less" />
+        <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js"></script>
+    </head>
+    <body>
+        <div class="flex-container">
+            <header id="navigation-bar"></header>
+            <section id="login"></section>
+            <aside id="side-container" class="aside"></aside>
+            <main id="main-container" class="main"></main>
+        </div>  
+        <script src='js/main.js'></script> 
+        <!-- share -->
+        <script src='js/share/server_request.js'></script> 
+        <script src='js/share/common.js'></script> 
+        <!-- login -->
+        <script src='js/login/login_logout.js'></script>  
+        <script src='js/login/validationsLogin.js'></script>
+        <!-- school -->
+        <script src='js/school/school.js'></script> 
+        <!-- course -->
+        <script src='js/courses/courses.js'></script> 
+        <script src='js/courses/courseObject.js'></script> 
+        <script src='js/courses/validationsCourse.js'></script>  
+        <!-- student -->
+        <script src='js/students/students.js'></script>
+        <script src='js/students/studentObject.js'></script>
+        <script src='js/students/validationsStudent.js'></script> 
+        <!-- administration -->
+        <script src='js/administration/validationsAdministrator.js'></script>   
+        <script src='js/administration/administratorObject.js'></script> 
+        <script src='js/administration/administration.js'></script> 
+    </body>        
+</html>

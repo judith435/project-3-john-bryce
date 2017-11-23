@@ -1,0 +1,590 @@
+-- this script creates the school database with all the tables, stored procedures and function
+-- it also inserts the administrator with role owner into the administrator table: 
+-- email => judithguttmann@gmail.com password wedding5771  encrypted as "d32b080cc61f1d5"
+-- reason system requires login of any admin and without admin already  in db no way to start application
+
+
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+CREATE SCHEMA IF NOT EXISTS `school` DEFAULT CHARACTER SET utf8 ;
+USE `school` ;
+
+-- -----------------------------------------------------
+-- Table `school`.`roles`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `school`.`roles` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `school`.`administrator`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `school`.`administrator` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  `role` INT(11) NOT NULL ,
+  `phone` VARCHAR(45) NOT NULL ,
+  `email` VARCHAR(45) NOT NULL ,
+  `password` VARCHAR(15) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_administrator_role_idx` (`role` ASC) ,
+  CONSTRAINT `fk_administrator_role `
+    FOREIGN KEY (`role` )
+    REFERENCES `school`.`roles` (`id` ))
+ENGINE = InnoDB
+AUTO_INCREMENT = 11
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `school`.`courses`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `school`.`courses` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  `description` VARCHAR(255) NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 64
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `school`.`students`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `school`.`students` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  `phone` VARCHAR(45) NOT NULL ,
+  `email` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 28
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `school`.`courses_students`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `school`.`courses_students` (
+  `crs_id` INT(11) NOT NULL ,
+  `stdnt_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`crs_id`, `stdnt_id`) ,
+  INDEX `fk_cs_students_idx` (`stdnt_id` ASC) ,
+  CONSTRAINT `fk_cs_courses`
+    FOREIGN KEY (`crs_id` )
+    REFERENCES `school`.`courses` (`id` ),
+  CONSTRAINT `fk_cs_students`
+    FOREIGN KEY (`stdnt_id` )
+    REFERENCES `school`.`students` (`id` ))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+USE `school` ;
+
+-- -----------------------------------------------------
+-- function Split_String
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `Split_String`(
+ x VARCHAR(255),
+ delim VARCHAR(12),
+ pos INT
+ ) RETURNS varchar(255) CHARSET utf8
+RETURN REPLACE(SUBSTRING(SUBSTRING_INDEX(x, delim, pos),LENGTH(SUBSTRING_INDEX(x, delim, pos -1)) + 1),
+delim, '')$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure check_admin_exists
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `check_admin_exists`(IN admin_name VARCHAR(45),
+																 IN admin_email VARCHAR(45))
+BEGIN
+
+	select id FROM administrator
+    where name = admin_name
+    and email = admin_email;
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure check_course_exists
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `check_course_exists`(IN course_name VARCHAR(45))
+BEGIN
+
+	SELECT id FROM courses WHERE name = course_name;
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure check_student_exists
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `check_student_exists`(IN student_name VARCHAR(45),
+																   in student_phone VARCHAR(45),
+																   in student_email VARCHAR(45))
+BEGIN
+
+	SELECT id FROM students 
+	WHERE name = student_name 
+	and phone = student_phone
+	and email = student_email;
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure delete_administrator
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_administrator`(IN admin_id int)
+BEGIN
+
+	delete from  `school`.`administrator` where id = admin_id;
+        
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure delete_course
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_course`(IN course_id int)
+BEGIN
+
+    delete from  `school`.`courses` where id = course_id;
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure delete_student
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_student`(IN student_id int)
+BEGIN
+
+	delete from  `school`.`courses_students` where stdnt_id = student_id;
+    delete from  `school`.`students` where id = student_id;
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure get_administrator_by_login
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_administrator_by_login`(IN email VARCHAR(45),  in password  VARCHAR(15))
+BEGIN
+
+	SELECT   administrator.id as admin_id,
+			 administrator.name as admin_name,
+			 administrator.role as role_id,
+             roles.name as role_name,
+             administrator.phone as admin_phone,
+             administrator.email as admin_email,
+             administrator.password as admin_password             
+	FROM administrator
+	inner join roles
+	on administrator.role = roles.id
+    where administrator.email = email
+    and administrator.password = password;
+   
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure get_administrators
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_administrators`()
+BEGIN
+
+	SELECT   administrator.id as admin_id,
+			 administrator.name as admin_name,
+			 administrator.role as role_id,
+             roles.name as role_name,
+             administrator.phone as admin_phone,
+             administrator.email as admin_email
+	FROM administrator
+	inner join roles
+	on administrator.role = roles.id;
+   
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure get_courses
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_courses`()
+BEGIN
+	SELECT   id as course_id,
+			 name as course_name,
+             description as course_description,
+             ifNull(number_of_students_for_course, 0) as number_of_students_for_course,  #students_found_for_course
+			 ifNull(student_ids, "") as student_ids	
+    FROM courses
+    left outer join   
+		(select count(*) as number_of_students_for_course ,crs_id
+		 from courses_students 
+		 group by crs_id) AS student_numbers
+		 ON  student_numbers.crs_id = courses.id
+    left outer JOIN                                       
+		(SELECT  group_concat(concat(stdnt_id)  order by student_name separator ',') as student_ids ,crs_id        
+		 FROM ( select crs_id, stdnt_id, name as student_name 
+				from courses_students 
+				inner join students
+				on students.id = courses_students.stdnt_id) as courses_students
+		 group by   crs_id ) as students
+    on students.crs_id = courses.id
+    order by  courses.name;
+
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure get_roles
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_roles`()
+BEGIN
+
+	SELECT   id as role_id,
+			 name as role_name
+	FROM roles
+    order by  name;
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure get_students
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_students`()
+BEGIN
+
+	SELECT   students.id as student_id,
+				 students.name as student_name,
+				 students.phone as student_phone,
+				 students.email as student_email,
+				 ifNull(courses.student_courses, "") as student_courses 
+		FROM students
+		left outer  JOIN                                       
+			( SELECT  group_concat(concat(concat("cbCourse", crs_id)) order by course_name separator ',') as student_courses ,stdnt_id        
+			  FROM  ( select crs_id, stdnt_id, name as course_name 
+					  from courses_students 
+					  inner join courses
+					  on courses.id = courses_students.crs_id) as courses_students
+			  group by   stdnt_id) AS courses
+		ON  courses.stdnt_id = students.id
+	order by  students.name;
+		
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure insert_administrator
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_administrator`(IN admin_name VARCHAR(45),
+																   IN admin_email VARCHAR(45),
+																   IN role_id int,
+																   IN admin_phone VARCHAR(45),
+																   IN admin_password VARCHAR(15))
+BEGIN
+
+	DECLARE new_admin_id int;
+
+    INSERT INTO `school`.`administrator`
+	(`name`,
+	`role`,
+	`phone`,
+	`email`,
+	`password`)
+	VALUES
+	(admin_name,
+	 role_id,
+	 admin_phone,
+	 admin_email,
+	 admin_password); 
+    
+    SELECT LAST_INSERT_ID()
+    INTO new_admin_id;
+    SELECT new_admin_id;
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure insert_course
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_course`(IN course_name VARCHAR(45),
+															IN course_description VARCHAR(255))
+BEGIN
+
+	DECLARE new_course_id int;
+
+    INSERT INTO `school`.`courses`
+    (`name`, description) 
+    VALUES 
+    (course_name, course_description);    
+    
+    SELECT LAST_INSERT_ID()
+    INTO new_course_id;
+    SELECT new_course_id;
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure insert_student
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_student`(in student_name VARCHAR(45),
+									in student_phone VARCHAR(45),
+									in student_email VARCHAR(45),
+                                    in student_courses varchar(255))
+BEGIN
+
+	DECLARE string_position INT Default 0 ; #used to extract individual course from courses string in course_loop
+    DECLARE course VARCHAR(255); #used to extract individual course from courses string in course_loop
+    DECLARE new_student_id int; #used as student_id for insert into courses_students table  
+
+	# handling for sqlexception & sqlwarning - if occurs rollback and return 
+    #new_student_id = -1 to php for further error handling on server
+	DECLARE exit handler for sqlexception 
+	  BEGIN
+		ROLLBACK; -- error
+		set new_student_id = -1;
+        SELECT new_student_id;
+	  END;
+
+	DECLARE exit handler for sqlwarning
+	 BEGIN
+		ROLLBACK; -- WARNING
+		set new_student_id = -1;
+        SELECT new_student_id;
+	 END;
+
+	START TRANSACTION;
+    
+		INSERT INTO `school`.`students`
+		(`name`, 
+		 phone,
+		 email
+		) 
+		VALUES 
+		(student_name, 
+		 student_phone,
+		 student_email);    
+		
+		SELECT LAST_INSERT_ID()
+		INTO new_student_id;
+		
+		#loop over courses string and insert row into courses_students for every row extracted 
+		course_loop: while string_position < 255 
+			do
+			 SET string_position = string_position + 1;
+			 SET course = Split_String(student_courses, ",", string_position);
+			 IF course = '' THEN
+				LEAVE course_loop;
+			 END IF;
+			 insert into courses_students values (course, new_student_id);
+		end while;
+
+		SELECT new_student_id; #if insert successful return student_id of row inserted to php
+
+    COMMIT;
+
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure update_administrator
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_administrator`(IN admin_id Int, 
+																   IN admin_name VARCHAR(45),
+																   IN admin_email VARCHAR(45),	
+																   IN role_id Int,
+																   IN admin_phone VARCHAR(45))
+BEGIN
+
+    update school.administrator
+	set name = admin_name,
+		role = role_id,
+		phone = admin_phone,
+		email = admin_email
+	where id = admin_id;   
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure update_course
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_course`(IN course_id Int, 
+															IN course_name VARCHAR(45),
+															IN course_description VARCHAR(255))
+BEGIN
+
+    update school.courses
+	set name = course_name,
+		description = course_description
+	where id = course_id;   
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure update_student
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `school`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_student`(in student_id int,
+															 in student_name VARCHAR(45),
+															 in student_phone VARCHAR(45),
+															 in student_email VARCHAR(45),
+															 in student_courses varchar(255))
+BEGIN
+
+	DECLARE string_position INT Default 0 ; #used to extract individual course from courses string in course_loop
+    DECLARE course VARCHAR(255); #used to extract individual course from courses string in course_loop
+
+	# handling for sqlexception & sqlwarning - if occurs rollback and return student_id = -1 to php for further error handling on server
+	DECLARE exit handler for sqlexception 
+	  BEGIN
+		ROLLBACK; -- error
+		set student_id = -1;
+        SELECT student_id;
+	  END;
+
+	DECLARE exit handler for sqlwarning
+	 BEGIN
+		ROLLBACK; -- WARNING
+		set student_id = -1;
+        SELECT student_id;
+	 END;
+
+	START TRANSACTION;
+    
+		UPDATE school.students
+		SET
+		name = student_name,
+		phone = student_phone,
+		email = student_email
+		WHERE id = student_id;
+		
+		# delete all courses for student and then reinsert them according to input parm student_courses
+		delete from school.courses_students where stdnt_id = student_id;
+		
+		#loop over courses string and insert row into courses_students for every row extracted 
+		course_loop: while string_position < 255 
+			do
+			 SET string_position = string_position + 1;
+			 SET course = Split_String(student_courses, ",", string_position);
+			 IF course = '' THEN
+				LEAVE course_loop;
+			 END IF;
+			 insert into courses_students values (course, student_id);
+		end while;
+
+		SELECT student_id; #return student_id to php - if -1 update failes
+
+    COMMIT;
+
+END$$
+
+DELIMITER ;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+
+
+
+INSERT INTO `school`.`roles` (`name`) VALUES ('owner');
+INSERT INTO `school`.`roles` (`name`) VALUES ('manager');
+INSERT INTO `school`.`roles` (`name`) VALUES ('sales');
+
+
+insert into school.administrator ( name, role, phone, email, password )
+values 
+	("Judith Ilson", 
+	(select id from roles where name = "owner") , 
+	"0527156769" ,"judithguttmann@gmail.com", "d32b080cc61f1d5" ); -- wedding5771 encrypted

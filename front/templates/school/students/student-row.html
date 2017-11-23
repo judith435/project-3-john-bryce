@@ -1,0 +1,17 @@
+<tr> 
+    <!-- place all student values as non-display field in table row  => so all student's data is accessible in js -->
+    <td id="student-id"        class="hide">{{student-id}}</td>
+    <td id="student-name"      class="hide">{{student-name}}</td>
+    <td id="student-phone"     class="hide">{{student-phone}}</td>
+    <td id="student-email"     class="hide">{{student-email}}</td>
+    <td id="student-courses"   class="hide">{{student-courses}}</td>
+    <td>
+        <div class="info-row-school-aside">
+            <canvas data-canvas-id={{student_id}} class="img-fluid info-minor" width="33" height="42"></canvas>
+            <div class="info-container">
+                <span class="text-left">{{student_name}}</span>
+                <span class="text-left">{{student_phone}}</span>
+            </div>
+        </div>
+    </td>
+</tr>
