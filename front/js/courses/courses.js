@@ -31,7 +31,7 @@ var courses = (function() {
                 }
                 $('#studentList').append(studentHtml);
                 //load images for all canvas elements created
-                common.loadCanvasList($('#studentList canvas'), "/students/image_for_student_id_", "small");
+                common.loadCanvasList($('#studentList canvas'), app.studentImagePath, "small");
             }
 
             //get admin data to check if admin role is sales => may not update course data
@@ -100,7 +100,7 @@ var courses = (function() {
 
     function display_course_image(){
         var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
-        var imgPath =  app.schoolImageFolder + "/courses/image_for_course_id_" + courseHandled.details.course_id + ".jpg?" + dt_force_reload.getTime();
+        var imgPath = app.courseImagePath + courseHandled.details.course_id + ".jpg?" + dt_force_reload.getTime();
         common.setCanvas($('#canvasCourse')[0], imgPath, "regular");
     }
 
@@ -222,7 +222,7 @@ var courses = (function() {
                 template = template.replace("{{student-ids}}", courseArray[i].student_ids);
                 $('#courses').append(template);
             }
-            common.loadCanvasList($('#courses canvas'), "/courses/image_for_course_id_", "school_aside");
+            common.loadCanvasList($('#courses canvas'), app.courseImagePath, "school_aside");
         });
     }
 

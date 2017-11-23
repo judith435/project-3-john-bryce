@@ -82,7 +82,7 @@ var administration = (function() {
 
                 $('#administrators').append(template);
             }
-            common.loadCanvasList($('#administrators canvas'), "/admins/image_for_admin_id_", "admin_aside");
+            common.loadCanvasList($('#administrators canvas'), app.adminImagePath, "admin_aside");
         });
     }
     
@@ -127,7 +127,7 @@ var administration = (function() {
                 $('#roleID').val(adminHandled.details.role_id);
 
                 var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
-                var imgPath =  app.schoolImageFolder + "/admins/image_for_admin_id_" + adminHandled.details.admin_id + ".jpg?" + dt_force_reload.getTime();
+                var imgPath = app.adminImagePath + adminHandled.details.admin_id + ".jpg?" + dt_force_reload.getTime();
                 common.setCanvas($('#canvasAdmin')[0], imgPath, "regular");
 
                 if(adminLoggedIn.admin_id == adminHandled.details.admin_id) { //administrator cannot delete himself
