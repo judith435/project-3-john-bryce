@@ -65,8 +65,9 @@
             $ih = new ImageHandling();
             $ih->delete_image($params["course_id"], "course");
         }
-        
-        function getCourseByName($params) { //used for js remote validation
+
+        //used for js remote validation validationsCourse.js  method: course_already_exists
+        function getCourseByName($params) {  
             $course_bll = new Course_BLL();
             $course_id = $course_bll->check_course_exists($params);
             if ($course_id == false){ //no course found with given course name

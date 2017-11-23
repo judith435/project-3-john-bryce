@@ -15,19 +15,22 @@
         }
 
         public function insert_update_course($course, $method,  &$applicationError) {
-            $spParms =  array();
-            array_push($spParms, new PDO_Parm("course_name", $course->getCourseName(), 'string')); 
+
+            $spParms =  array(); //contains stored procedure input parms 
+            array_push($spParms, new PDO_Parm("course_name", $course->getCourseName(), 'string'));
+
             $resultSet = parent::get($this->get_dbName(), 'check_course_exists', $spParms);
             if ($resultSet->rowCount() > 0) { // course with same name already exists
                 $duplicate_course = $resultSet->fetch();
-                if (($method == "Create") || //create if course with same name already exist then error
-                //update if course with same name already exists then error only if course_id different - otherwise referring to existing course being updated
+                if (($method == "Create") || //create: if course with same name already exist then error
+                     //update: if course with same name already exists then error only if course_id different - otherwise referring to existing course being updated
                     ($method == "Update" && $duplicate_course["id"] != $course->getCourseID())) { 
                         $applicationError =  "course with same name already exist - course id #" . $duplicate_course["id"];
                         return;
                 }
             }
             array_push($spParms, new PDO_Parm("course_description", $course->getCourseDescription(), 'string'));
+
             if ($method == "Update") {  //for update must add course_id as first parameter
                     array_unshift($spParms, new PDO_Parm("course_id", $course->getCourseID(), 'integer'));
             }
@@ -37,15 +40,16 @@
             return $courseID->fetch();
         }
 
+        //used for js remote validation validationsCourse.js  method: course_already_exists
         public function check_course_exists($params) {
-            $spParms =  array();
+            $spParms =  array(); //contains stored procedure input parms 
             array_push($spParms, new PDO_Parm("course_name", $params["course_name"], 'string')); 
             $resultSet = parent::get($this->get_dbName(), 'check_course_exists', $spParms);
             return $resultSet->fetch();
         }
 
         public function delete_course($params) {
-            $spParms =  array();
+            $spParms =  array(); //contains stored procedure input parms 
             array_push($spParms, new PDO_Parm("course_id", $params["course_id"], 'integer'));
             return parent::get($this->get_dbName(), 'delete_course', $spParms);
         }

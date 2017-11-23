@@ -1,5 +1,5 @@
 <?php
-    class PDO_Parm { 
+    class PDO_Parm { //class containing stored procedure parameters
 
         private $id;
         private $value;

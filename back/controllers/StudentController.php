@@ -65,7 +65,8 @@
             $ih->delete_image($params["student_id"], "student");
         }
         
-        function getStudentByName($params) { //used for js remote validation
+        //used for js remote validation validationsStudent.js  method: student_already_exists
+        function getStudentByName($params) { 
             $student_bll = new Student_BLL();
             $student_id = $student_bll->check_student_exists($params);
             if ($student_id == false){ //no student found with given student name

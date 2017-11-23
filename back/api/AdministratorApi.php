@@ -7,7 +7,7 @@
         function Read($params) {
 
             $ac = new AdministratorController;
-            //used to check if admin by same name & phone already exists in remote js validations 
+            //used to check if admin by same name & phone already exists: js remote validation validationsAdministrator.js  method: admin_already_exists
             if (array_key_exists("admin_name", $params) && array_key_exists("admin_email", $params)) {
                 return  $ac->getAdministratorByNameEmail($params);
             }

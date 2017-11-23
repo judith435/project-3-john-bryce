@@ -8,7 +8,8 @@
             $sc = new StudentController;
 
             if (array_key_exists("student_name", $params) && array_key_exists("student_phone", $params) && array_key_exists("student_email", $params)) {
-                return  $sc->getStudentByName($params); //used to check if student by same name already exists in remote js validations
+                //used to check if student by same name already exists: js remote validation validationsStudent.js  method: student_already_exists
+                return  $sc->getStudentByName($params); 
             }
             else {
                 return $sc->getAll_Students();

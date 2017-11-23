@@ -6,9 +6,10 @@
 
         function Read($params) {
             $cc = new CourseController;
-
-            if (array_key_exists("course_name", $params)) {
-                return  $cc->getCourseByName($params); //used to check if course by same name already exists in remote js validations
+           
+            if (array_key_exists("course_name", $params)) { 
+                //used to check if course by same name already exists: js remote validation validationsCourse.js  method: course_already_exists
+                return  $cc->getCourseByName($params); 
             }
             else {
                 return $cc->getAll_Courses();

@@ -15,7 +15,7 @@
         }
         
         public function get_administrator_by_login($login) {
-            $spParms =  array();
+            $spParms =  array(); //contains stored procedure input parms 
             array_push($spParms, new PDO_Parm("email", $login->getLoginEmail(), 'string')); 
             array_push($spParms, new PDO_Parm("password", $login->getLoginPassword(), 'string'));
             $resultSet = parent::get($this->get_dbName(), 'get_administrator_by_login', $spParms);
@@ -23,8 +23,9 @@
 
         }
 
+        //used for js remote validation validationsAdministrator.js  method: admin_already_exists
         public function check_admin_exists($params) {
-            $spParms =  array();
+            $spParms =  array(); //contains stored procedure input parms 
             array_push($spParms, new PDO_Parm("admin_name", $params["admin_name"], 'string')); 
             array_push($spParms, new PDO_Parm("admin_email", $params["admin_email"], 'string')); 
             $resultSet = parent::get($this->get_dbName(), 'check_admin_exists', $spParms);
@@ -32,21 +33,25 @@
         }
 
         public function insert_update_admin($admin, $login, $method, $applicationError) {
-            $spParms =  array();
+
+            $spParms =  array(); //contains stored procedure input parms 
             array_push($spParms, new PDO_Parm("admin_name", $admin->getAdministratorName(), 'string'));  
             array_push($spParms, new PDO_Parm("admin_email", $admin->getAdministratorEmail(), 'string'));  
+
             $resultSet = parent::get($this->get_dbName(), 'check_admin_exists', $spParms);
             if ($resultSet->rowCount() > 0) { // admin with same name & email already exists
                 $duplicate_admin = $resultSet->fetch();
-                if (($method == "Create") || //create if admin with same name & email already exist then error
-                        //update if admin with same name & email already exist then error only if admin_id different - otherwise referring to existing admin
+                if (($method == "Create") || //create: if admin with same name & email already exist then error
+                    //update: if admin with same name & email already exist then error only if admin_id different - otherwise referring to existing admin
                     ($method == "Update" && $duplicate_admin["id"] != $admin->getAdministratorID())) { 
                          $applicationError =  "administrator with same name & email already exists - admin id #" . $duplicate_admin["id"];
                     return;
                 }
             }
+
             array_push($spParms, new PDO_Parm("role_id", $admin->getRoleID(), 'integer')); 
             array_push($spParms, new PDO_Parm("admin_phone", $admin->getAdministratorPhone(), 'string')); 
+            
             if ($method == "Update") {  //for update must add admin_id as first parameter
                 array_unshift($spParms, new PDO_Parm("admin_id", $admin->getAdministratorID(), 'integer'));
             }
@@ -60,7 +65,7 @@
         }
 
         public function delete_admin($params) {
-            $spParms =  array();
+            $spParms =  array(); //contains stored procedure input parms 
             array_push($spParms, new PDO_Parm("admin_id", $params["admin_id"], 'integer'));
             return parent::get($this->get_dbName(), 'delete_administrator', $spParms);
         }

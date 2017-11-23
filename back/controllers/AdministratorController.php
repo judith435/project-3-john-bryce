@@ -63,8 +63,8 @@
             return $new_adminID;
         }
 
-
-        function getAdministratorByNameEmail($params) { //used for js remote validation
+        //used for js remote validation validationsAdministrator.js  method: admin_already_exists
+        function getAdministratorByNameEmail($params) { 
             $admin_bll = new Administrator_BLL();
             $admin_id = $admin_bll->check_admin_exists($params);
             if ($admin_id == false){ //no admin found with given admin name & email

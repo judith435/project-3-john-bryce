@@ -8,9 +8,12 @@
     class ImageHandling { 
 
         public function save_uploaded_image($method, $ID, $entity, &$ImageUploadError) {   
+
             $imageName =  $entity . "_image";
+
             if (isset($_FILES[$imageName])) {
                 $this->check_image($ImageUploadError, $imageName);
+
                 if ($ImageUploadError == ""){   // $ImageUploadError == "" means no errors were found
                     $image_dir = "\\" . UPLOAD_FOLDER . "\\" ;
                     $target_dir = "\\" . UPLOAD_FOLDER . "\\" . $entity . "s\\";
@@ -25,9 +28,7 @@
                         mkdir($GLOBALS['siteRoot'] . "\\" . $target_dir . "\\", 0777, true);
                     }
 
-
                     $target_file =  $GLOBALS['siteRoot'] . $target_dir .  "image_for_" . $entity ."_id_" . $ID . ".jpg";
-                    
 
                     if($_FILES[$imageName]['type'] != 'image/jpeg') {//convert all non jpg files (gif & bmp) to jpg
                         // create image resource
@@ -36,6 +37,7 @@
                         // free memory associated with image resource
                         imagedestroy($img);
                     }
+
                     $moved = move_uploaded_file($_FILES[$imageName]["tmp_name"], $target_file);
                     if (!$moved){
                         $ImageUploadError = "\n error uploading image - contanct support center"; //client gets general message  
@@ -61,12 +63,12 @@
         }
 
         public function delete_image($ID, $entity) {
-
+            //$glob_pattern contains name of image (if image for entity - course/student/admin exist)
             $glob_pattern = 
                 $GLOBALS['siteRoot'] . "\\" . UPLOAD_FOLDER.  "\\" . $entity . "s\\/" . "image_for_" . $entity ."_id_" . $ID . ".{jpg}";
-            $image = glob($glob_pattern, GLOB_BRACE);
+            $image = glob($glob_pattern, GLOB_BRACE); //set $image to image if exist
             if (!empty($image)) {
-                $unlink_successful =  unlink($image[0]);
+                $unlink_successful =  unlink($image[0]); //delete image
                 if (!$unlink_successful) { //if deleteing image failed write to error log BUT don't return error to client
                     ErrorHandling::LogApplicationError("unlink of " . $entity . " for " . $entity ."_id " . $ID . " failed"); 
                 }
