@@ -32,7 +32,7 @@
             return $resultSet->fetch();
         }
 
-        public function insert_update_admin($admin, $login, $method, $applicationError) {
+        public function insert_update_admin($admin, $login, $method, &$applicationError) {
 
             $spParms =  array(); //contains stored procedure input parms 
             array_push($spParms, new PDO_Parm("admin_name", $admin->getAdministratorName(), 'string'));  
