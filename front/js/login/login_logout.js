@@ -69,7 +69,8 @@ var login_logout = (function() {
             });
         }    
         $('#admr-image').removeClass("hide");
-        $("#admr-image").attr("src", app.schoolImageFolder + "/admins/image_for_admin_id_" + admin.admin_id + ".jpg");
+        var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
+        $("#admr-image").attr("src", app.schoolImageFolder + "/admins/image_for_admin_id_" + admin.admin_id + ".jpg?" + dt_force_reload.getTime());
         $( "#school-link" ).off().click(function(event) {
             event.preventDefault();
             school.loadSchoolAside();

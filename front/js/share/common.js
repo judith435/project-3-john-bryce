@@ -43,7 +43,6 @@ var common = (function() {
             for (let i = 0; i < canvas_list.length; i++) {
                   let canvas = canvas_list[i];
                   var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
-                 // var imgPath =  app.schoolImageFolder + folder_names + $(canvas).attr('id') + ".jpg?" + dt_force_reload.getTime();
                   var imgPath =  app.schoolImageFolder + folder_names + $(canvas).data('canvas-id') + ".jpg?" + dt_force_reload.getTime();
                   common.setCanvas(canvas, imgPath, size); //$('#porky').data('food')
             }
