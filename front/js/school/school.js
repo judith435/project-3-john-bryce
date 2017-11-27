@@ -26,8 +26,8 @@ var school = (function() {
                 students.studentSelected($(this));
             })
 
-            var data = sessionStorage.getItem('administrator');
-            if (sessionStorage.getItem('administrator') === null) { //admin session object not found MUST immediately log in again 
+            var data = sessionStorage.getItem("administrator");
+            if (sessionStorage.getItem("administrator") === null) { //admin session object not found MUST immediately log in again 
                 login_logout.login();
                 return;
             }

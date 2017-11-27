@@ -7,10 +7,10 @@ var administration = (function() {
     var adminLoggedIn;
 
     function loadAdminAside() {//called from login_logout.js => event when admin clicks link button
-        var data = sessionStorage.getItem('administrator');
+        var data = sessionStorage.getItem("administrator");
         adminLoggedIn = JSON.parse(data);
     
-        $.ajax('templates/administration/admin-aside.html').done(function(data) {
+        $.ajax("templates/administration/admin-aside.html").done(function(data) {
             $("#side-container").empty();
             $("#side-container").prepend(data);
             $("#side-container").addClass('bordered-right');
@@ -104,7 +104,7 @@ var administration = (function() {
             $("#cud-admin-title").empty();
             $("#main-container").empty();
             $("#main-container").prepend(data);
-            if (sessionStorage.getItem('roles') == null) {
+            if (sessionStorage.getItem("roles") == null) {
                 var ajaxData = { ctrl: 'role' };
                 server_request.sendServerRequest("Select", ajaxData, callback_Save_Roles); 
             }
@@ -163,7 +163,7 @@ var administration = (function() {
     //fill role combo in input fields with roles retrieved from db in function LoadRoles()
     function Build_Roles_DDL()   
     {
-        var data = sessionStorage.getItem('roles');
+        var data = sessionStorage.getItem("roles");
         var roles = JSON.parse(data);
 
         $("#RoleDDL").empty();

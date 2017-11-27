@@ -35,8 +35,8 @@ var courses = (function() {
             }
 
             //get admin data to check if admin role is sales => may not update course data
-            var data = sessionStorage.getItem('administrator');
-            if (sessionStorage.getItem('administrator') === null) {//admin session object not found MUST immediately log in agaןn 
+            var data = sessionStorage.getItem("administrator");
+            if (sessionStorage.getItem("administrator") === null) {//admin session object not found MUST immediately log in agaןn 
                 login_logout.login();
                 return;
             }

@@ -11,9 +11,9 @@ var login_logout = (function() {
     }
 
     function handle_login_status(user_login_status) {
-        //userLoggedIn = session object on server / sessionStorage.getItem('administrator') on client
+        //userLoggedIn = session object on server / sessionStorage.getItem("administrator") on client
         if (user_login_status == "no" || //response from server was that user no longer logged-in
-            sessionStorage.getItem('administrator') === null) {  
+            sessionStorage.getItem("administrator") === null) {  
             $.ajax('templates/login.html').done(function(data) {
                 $("#login").empty();
                 $("#login").prepend(data);
@@ -31,7 +31,7 @@ var login_logout = (function() {
             });
         }
         else { // user logged in set navigation-bar - occurs if user reloads page
-            var data = sessionStorage.getItem('administrator');
+            var data = sessionStorage.getItem("administrator");
             var admin = JSON.parse(data);
             setNavigationBar_LoggedIn(admin);
         }

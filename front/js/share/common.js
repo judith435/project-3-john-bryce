@@ -10,7 +10,7 @@ var common = (function() {
       }
         
       function setCanvas(canvas, imgPath, size) {
-            var context = canvas.getContext('2d');
+            var context = canvas.getContext("2d");
             var imageObj = new Image();
             imageObj.onload = function() {
                   context.drawImage(imageObj, 0, 0, canvas_size[size][0], canvas_size[size][1]);
@@ -19,7 +19,7 @@ var common = (function() {
       }
 
       function clearImage(canvas, input_file) {
-            var context = canvas.getContext('2d');
+            var context = canvas.getContext("2d");
             context.clearRect(0, 0, canvas.width, canvas.height);
             input_file.value = input_file.defaultValue;
       }
@@ -28,7 +28,7 @@ var common = (function() {
             if (input.files && input.files[0] ) {
                   var file_reader = new FileReader();
                   file_reader.onload = function(e) {
-                        var context = canvas.getContext('2d');
+                        var context = canvas.getContext("2d");
                         var img = new Image();
                         img.addEventListener("load", function() {
                               context.drawImage(img, 0, 0, 80, 100); //for uploads canvas size is fixed
@@ -43,7 +43,7 @@ var common = (function() {
             for (let i = 0; i < canvas_list.length; i++) {
                   let canvas = canvas_list[i];
                   var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
-                  var imgPath = imagePath + $(canvas).data('canvas-id') + ".jpg?" + dt_force_reload.getTime();
+                  var imgPath = imagePath + $(canvas).data("canvas-id") + ".jpg?" + dt_force_reload.getTime();
                   common.setCanvas(canvas, imgPath, size);
             }
       }

@@ -120,7 +120,7 @@ var students = (function() {
                                  value: courses.courseArray[i].course_name,
                                  name: 'cbCourse' + courses.courseArray[i].course_id }).appendTo(container);
             $("<span/>", { text: courses.courseArray[i].course_name }).appendTo(container);
-            $('<br />').appendTo(container);
+            $("<br />").appendTo(container);
         }
     }
 
@@ -128,7 +128,7 @@ var students = (function() {
 
         $(".btnSave").off().click(function() {
             var verb;
-            var ajaxData = $('#frmCUD').serialize();
+            var ajaxData = $("#frmCUD").serialize();
 
             if(this.id == "btnDelete"){ // don't perform validations in case of delete
                 var confirmation = confirm('Are you sure you want to delete student number ' + studentHandled.details.student_id + "?");
@@ -215,7 +215,7 @@ var students = (function() {
         students_retrieved.status = true;
         $.ajax('templates/school/students/student-row.html').done(function(data) {
             $("#students").html("");
-            $('#totalStudents').html("Total number of Students: " + studentArray.length);
+            $("#totalStudents").html("Total number of Students: " + studentArray.length);
             //after loading students table row template append data from 1 student object to each row
             for(let i=0; i < studentArray.length; i++) {
                 let template = data;
@@ -229,9 +229,9 @@ var students = (function() {
                 template = template.replace("{{student-phone}}", studentArray[i].student_phone);
                 template = template.replace("{{student-email}}", studentArray[i].student_email);
                 template = template.replace("{{student-courses}}", studentArray[i].student_courses);
-                $('#students').append(template);
+                $("#students").append(template);
             }
-            common.loadCanvasList($('#students canvas'), app.studentImagePath, "school_aside");
+            common.loadCanvasList($("#students canvas"), app.studentImagePath, "school_aside");
         });
     }    
 

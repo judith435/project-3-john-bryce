@@ -42,9 +42,9 @@ var validationsStudent = (function() {
         $.validator.addMethod(
             "student_already_exists", 
             function() {
-                var studentName = $('#studentName').val().trim();
-                var studentPhone = $('#studentPhone').val().trim();
-                var studentEmail = $('#studentEmail').val().trim();
+                var studentName = $("#studentName").val().trim();
+                var studentPhone = $("#studentPhone").val().trim();
+                var studentEmail = $("#studentEmail").val().trim();
   
                 if (studentName == "" || studentPhone == "" || studentEmail == "" ) {
                     return true; //if student name phone and email missing no point in checking
@@ -55,12 +55,12 @@ var validationsStudent = (function() {
                 if (app.debugMode){
                     console.log("student_already_exists(): " + students.studentHandled.details.student_name + "  " + students.studentHandled.details.student_phone + "  " + students.studentHandled.details.student_email + "  ");
                 }
-                var studentImage = $('#studentImage').val().trim(); 
-                var student_img_delete_checked = ($('#deleteImage').is(':checked'));
+                var studentImage = $("#studentImage").val().trim(); 
+                var student_img_delete_checked = ($("#deleteImage").is(":checked"));
 
                 //build array of all courses selected in checkbox list which is then converted to string to compare it to courses selected in studentHandled before update 
                 var selected_in_panel   = [];
-                $('#cblistCourses input:checked').each(function() {
+                $("#cblistCourses input:checked").each(function() {
                     selected_in_panel.push($(this).attr('name'));
                 });
 
