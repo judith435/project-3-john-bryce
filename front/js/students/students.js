@@ -82,6 +82,32 @@ var students = (function() {
         return false;
     }
 
+    function btnSaveHandler(action) {
+        
+        $(".btnSave").off().click(function() {
+            var verb;
+            var ajaxData = $("#frmCUD").serialize();
+
+            if(this.id == "btnDelete"){ // don't perform validations in case of delete
+                var confirmation = confirm('Are you sure you want to delete student number ' + studentHandled.details.student_id + "?");
+                if (confirmation == true) {
+                    verb = "Delete";
+                    server_request.sendServerRequest(verb, ajaxData, afterSave);  
+                    return false;
+                }
+            }   
+            else {
+                student_action.chosen = action;
+                verb =  action == "Add" ? "Add" : "Update"; 
+                if (validationsStudent.formValidated.contents.valid()){
+                    server_request.sendServerRequest
+                        (verb, ajaxData, afterSave, "studentImage", "student_image");  
+                    return false;
+                }
+            }
+        });
+    }  
+        
     function loadStudentCUD(action) {
         $.ajax("templates/school/students/cud-student.html").done(function(data) {
             $("#cud-student-title").empty();
@@ -168,32 +194,6 @@ var students = (function() {
         studentHandled.details = new so.Student(studentID, studentName, studentPhone, studentEmail, studentCourses)
         loadStudentView();
     }
-
-    function btnSaveHandler(action) {
-
-        $(".btnSave").off().click(function() {
-            var verb;
-            var ajaxData = $("#frmCUD").serialize();
-
-            if(this.id == "btnDelete"){ // don't perform validations in case of delete
-                var confirmation = confirm('Are you sure you want to delete student number ' + studentHandled.details.student_id + "?");
-                if (confirmation == true) {
-                    verb = "Delete";
-                    server_request.sendServerRequest(verb, ajaxData, afterSave);  
-                    return false;
-                }
-            }   
-            else {
-                student_action.chosen = action;
-                verb =  action == "Add" ? "Add" : "Update"; 
-                if (validationsStudent.formValidated.contents.valid()){
-                    server_request.sendServerRequest
-                        (verb, ajaxData, afterSave, "studentImage", "student_image");  
-                    return false;
-                }
-            }
-        });
-    }  
 
     function afterSave(serverResponse) {
         if (serverResponse.status == "error") {
