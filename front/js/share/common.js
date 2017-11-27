@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 
 var common = (function() {
 
@@ -44,7 +44,7 @@ var common = (function() {
                   let canvas = canvas_list[i];
                   var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
                   var imgPath = imagePath + $(canvas).data('canvas-id') + ".jpg?" + dt_force_reload.getTime();
-                  common.setCanvas(canvas, imgPath, size); //$('#porky').data('food')
+                  common.setCanvas(canvas, imgPath, size);
             }
       }
 

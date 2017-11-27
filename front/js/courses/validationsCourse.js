@@ -1,4 +1,4 @@
-'use strict' 
+"use strict" 
 
 var validationsCourse = (function() {
 
@@ -35,7 +35,7 @@ var validationsCourse = (function() {
         $.validator.addMethod(
             "course_already_exists", 
             function() {
-                var courseName = $('#courseName').val().trim();
+                var courseName = $("#courseName").val().trim();
                 
                 if (courseName == "") {
                     return true; //if courseName name  missing no point in checking
@@ -46,9 +46,9 @@ var validationsCourse = (function() {
                     if (app.debugMode){
                         console.log("course_already_exists() courseName from update: " + courses.courseHandled.details.course_name);
                     }
-                    var courseDescription = $('#courseDescription').val().trim();
-                    var courseImage = $('#courseImage').val().trim(); 
-                    var course_img_delete_checked = ($('#deleteImage').is(':checked'));
+                    var courseDescription = $("#courseDescription").val().trim();
+                    var courseImage = $("#courseImage").val().trim(); 
+                    var course_img_delete_checked = ($("#deleteImage").is(":checked"));
 
                     if (courseName == courses.courseHandled.details.course_name &&
                         courseDescription == courses.courseHandled.details.course_description &&

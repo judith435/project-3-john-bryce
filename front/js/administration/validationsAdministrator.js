@@ -1,4 +1,4 @@
-'use strict' 
+"use strict" 
 
 var validationsAdministrator = (function() {
 
@@ -51,8 +51,8 @@ var validationsAdministrator = (function() {
         $.validator.addMethod(
             "admin_already_exists", 
             function() {
-                var adminName = $('#adminName').val().trim();
-                var adminEmail = $('#adminEmail').val().trim();
+                var adminName = $("#adminName").val().trim();
+                var adminEmail = $("#adminEmail").val().trim();
 
                 
                 if (adminName == "" || adminEmail == "") {
@@ -63,10 +63,10 @@ var validationsAdministrator = (function() {
                     if (app.debugMode){
                         console.log("admin_already_exists() adminName from update: " + administration.adminHandled.admin_name);
                     }
-                    var adminPhone = $('#adminPhone').val().trim();
-                    var adminRole = $('#RoleDDL').val().trim();  
-                    var adminImage = $('#adminImage').val().trim(); 
-                    var admin_img_delete_checked = ($('#deleteImage').is(':checked'));
+                    var adminPhone = $("#adminPhone").val().trim();
+                    var adminRole = $("#RoleDDL").val().trim();  
+                    var adminImage = $("#adminImage").val().trim(); 
+                    var admin_img_delete_checked = ($("#deleteImage").is(":checked"));
     
                     if (adminName == administration.adminHandled.details.admin_name &&
                         adminEmail == administration.adminHandled.details.admin_email &&

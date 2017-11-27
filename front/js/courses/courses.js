@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 
 var courses = (function() {
 
@@ -9,13 +9,13 @@ var courses = (function() {
 
     function loadCourseView() {
 
-        $.ajax('templates/school/courses/view-course.html').done(function(data) {
+        $.ajax("templates/school/courses/view-course.html").done(function(data) {
             $("#main-container").empty();
-            $('#main-container').prepend(data);
+            $("#main-container").prepend(data);
             var studentNumbers = courseHandled.details.number_of_students_for_course == 0 ? "no" :  courseHandled.details.number_of_students_for_course ;
             var courseText = courseHandled.details.course_name + ", " + studentNumbers + " students";
-            $('#courseName').html(courseText);
-            $('#CourseDescription').html(courseHandled.details.course_description); 
+            $("#courseName").html(courseText);
+            $("#CourseDescription").html(courseHandled.details.course_description); 
 
             if (courseHandled.details.student_ids != "") {// student_ids == "" - no students found for course being handled
                 var studentHtml = "";
@@ -29,9 +29,9 @@ var courses = (function() {
                         studentHtml += '</div>';
                         studentHtml += '</div>';
                 }
-                $('#studentList').append(studentHtml);
+                $("#studentList").append(studentHtml);
                 //load images for all canvas elements created
-                common.loadCanvasList($('#studentList canvas'), app.studentImagePath, "small");
+                common.loadCanvasList($("#studentList canvas"), app.studentImagePath, "small");
             }
 
             //get admin data to check if admin role is sales => may not update course data
@@ -53,11 +53,11 @@ var courses = (function() {
     }
     
     function courseSelected(row)  {
-        var courseID = row.find('#course-id').text();
-        var courseName = row.find('#course-name').text(); 
-        var courseDescr= row.find('#course-description').text();
-        var studentCourse = row.find('#number-of-students-for-course').text();
-        var studentIDs = row.find('#student-ids').text();
+        var courseID = row.find("#course-id").text();
+        var courseName = row.find("#course-name").text(); 
+        var courseDescr= row.find("#course-description").text();
+        var studentCourse = row.find("#number-of-students-for-course").text();
+        var studentIDs = row.find("#student-ids").text();
         var co = CourseObject();
         courseHandled.details = new co.Course(courseID, courseName, courseDescr, studentCourse, studentIDs)
         loadCourseView();
@@ -67,33 +67,33 @@ var courses = (function() {
         $.ajax('templates/school/courses/cud-course.html').done(function(data) {
             $("#cud-course-title").empty();
             $("#main-container").empty();
-            $('#main-container').prepend(data);
+            $("#main-container").prepend(data);
             initValidations();
             btnSaveHandler(action);
             if(action == "Update"){
                 //place name and description of course being updated in input field
-                $('#cud-course-title').html( "Update Course Number: " + courseHandled.details.course_id);
-                $('#courseID').val(courseHandled.details.course_id);//set course_id in hidden field for update/delete
-                $('#courseName').val(courseHandled.details.course_name);
-                $('#courseDescription').val(courseHandled.details.course_description); 
+                $("#cud-course-title").html( "Update Course Number: " + courseHandled.details.course_id);
+                $("#courseID").val(courseHandled.details.course_id);//set course_id in hidden field for update/delete
+                $("#courseName").val(courseHandled.details.course_name);
+                $("#courseDescription").val(courseHandled.details.course_description); 
                 if (courseHandled.details.number_of_students_for_course > 0){ //course has been assigned to students cannot be deleted
-                    $('#btnDelete').hide(); 
+                    $("#btnDelete").hide(); 
                 }
                 display_course_image();
-                $('#studentTotal').html("Total " + courseHandled.details.number_of_students_for_course + " students taking this course");
+                $("#studentTotal").html("Total " + courseHandled.details.number_of_students_for_course + " students taking this course");
             }
             else {//create
-                    $("#cud-course-title").html(action + ' Course');
-                    $('#btnDelete').hide(); 
-                    $('#cbDeleteImage').hide(); 
+                    $("#cud-course-title").html(action + " Course");
+                    $("#btnDelete").hide(); 
+                    $("#cbDeleteImage").hide(); 
                 }
 
             $("#courseImage").change(function() {
-                common.uploadImage($('#canvasCourse')[0], this);
+                common.uploadImage($("#canvasCourse")[0], this);
             });
 
             $("#btnCancel").off().click(function() {
-                common.clearImage($('#canvasCourse')[0], $('#courseImage')[0]);
+                common.clearImage($("#canvasCourse")[0], $("#courseImage")[0]);
             });
         });
     }
@@ -101,7 +101,7 @@ var courses = (function() {
     function display_course_image(){
         var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
         var imgPath = app.courseImagePath + courseHandled.details.course_id + ".jpg?" + dt_force_reload.getTime();
-        common.setCanvas($('#canvasCourse')[0], imgPath, "regular");
+        common.setCanvas($("#canvasCourse")[0], imgPath, "regular");
     }
 
     function initValidations() {
@@ -117,7 +117,7 @@ var courses = (function() {
 
         $(".btnSave").off().click(function() {
             var verb;
-            var ajaxData = $('#frmCUD').serialize();
+            var ajaxData = $("#frmCUD").serialize();
 
             if(this.id == "btnDelete"){ // don't perform validations in case of delete
                 var confirmation = confirm('Are you sure you want to delete course number ' + courseHandled.details.course_id + "?");
@@ -206,7 +206,7 @@ var courses = (function() {
 
         $.ajax('templates/school/courses/course-row.html').done(function(data) {
             $("#courses").html("");
-            $('#totalCourses').html("Total number of Courses: " + courseArray.length);
+            $("#totalCourses").html("Total number of Courses: " + courseArray.length);
             //after loading courses table row template append data from 1 course object to each row
             for(let i=0; i < courseArray.length; i++) {
                 let template = data;
@@ -220,9 +220,9 @@ var courses = (function() {
                 template = template.replace("{{course-description}}", courseArray[i].course_description);
                 template = template.replace("{{number-of-students-for-course}}", courseArray[i].number_of_students_for_course);
                 template = template.replace("{{student-ids}}", courseArray[i].student_ids);
-                $('#courses').append(template);
+                $("#courses").append(template);
             }
-            common.loadCanvasList($('#courses canvas'), app.courseImagePath, "school_aside");
+            common.loadCanvasList($("#courses canvas"), app.courseImagePath, "school_aside");
         });
     }
 

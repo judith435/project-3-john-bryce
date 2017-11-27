@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 
 var administration = (function() {
 
@@ -12,8 +12,8 @@ var administration = (function() {
     
         $.ajax('templates/administration/admin-aside.html').done(function(data) {
             $("#side-container").empty();
-            $('#side-container').prepend(data);
-            $('#side-container').addClass('bordered-right');
+            $("#side-container").prepend(data);
+            $("#side-container").addClass('bordered-right');
 
             $(document).off().on('click','#administrators tr',function(e){
                 action.chosen = "Update";
@@ -32,7 +32,7 @@ var administration = (function() {
     function loadAdminMain() { 
         $.ajax('templates/administration/admin-summary.html').done(function(data) {
             $("#main-container").empty();
-            $('#main-container').prepend(data);
+            $("#main-container").prepend(data);
             showAdministrators();
         });
     }
@@ -63,7 +63,7 @@ var administration = (function() {
         
         $.ajax('templates/administration/admin-row.html').done(function(data) {
             $("#administrators").html("");
-            $('#totalAdministrators').html("Total number of Administrators: " + administratorsArray.length);
+            $("#totalAdministrators").html("Total number of Administrators: " + administratorsArray.length);
             for(let i=0; i < administratorsArray.length; i++) {
                 let template = data;
                 //admin data displayed in admin aside
@@ -80,20 +80,20 @@ var administration = (function() {
                 template = template.replace("{{admin-phone}}", administratorsArray[i].admin_phone);
                 template = template.replace("{{admin-email}}", administratorsArray[i].admin_email);
 
-                $('#administrators').append(template);
+                $("#administrators").append(template);
             }
-            common.loadCanvasList($('#administrators canvas'), app.adminImagePath, "admin_aside");
+            common.loadCanvasList($("#administrators canvas"), app.adminImagePath, "admin_aside");
         });
     }
     
     function adminSelected(row)
     {
-        var adminID = row.find('#admin-id').text();
-        var adminName = row.find('#admin-name').text(); 
-        var adminRoleID = row.find('#admin-role-id').text();
-        var adminRoleName = row.find('#admin-role-name').text();
-        var adminPhone = row.find('#admin-phone').text();
-        var adminEmail = row.find('#admin-email').text();
+        var adminID = row.find("#admin-id").text();
+        var adminName = row.find("#admin-name").text(); 
+        var adminRoleID = row.find("#admin-role-id").text();
+        var adminRoleName = row.find("#admin-role-name").text();
+        var adminPhone = row.find("#admin-phone").text();
+        var adminEmail = row.find("#admin-email").text();
         var ao = AdministratorObject();
         adminHandled.details = new ao.Administrator(adminID, adminName, adminRoleID, adminRoleName, adminPhone, adminEmail);
         loadAdminCUD("Update"); 
@@ -103,7 +103,7 @@ var administration = (function() {
         $.ajax('templates/administration/cud-admin.html').done(function(data) {
             $("#cud-admin-title").empty();
             $("#main-container").empty();
-            $('#main-container').prepend(data);
+            $("#main-container").prepend(data);
             if (sessionStorage.getItem('roles') == null) {
                 var ajaxData = { ctrl: 'role' };
                 server_request.sendServerRequest("Select", ajaxData, callback_Save_Roles); 
@@ -115,38 +115,38 @@ var administration = (function() {
             btnSaveHandler();
             if(action.chosen == "Update"){
                 //place details of administrator being updated in input fields
-               $('#cud-admin-title').html( "Update Administrator Number: " + adminHandled.details.admin_id);
-                $('#adminID').val(adminHandled.details.admin_id);//set admin_id in hidden field for update/delete
-                $('#adminName').val(adminHandled.details.admin_name);
-                $('#adminPhone').val(adminHandled.details.admin_phone); 
-                $('#adminEmail').val(adminHandled.details.admin_email); 
+                $("#cud-admin-title").html( "Update Administrator Number: " + adminHandled.details.admin_id);
+                $("#adminID").val(adminHandled.details.admin_id);//set admin_id in hidden field for update/delete
+                $("#adminName").val(adminHandled.details.admin_name);
+                $("#adminPhone").val(adminHandled.details.admin_phone); 
+                $("#adminEmail").val(adminHandled.details.admin_email); 
                 //password cannot be updated - it is also not retrived from db to be displayed
-                $('#adminPassword').val("***************"); 
+                $("#adminPassword").val("***************"); 
                 $("#adminPassword").prop('disabled', true);
                 //set role_id in hidden field for update - used on server to check if manager is trying to change his own role
-                $('#roleID').val(adminHandled.details.role_id);
+                $("#roleID").val(adminHandled.details.role_id);
 
                 var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
                 var imgPath = app.adminImagePath + adminHandled.details.admin_id + ".jpg?" + dt_force_reload.getTime();
-                common.setCanvas($('#canvasAdmin')[0], imgPath, "regular");
+                common.setCanvas($("#canvasAdmin")[0], imgPath, "regular");
 
                 if(adminLoggedIn.admin_id == adminHandled.details.admin_id) { //administrator cannot delete himself
-                  $('#btnDelete').hide(); 
+                  $("#btnDelete").hide(); 
                 }
             }
             else {
-                    $("#cud-admin-title").html(action.chosen + ' Administrator');
-                    $('#btnDelete').hide(); 
-                    $('#cbDeleteImage').hide(); 
+                    $("#cud-admin-title").html(action.chosen + " Administrator");
+                    $("#btnDelete").hide(); 
+                    $("#cbDeleteImage").hide(); 
             }
 
             
             $("#adminImage").change(function() {
-                common.uploadImage($('#canvasAdmin')[0], this);
+                common.uploadImage($("#canvasAdmin")[0], this);
             });
 
             $("#btnCancel").off().click(function() {
-                common.clearImage($('#canvasAdmin')[0], $('#adminImage')[0]);
+                common.clearImage($("#canvasAdmin")[0], $("#adminImage")[0]);
             });
 
         });
@@ -189,8 +189,8 @@ var administration = (function() {
             }
         }
 
-        $('#RoleDDL').off().on('change', function() { //save role name selected in hidden input so it can be sent to server
-            $('#roleName').val($("#RoleDDL option:selected" ).text());
+        $("#RoleDDL").off().on('change', function() { //save role name selected in hidden input so it can be sent to server
+            $("#roleName").val($("#RoleDDL option:selected" ).text());
         })
     
     }
@@ -214,14 +214,14 @@ var administration = (function() {
             //update:  check role combo value was changed - action that could be illegal
             //if not initialize roleName (hidden field for use on server) to prevent faulty validations on server 
             if (action.chosen == "Update") {
-                if (adminHandled.details.role_id == $('#RoleDDL').val().trim()) {
-                    $('#roleName').val($("").text());
+                if (adminHandled.details.role_id == $("#RoleDDL").val().trim()) {
+                    $("#roleName").val($("").text());
                 }
             }
-            var ajaxData = $('#frmCUD').serialize();
+            var ajaxData = $("#frmCUD").serialize();
 
             if(this.id == "btnDelete"){ // don't perform validations in case of delete
-                var confirmation = confirm('Are you sure you want to delete administrator number ' + adminHandled.details.admin_id + "?");
+                var confirmation = confirm("Are you sure you want to delete administrator number " + adminHandled.details.admin_id + "?");
                 if (confirmation == true) {
                     verb = "Delete";
                     server_request.sendServerRequest(verb, ajaxData, afterSave, "adminImage", "admin_image");  

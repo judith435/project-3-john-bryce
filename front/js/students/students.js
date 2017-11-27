@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 
 var students = (function() {
 
@@ -10,12 +10,12 @@ var students = (function() {
     function loadStudentView() {
         $.ajax('templates/school/students/view-student.html').done(function(data) {
             $("#main-container").empty();
-            $('#main-container').prepend(data);
-            $('#studentName').html(studentHandled.details.student_name);
-            $('#studentPhone').html(studentHandled.details.student_phone); 
-            $('#studentEmail').html(studentHandled.details.student_email); 
+            $("#main-container").prepend(data);
+            $("#studentName").html(studentHandled.details.student_name);
+            $("#studentPhone").html(studentHandled.details.student_phone); 
+            $("#studentEmail").html(studentHandled.details.student_email); 
             if (studentHandled.details.student_courses != "") {// student_courses == "" - no courses found for student being handled
-                var container = $('#courseList');
+                var container = $("#courseList");
                 var courseHtml = "";
                 var studentCourses = studentHandled.details.student_courses.split(',');
                 for (let i = 0; i < studentCourses.length; i++) {
@@ -28,9 +28,9 @@ var students = (function() {
                     courseHtml += '</div>';
                     courseHtml += '</div>';
                 }
-                $('#courseList').append(courseHtml);
+                $("#courseList").append(courseHtml);
                 //load images for all canvas elements created
-                common.loadCanvasList($('#courseList canvas'), app.courseImagePath, "small");
+                common.loadCanvasList($("#courseList canvas"), app.courseImagePath, "small");
             }
             display_student_image();
             $("#btnEdit").off().click(function() {
@@ -43,16 +43,16 @@ var students = (function() {
     function display_student_image(){
         var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
         var imgPath = app.studentImagePath + studentHandled.details.student_id + ".jpg?" + dt_force_reload.getTime();
-        common.setCanvas($('#canvasStudent')[0], imgPath, "regular");
+        common.setCanvas($("#canvasStudent")[0], imgPath, "regular");
     }
 
     function studentSelected(row)
     {
-        var studentID = row.find('#student-id').text();
-        var studentName = row.find('#student-name').text(); 
-        var studentPhone = row.find('#student-phone').text();
-        var studentEmail = row.find('#student-email').text();
-        var studentCourses = row.find('#student-courses').text();
+        var studentID = row.find("#student-id").text();
+        var studentName = row.find("#student-name").text(); 
+        var studentPhone = row.find("#student-phone").text();
+        var studentEmail = row.find("#student-email").text();
+        var studentCourses = row.find("#student-courses").text();
         var so = StudentObject();
         studentHandled.details = new so.Student(studentID, studentName, studentPhone, studentEmail, studentCourses)
         loadStudentView();
@@ -63,17 +63,17 @@ var students = (function() {
         $.ajax('templates/school/students/cud-student.html').done(function(data) {
             $("#cud-student-title").empty();
             $("#main-container").empty();
-            $('#main-container').prepend(data);
+            $("#main-container").prepend(data);
             initValidations();
             btnSaveHandler(action);
             buildCourses_cbl(); //build checkboxlist of all courses
             if(action == "Update"){
                 //place name and description of student being updated in input field
-                $('#cud-student-title').html( "Update Student Number: " + studentHandled.details.student_id);
-                $('#studentID').val(studentHandled.details.student_id);//set student_id in hidden field for update/delete
-                $('#studentName').val(studentHandled.details.student_name);
-                $('#studentPhone').val(studentHandled.details.student_phone); 
-                $('#studentEmail').val(studentHandled.details.student_email); 
+                $("#cud-student-title").html( "Update Student Number: " + studentHandled.details.student_id);
+                $("#studentID").val(studentHandled.details.student_id);//set student_id in hidden field for update/delete
+                $("#studentName").val(studentHandled.details.student_name);
+                $("#studentPhone").val(studentHandled.details.student_phone); 
+                $("#studentEmail").val(studentHandled.details.student_email); 
 
                 //check course checkbox if student registered for specific course
                 if (studentHandled.details.student_courses != "") {
@@ -85,17 +85,17 @@ var students = (function() {
                 display_student_image();
             }
             else {
-                    $("#cud-student-title").html(action + ' Student');
-                    $('#btnDelete').hide(); 
-                    $('#cbDeleteImage').hide(); 
+                    $("#cud-student-title").html(action + " Student");
+                    $("#btnDelete").hide(); 
+                    $("#cbDeleteImage").hide(); 
                 }
 
             $("#studentImage").change(function() {
-                common.uploadImage($('#canvasStudent')[0], this);
+                common.uploadImage($("#canvasStudent")[0], this);
             });
 
             $("#btnCancel").off().click(function() {
-                common.clearImage($('#canvasStudent')[0], $('#studentImage')[0]);
+                common.clearImage($("#canvasStudent")[0], $("#studentImage")[0]);
             });
 
         });
@@ -112,14 +112,14 @@ var students = (function() {
     }        
 
     function buildCourses_cbl() {
-        var container = $('#cblistCourses');
+        var container = $("#cblistCourses");
         var id = 1;
         for (let i = 0; i < courses.courseArray.length; i++) {
-            $('<input/>',
+            $("<input/>",
              { type: 'checkbox', id: 'cbCourse' + courses.courseArray[i].course_id, 
                                  value: courses.courseArray[i].course_name,
                                  name: 'cbCourse' + courses.courseArray[i].course_id }).appendTo(container);
-            $('<span/>', { text: courses.courseArray[i].course_name }).appendTo(container);
+            $("<span/>", { text: courses.courseArray[i].course_name }).appendTo(container);
             $('<br />').appendTo(container);
         }
     }

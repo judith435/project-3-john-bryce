@@ -1,11 +1,11 @@
-'use strict'
+"use strict"
 
 var school = (function() {
 
     function loadSchoolMain() { 
         $.ajax('templates/school/school-summary.html').done(function(data) {
             $("#main-container").empty();
-            $('#main-container').prepend(data);
+            $("#main-container").prepend(data);
             courses.showCourses();
             students.showStudents();
         });
@@ -15,8 +15,8 @@ var school = (function() {
         
         $.ajax('templates/school/schoolAside.html').done(function(data) {
             $("#side-container").empty();
-            $('#side-container').prepend(data);
-            $('#side-container').addClass('bordered-right');
+            $("#side-container").prepend(data);
+            $("#side-container").addClass("bordered-right");
             
             $(document).off().on('click','.courses-flex #courses tr',function(e){
                 courses.courseSelected($(this));

@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 var login_logout = (function() {
 
     function login(){
@@ -16,14 +16,14 @@ var login_logout = (function() {
             sessionStorage.getItem('administrator') === null) {  
             $.ajax('templates/login.html').done(function(data) {
                 $("#login").empty();
-                $('#login').prepend(data);
+                $("#login").prepend(data);
                 
                 setNavigationBar_LoggedOut();
                 initValidations();
     
                 $("#btnLogin").off().click(function() {
                     if (validationsLogin.formValidated.contents.valid()){
-                        var formContents = $('form').serialize();
+                        var formContents = $("form").serialize();
                         server_request.sendServerRequest("Select", formContents, afterLogin); 
                         return false;
                     }
@@ -46,29 +46,29 @@ var login_logout = (function() {
 
     function setNavigationBar_LoggedOut() {
         $("#login").show();
-        $('#admr-summary').text("");
-        $('#admr-image').addClass("hide");
-        $('#logout-link').addClass("hide");
-        $('#administration-link').addClass("hide");
-        $('#school-link').addClass("hide");
+        $("#admr-summary").text("");
+        $("#admr-image").addClass("hide");
+        $("#logout-link").addClass("hide");
+        $("#administration-link").addClass("hide");
+        $("#school-link").addClass("hide");
         $("#main-container").empty();
         $("#side-container").empty();
-        $('#side-container').removeClass('bordered-right');
+        $("#side-container").removeClass("bordered-right");
     }
 
     function setNavigationBar_LoggedIn(admin) {
-        $('#admr-summary').html(admin.admin_name + ", " +  admin.role_name);
+        $("#admr-summary").html(admin.admin_name + ", " +  admin.role_name);
         $("#login").hide();
-        $('#logout-link').removeClass("hide");
-        $('#school-link').removeClass("hide");
+        $("#logout-link").removeClass("hide");
+        $("#school-link").removeClass("hide");
         if (admin.role_name != "sales") { //role sales in not permitted to access Administration menu
-            $('#administration-link').removeClass("hide");
-            $( "#administration-link" ).off().click(function(event) {
+            $("#administration-link").removeClass("hide");
+            $("#administration-link" ).off().click(function(event) {
                 event.preventDefault();
                 administration.loadAdminAside();
             });
         }    
-        $('#admr-image').removeClass("hide");
+        $("#admr-image").removeClass("hide");
         var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
         $("#admr-image").attr("src", app.adminImagePath + admin.admin_id + ".jpg?" + dt_force_reload.getTime());
         $( "#school-link" ).off().click(function(event) {

@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 
 var server_request = (function() {
 
@@ -34,8 +34,8 @@ var server_request = (function() {
         var ajaxData = "";
         if (verb == "POST"){
             ajaxData = new FormData();    
-            //because of  image upload new FormData() must be used to send data to server and thus it can no longer be sent simply as $('form').serialize() 
-            //the  individual input fields must be appeded to FormData() as key value pairs => statement below creates object from $('form').serialize() containing
+            //because of  image upload new FormData() must be used to send data to server and thus it can no longer be sent simply as $("form").serialize() 
+            //the  individual input fields must be appeded to FormData() as key value pairs => statement below creates object from $("form").serialize() containing
             //key value pairs of input data  
             var input_data_pairs = JSON.parse('{"' + decodeURI(input_data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
             for (var key in input_data_pairs) {
