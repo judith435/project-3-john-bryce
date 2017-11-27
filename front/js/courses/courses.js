@@ -35,12 +35,12 @@ var courses = (function() {
             }
 
             //get admin data to check if admin role is sales => may not update course data
-            var data = sessionStorage.getItem("administrator");
             if (sessionStorage.getItem("administrator") === null) {//admin session object not found MUST immediately log in agaןn 
                 login_logout.login();
                 return;
             }
-            var admin = JSON.parse(data);
+            var sessionAdmin = sessionStorage.getItem("administrator");
+            var admin = JSON.parse(sessionAdmin);
             if (admin.role_name == "sales") { //administrator type sales is not entitled to update course => hide edit button 
                 $("#btnEdit").hide();
             }
