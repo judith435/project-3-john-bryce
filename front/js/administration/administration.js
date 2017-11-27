@@ -7,7 +7,7 @@ var administration = (function() {
     var adminLoggedIn;
 
     //fill role combo in input fields with roles retrieved from db in function LoadRoles()
-    function Build_Roles_DDL()   
+    function buildRolesDDL()   
     {
         var data = sessionStorage.getItem("roles");
         var roles = JSON.parse(data);
@@ -24,9 +24,10 @@ var administration = (function() {
 
         if (action.chosen == "Update"){
             $("#RoleDDL").val(adminHandled.details.role_id);
-            if(adminLoggedIn.role_name == "manager") {
-                if(adminLoggedIn.admin_id == adminHandled.details.admin_id) {  //manager may not change his own role
-                   $("#RoleDDL").prop('disabled', true);
+
+            if(adminLoggedIn.role_name === "manager") {
+                if(adminLoggedIn.admin_id === adminHandled.details.admin_id) {  //manager may not change his own role
+                   $("#RoleDDL").prop("disabled", true);
                 }
                 else { //or change  another managers role to owner - make owner unselectable in RoleDDL
                     var role_owner = $.grep(roles, function(e){ return e.role_name ==  "owner"}); //must retrive id of owner to be able to disable it
@@ -59,7 +60,7 @@ var administration = (function() {
             var verb;
             //update:  check role combo value was changed - action that could be illegal
             //if not initialize roleName (hidden field for use on server) to prevent faulty validations on server 
-            if (action.chosen == "Update") {
+            if (action.chosen === "Update") {
                 if (adminHandled.details.role_id == $("#RoleDDL").val().trim()) {
                     $("#roleName").val($("").text());
                 }
@@ -75,7 +76,7 @@ var administration = (function() {
                 }
             }   
             else {
-                verb =  action.chosen == "Add" ? "Add" : "Update"; 
+                verb =  action.chosen === "Add" ? "Add" : "Update"; 
                 if (validationsAdministrator.formValidated.contents.valid()){
                     server_request.sendServerRequest
                             (verb, ajaxData, afterSave, "adminImage", "admin_image");  
@@ -95,7 +96,7 @@ var administration = (function() {
                 server_request.sendServerRequest("Select", ajaxData, callback_Save_Roles); 
             }
             else {
-                Build_Roles_DDL();
+                buildRolesDDL();
             }
             initValidations();
             btnSaveHandler();
@@ -116,7 +117,7 @@ var administration = (function() {
                 var imgPath = app.adminImagePath + adminHandled.details.admin_id + ".jpg?" + dt_force_reload.getTime();
                 common.setCanvas($("#canvasAdmin")[0], imgPath, "regular");
 
-                if(adminLoggedIn.admin_id == adminHandled.details.admin_id) { //administrator cannot delete himself
+                if(adminLoggedIn.admin_id === adminHandled.details.admin_id) { //administrator cannot delete himself
                   $("#btnDelete").hide(); 
                 }
             }
@@ -157,6 +158,14 @@ var administration = (function() {
         loadAdminCUD("Update"); 
     }
 
+    function loadAdminMain() { 
+        $.ajax("templates/administration/admin-summary.html").done(function(data) {
+            $("#main-container").empty();
+            $("#main-container").prepend(data);
+            showAdministrators();
+        });
+    }
+
     function loadAdminAside() {//called from login_logout.js => event when admin clicks link button
         var data = sessionStorage.getItem("administrator");
         adminLoggedIn = JSON.parse(data);
@@ -176,14 +185,6 @@ var administration = (function() {
                 loadAdminCUD();
             });
             loadAdminMain();
-        });
-    }
-
-    function loadAdminMain() { 
-        $.ajax("templates/administration/admin-summary.html").done(function(data) {
-            $("#main-container").empty();
-            $("#main-container").prepend(data);
-            showAdministrators();
         });
     }
 
