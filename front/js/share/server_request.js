@@ -105,7 +105,7 @@ var server_request = (function() {
         
     return {
              sendServerRequest: sendServerRequest
-           }
+           };
 
 
 })();

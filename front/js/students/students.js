@@ -17,16 +17,16 @@ var students = (function() {
             if (studentHandled.details.student_courses != "") {// student_courses == "" - no courses found for student being handled
                 var container = $("#courseList");
                 var courseHtml = "";
-                var studentCourses = studentHandled.details.student_courses.split(',');
+                var studentCourses = studentHandled.details.student_courses.split(",");
                 for (let i = 0; i < studentCourses.length; i++) {
-                    let course_id = studentCourses[i].replace('cbCourse','');
+                    let course_id = studentCourses[i].replace("cbCourse","");
                     let course = $.grep(courses.courseArray, function(e){ return e.course_id == course_id; });
-                    courseHtml += '<div class="info-row-minor">';
-                    courseHtml += '<canvas  data-canvas-id="' + course_id + '" class="img-fluid info-minor" width="40" height="50" ></canvas>';
-                    courseHtml += '<div class="info-container">';
-                    courseHtml += '<label class="text-left">' + course[0].course_name + '</label>';
-                    courseHtml += '</div>';
-                    courseHtml += '</div>';
+                    courseHtml += "<div class='info-row-minor'>";
+                    courseHtml += "<canvas  data-canvas-id='" + course_id + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
+                    courseHtml += "<div class='info-container'>";
+                    courseHtml += "<label class='text-left'>" + course[0].course_name + "</label>";
+                    courseHtml += "</div>";
+                    courseHtml += "</div>";
                 }
                 $("#courseList").append(courseHtml);
                 //load images for all canvas elements created
@@ -244,7 +244,7 @@ var students = (function() {
         students_retrieved: students_retrieved, //data: flag used to signal to course.js that building studentArray has completed after course update 
         studentHandled: studentHandled, //data: student data used by validationsStudent.js 
         student_action: student_action //data: data used by validationsStudent.js ->  need to know if update or insert
-    }
+    };
 
 })();
 

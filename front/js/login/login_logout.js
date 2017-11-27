@@ -122,7 +122,7 @@ var login_logout = (function() {
     return {
         handle_login_status : handle_login_status,
         login: login
-    }
+    };
 
 })();
 

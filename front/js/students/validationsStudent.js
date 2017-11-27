@@ -123,6 +123,6 @@ var validationsStudent = (function() {
     return {
         initValidator: initValidator,
         formValidated: formValidated
-    }
+    };
 
 })();

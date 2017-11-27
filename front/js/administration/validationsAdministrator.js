@@ -128,7 +128,7 @@ var validationsAdministrator = (function() {
     return {
         initValidator: initValidator,
         formValidated: formValidated
-    }
+    };
 
 })();
 

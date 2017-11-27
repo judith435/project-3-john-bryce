@@ -93,7 +93,7 @@ var validationsCourse = (function() {
                     .fail(function(data){
                       console.log(".fail >>>  data  " + data);
                       response = true;
-                    })
+                    });
                     return response;
               });
       
@@ -103,6 +103,6 @@ var validationsCourse = (function() {
     return {
         initValidator: initValidator,
         formValidated: formValidated
-    }
+    };
 
 })();

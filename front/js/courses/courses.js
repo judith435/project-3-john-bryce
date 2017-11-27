@@ -19,15 +19,15 @@ var courses = (function() {
 
             if (courseHandled.details.student_ids != "") {// student_ids == "" - no students found for course being handled
                 var studentHtml = "";
-                var studentIDs = courseHandled.details.student_ids.split(',');
+                var studentIDs = courseHandled.details.student_ids.split(",");
                 for (let i = 0; i < studentIDs.length; i++) {
                         let student = $.grep(students.studentArray, function(e){ return e.student_id ==  studentIDs[i]});
-                        studentHtml += '<div class="info-row-minor">';
-                        studentHtml += '<canvas  data-canvas-id="' + studentIDs[i] + '" class="img-fluid info-minor" width="40" height="50" ></canvas>';
-                        studentHtml += '<div class="info-container">';
-                        studentHtml += '<label class="text-left">' + student[0].student_name + '</label>';
-                        studentHtml += '</div>';
-                        studentHtml += '</div>';
+                        studentHtml += "<div class='info-row-minor'>";
+                        studentHtml += "<canvas  data-canvas-id='" + studentIDs[i] + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
+                        studentHtml += "<div class='info-container'>";
+                        studentHtml += "<label class='text-left'>" + student[0].student_name + "</label>";
+                        studentHtml += "</div>";
+                        studentHtml += "</div>";
                 }
                 $("#studentList").append(studentHtml);
                 //load images for all canvas elements created
@@ -236,8 +236,7 @@ var courses = (function() {
         courses_retrieved: courses_retrieved, //data: flag used to signal to student.js that building courseArray has completed after student update 
         courseHandled : courseHandled, //data: course data used by validationsCourse.js 
         course_action: course_action //data: data used by validationsCourse.js ->  need to know if update or insert
-        
-    }
+    };
 
 })();
 

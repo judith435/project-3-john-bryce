@@ -54,7 +54,7 @@ var common = (function() {
             clearImage: clearImage, 
             uploadImage : uploadImage,
             loadCanvasList : loadCanvasList
-      }
+      };
 
 
 })();

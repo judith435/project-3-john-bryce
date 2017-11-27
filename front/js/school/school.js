@@ -53,7 +53,7 @@ var school = (function() {
 
         loadSchoolAside: loadSchoolAside,
         loadSchoolMain: loadSchoolMain
-    }
+    };
 
 })();
 

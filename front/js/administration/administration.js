@@ -254,6 +254,6 @@ var administration = (function() {
         loadAdminAside: loadAdminAside, //function: used by login_logout.js
         adminHandled: adminHandled, //data: used by validationsAdministrator.js
         action: action  //data: used by validationsAdministrator.js
-    }
+    };
 
 })();
