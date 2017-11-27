@@ -8,7 +8,7 @@ var students = (function() {
     var students_retrieved = {};
     
     function loadStudentView() {
-        $.ajax('templates/school/students/view-student.html').done(function(data) {
+        $.ajax("templates/school/students/view-student.html").done(function(data) {
             $("#main-container").empty();
             $("#main-container").prepend(data);
             $("#studentName").html(studentHandled.details.student_name);
@@ -60,7 +60,7 @@ var students = (function() {
 
 
     function loadStudentCUD(action) {
-        $.ajax('templates/school/students/cud-student.html').done(function(data) {
+        $.ajax("templates/school/students/cud-student.html").done(function(data) {
             $("#cud-student-title").empty();
             $("#main-container").empty();
             $("#main-container").prepend(data);
@@ -213,7 +213,7 @@ var students = (function() {
                                             ));
         }  
         students_retrieved.status = true;
-        $.ajax('templates/school/students/student-row.html').done(function(data) {
+        $.ajax("templates/school/students/student-row.html").done(function(data) {
             $("#students").html("");
             $("#totalStudents").html("Total number of Students: " + studentArray.length);
             //after loading students table row template append data from 1 student object to each row

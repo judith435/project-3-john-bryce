@@ -3,7 +3,7 @@
 var school = (function() {
 
     function loadSchoolMain() { 
-        $.ajax('templates/school/school-summary.html').done(function(data) {
+        $.ajax("templates/school/school-summary.html").done(function(data) {
             $("#main-container").empty();
             $("#main-container").prepend(data);
             courses.showCourses();
@@ -13,16 +13,16 @@ var school = (function() {
 
     function loadSchoolAside() {
         
-        $.ajax('templates/school/schoolAside.html').done(function(data) {
+        $.ajax("templates/school/schoolAside.html").done(function(data) {
             $("#side-container").empty();
             $("#side-container").prepend(data);
             $("#side-container").addClass("bordered-right");
             
-            $(document).off().on('click','.courses-flex #courses tr',function(e){
+            $(document).off().on("click",".courses-flex #courses tr",function(e){
                 courses.courseSelected($(this));
             })
 
-            $(document).on('click','.students-flex #students tr',function(e){
+            $(document).on("click",".students-flex #students tr",function(e){
                 students.studentSelected($(this));
             })
 

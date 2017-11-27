@@ -14,7 +14,7 @@ var login_logout = (function() {
         //userLoggedIn = session object on server / sessionStorage.getItem("administrator") on client
         if (user_login_status == "no" || //response from server was that user no longer logged-in
             sessionStorage.getItem("administrator") === null) {  
-            $.ajax('templates/login.html').done(function(data) {
+            $.ajax("templates/login.html").done(function(data) {
                 $("#login").empty();
                 $("#login").prepend(data);
                 

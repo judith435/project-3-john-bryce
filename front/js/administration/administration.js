@@ -13,9 +13,9 @@ var administration = (function() {
         $.ajax("templates/administration/admin-aside.html").done(function(data) {
             $("#side-container").empty();
             $("#side-container").prepend(data);
-            $("#side-container").addClass('bordered-right');
+            $("#side-container").addClass("bordered-right");
 
-            $(document).off().on('click','#administrators tr',function(e){
+            $(document).off().on("click","#administrators tr",function(e){
                 action.chosen = "Update";
                 adminSelected($(this));
             })
@@ -30,7 +30,7 @@ var administration = (function() {
 
 
     function loadAdminMain() { 
-        $.ajax('templates/administration/admin-summary.html').done(function(data) {
+        $.ajax("templates/administration/admin-summary.html").done(function(data) {
             $("#main-container").empty();
             $("#main-container").prepend(data);
             showAdministrators();
@@ -61,7 +61,7 @@ var administration = (function() {
                                         ));
         }     
         
-        $.ajax('templates/administration/admin-row.html').done(function(data) {
+        $.ajax("templates/administration/admin-row.html").done(function(data) {
             $("#administrators").html("");
             $("#totalAdministrators").html("Total number of Administrators: " + administratorsArray.length);
             for(let i=0; i < administratorsArray.length; i++) {
@@ -100,7 +100,7 @@ var administration = (function() {
     }
 
     function loadAdminCUD() {//admin update panel
-        $.ajax('templates/administration/cud-admin.html').done(function(data) {
+        $.ajax("templates/administration/cud-admin.html").done(function(data) {
             $("#cud-admin-title").empty();
             $("#main-container").empty();
             $("#main-container").prepend(data);
@@ -122,7 +122,7 @@ var administration = (function() {
                 $("#adminEmail").val(adminHandled.details.admin_email); 
                 //password cannot be updated - it is also not retrived from db to be displayed
                 $("#adminPassword").val("***************"); 
-                $("#adminPassword").prop('disabled', true);
+                $("#adminPassword").prop("disabled", true);
                 //set role_id in hidden field for update - used on server to check if manager is trying to change his own role
                 $("#roleID").val(adminHandled.details.role_id);
 
@@ -156,7 +156,7 @@ var administration = (function() {
     // (roles are predefined and are not liable to change)
     function callback_Save_Roles(roles)   
     {   
-        sessionStorage.setItem('roles', JSON.stringify(roles));
+        sessionStorage.setItem("roles", JSON.stringify(roles));
         Build_Roles_DDL();   
     }   
     
@@ -189,7 +189,7 @@ var administration = (function() {
             }
         }
 
-        $("#RoleDDL").off().on('change', function() { //save role name selected in hidden input so it can be sent to server
+        $("#RoleDDL").off().on("change", function() { //save role name selected in hidden input so it can be sent to server
             $("#roleName").val($("#RoleDDL option:selected" ).text());
         })
     

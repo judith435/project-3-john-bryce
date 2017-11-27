@@ -64,7 +64,7 @@ var courses = (function() {
     }
 
     function loadCourseCUD(action) {
-        $.ajax('templates/school/courses/cud-course.html').done(function(data) {
+        $.ajax("templates/school/courses/cud-course.html").done(function(data) {
             $("#cud-course-title").empty();
             $("#main-container").empty();
             $("#main-container").prepend(data);
@@ -204,7 +204,7 @@ var courses = (function() {
 
         courses_retrieved.status = true;
 
-        $.ajax('templates/school/courses/course-row.html').done(function(data) {
+        $.ajax("templates/school/courses/course-row.html").done(function(data) {
             $("#courses").html("");
             $("#totalCourses").html("Total number of Courses: " + courseArray.length);
             //after loading courses table row template append data from 1 course object to each row
