@@ -25,14 +25,13 @@ var administration = (function() {
         if (action.chosen == "Update"){
             $("#RoleDDL").val(adminHandled.details.role_id);
 
-            if(adminLoggedIn.role_name === "manager") {
-                if(adminLoggedIn.admin_id === adminHandled.details.admin_id) {  //manager may not change his own role
-                   $("#RoleDDL").prop("disabled", true);
-                }
-                else { //or change  another managers role to owner - make owner unselectable in RoleDDL
-                    var role_owner = $.grep(roles, function(e){ return e.role_name ==  "owner"}); //must retrive id of owner to be able to disable it
-                    $("option[value='" + role_owner[0].role_id + "']").attr("disabled", "disabled").siblings().removeAttr("disabled");
-                }
+            //manager/owner may not change his own role
+            if(adminLoggedIn.admin_id == adminHandled.details.admin_id) {  
+                $("#RoleDDL").prop("disabled", true);
+            }
+            else { //or change  another managers role to owner - make owner unselectable in RoleDDL
+                var role_owner = $.grep(roles, function(e){ return e.role_name ==  "owner"}); //must retrive id of owner to be able to disable it
+                $("option[value='" + role_owner[0].role_id + "']").attr("disabled", "disabled").siblings().removeAttr("disabled");
             }
         }
 
@@ -86,6 +85,14 @@ var administration = (function() {
         });
     }
 
+    //save roles retrieved in session storage to avoid repeated calls to db for same date
+    // (roles are predefined and are not liable to change)
+    function callback_Save_Roles(roles)   
+    {   
+        sessionStorage.setItem("roles", JSON.stringify(roles));
+        buildRolesDDL();   
+    }   
+
     function loadAdminCUD() {//admin update panel
         $.ajax("templates/administration/cud-admin.html").done(function(data) {
             $("#cud-admin-title").empty();
@@ -117,7 +124,7 @@ var administration = (function() {
                 var imgPath = app.adminImagePath + adminHandled.details.admin_id + ".jpg?" + dt_force_reload.getTime();
                 common.setCanvas($("#canvasAdmin")[0], imgPath, "regular");
 
-                if(adminLoggedIn.admin_id === adminHandled.details.admin_id) { //administrator cannot delete himself
+                if(adminLoggedIn.admin_id == adminHandled.details.admin_id) { //administrator cannot delete himself
                   $("#btnDelete").hide(); 
                 }
             }
@@ -136,6 +143,49 @@ var administration = (function() {
                 common.clearImage($("#canvasAdmin")[0], $("#adminImage")[0]);
             });
 
+        });
+    }
+
+    function buildAdminTable(serverData){
+        if (serverData.status == "error") {
+            alert("Error occured: " + serverData.message);
+            return;
+        }
+        //build array of administrator objects with data returned from server
+        var ao = AdministratorObject();
+        var administratorsArray = [];
+        for (let i = 0; i < serverData.length; i++) {
+            administratorsArray.push(new ao.Administrator(serverData[i].admin_id, 
+                                                          serverData[i].admin_name,
+                                                          serverData[i].role_id, 
+                                                          serverData[i].role_name, 
+                                                          serverData[i].admin_phone,
+                                                          serverData[i].admin_email
+                                        ));
+        }     
+        
+        $.ajax("templates/administration/admin-row.html").done(function(data) {
+            $("#administrators").html("");
+            $("#totalAdministrators").html("Total number of Administrators: " + administratorsArray.length);
+            for(let i=0; i < administratorsArray.length; i++) {
+                let template = data;
+                //admin data displayed in admin aside
+                template = template.replace("{{admin_id}}", administratorsArray[i].admin_id);
+                template = template.replace("{{admin_name}}", administratorsArray[i].admin_name);
+                template = template.replace("{{role_name}}", administratorsArray[i].role_name);
+                template = template.replace("{{admin_phone}}", administratorsArray[i].admin_phone);
+                template = template.replace("{{admin_email}}", administratorsArray[i].admin_email);
+                //admin data used to create admin object
+                template = template.replace("{{admin-id}}", administratorsArray[i].admin_id);
+                template = template.replace("{{admin-name}}", administratorsArray[i].admin_name);
+                template = template.replace("{{role-id}}", administratorsArray[i].role_id);
+                template = template.replace("{{role-name}}", administratorsArray[i].role_name);
+                template = template.replace("{{admin-phone}}", administratorsArray[i].admin_phone);
+                template = template.replace("{{admin-email}}", administratorsArray[i].admin_email);
+
+                $("#administrators").append(template);
+            }
+            common.loadCanvasList($("#administrators canvas"), app.adminImagePath, "admin_aside");
         });
     }
 
@@ -187,57 +237,6 @@ var administration = (function() {
             loadAdminMain();
         });
     }
-
-    function buildAdminTable(serverData){
-        if (serverData.status == "error") {
-            alert("Error occured: " + serverData.message);
-            return;
-        }
-        //build array of administrator objects with data returned from server
-        var ao = AdministratorObject();
-        var administratorsArray = [];
-        for (let i = 0; i < serverData.length; i++) {
-            administratorsArray.push(new ao.Administrator(serverData[i].admin_id, 
-                                                          serverData[i].admin_name,
-                                                          serverData[i].role_id, 
-                                                          serverData[i].role_name, 
-                                                          serverData[i].admin_phone,
-                                                          serverData[i].admin_email
-                                        ));
-        }     
-        
-        $.ajax("templates/administration/admin-row.html").done(function(data) {
-            $("#administrators").html("");
-            $("#totalAdministrators").html("Total number of Administrators: " + administratorsArray.length);
-            for(let i=0; i < administratorsArray.length; i++) {
-                let template = data;
-                //admin data displayed in admin aside
-                template = template.replace("{{admin_id}}", administratorsArray[i].admin_id);
-                template = template.replace("{{admin_name}}", administratorsArray[i].admin_name);
-                template = template.replace("{{role_name}}", administratorsArray[i].role_name);
-                template = template.replace("{{admin_phone}}", administratorsArray[i].admin_phone);
-                template = template.replace("{{admin_email}}", administratorsArray[i].admin_email);
-                //admin data used to create admin object
-                template = template.replace("{{admin-id}}", administratorsArray[i].admin_id);
-                template = template.replace("{{admin-name}}", administratorsArray[i].admin_name);
-                template = template.replace("{{role-id}}", administratorsArray[i].role_id);
-                template = template.replace("{{role-name}}", administratorsArray[i].role_name);
-                template = template.replace("{{admin-phone}}", administratorsArray[i].admin_phone);
-                template = template.replace("{{admin-email}}", administratorsArray[i].admin_email);
-
-                $("#administrators").append(template);
-            }
-            common.loadCanvasList($("#administrators canvas"), app.adminImagePath, "admin_aside");
-        });
-    }
-    
-    //save roles retrieved in session storage to avoid repeated calls to db for same date
-    // (roles are predefined and are not liable to change)
-    function callback_Save_Roles(roles)   
-    {   
-        sessionStorage.setItem("roles", JSON.stringify(roles));
-        Build_Roles_DDL();   
-    }   
 
     function afterSave(serverResponse) {
         if (serverResponse.status == "error") {

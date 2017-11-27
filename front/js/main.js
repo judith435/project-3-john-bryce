@@ -3,7 +3,7 @@
 
 //global variables used by all js files
 var app = {
-    debugMode: true,   
+    debugMode: false,   
     schoolApi:        "http://localhost/project-3-john-bryce/back/api/api.php",
     adminImagePath:   "http://localhost/project-3-john-bryce/back/images/admins/image_for_admin_id_",
     courseImagePath:  "http://localhost/project-3-john-bryce/back/images/courses/image_for_course_id_",

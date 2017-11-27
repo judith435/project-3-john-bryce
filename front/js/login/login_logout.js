@@ -1,42 +1,6 @@
 "use strict"
 var login_logout = (function() {
 
-    function login(){
-        getLoginStatus();
-    }
-
-    function getLoginStatus(){
-        var ajaxData = { ctrl: 'login' };
-        server_request.sendServerRequest("Select", ajaxData, handle_login_status); 
-    }
-
-    function handle_login_status(user_login_status) {
-        //userLoggedIn = session object on server / sessionStorage.getItem("administrator") on client
-        if (user_login_status == "no" || //response from server was that user no longer logged-in
-            sessionStorage.getItem("administrator") === null) {  
-            $.ajax("templates/login.html").done(function(data) {
-                $("#login").empty();
-                $("#login").prepend(data);
-                
-                setNavigationBar_LoggedOut();
-                initValidations();
-    
-                $("#btnLogin").off().click(function() {
-                    if (validationsLogin.formValidated.contents.valid()){
-                        var formContents = $("form").serialize();
-                        server_request.sendServerRequest("Select", formContents, afterLogin); 
-                        return false;
-                    }
-                });
-            });
-        }
-        else { // user logged in set navigation-bar - occurs if user reloads page
-            var data = sessionStorage.getItem("administrator");
-            var admin = JSON.parse(data);
-            setNavigationBar_LoggedIn(admin);
-        }
-    }
-
     function initValidations() {
         validationsLogin.initValidator();
         var validation_messages = validationsLogin.formValidated.validator.settings.messages;
@@ -54,6 +18,19 @@ var login_logout = (function() {
         $("#main-container").empty();
         $("#side-container").empty();
         $("#side-container").removeClass("bordered-right");
+    }
+
+    function afterLogout(serverData) {
+        if (serverData.status == 'error') { 
+            alert("error in logout - please contact support center ");
+        }
+    }        
+
+    function Logout(){
+        handle_login_status("no"); //set page / navigation bar to logged out state
+        var ajaxData = { ctrl: 'login' };
+        server_request.sendServerRequest("Delete", ajaxData, afterLogout);//remove login session object on server 
+        return false;
     }
 
     function setNavigationBar_LoggedIn(admin) {
@@ -103,21 +80,41 @@ var login_logout = (function() {
         }
     }
 
-
-
-    function Logout(){
-        handle_login_status("no"); //set page / navigation bar to logged out state
+    function getLoginStatus(){
         var ajaxData = { ctrl: 'login' };
-        server_request.sendServerRequest("Delete", ajaxData, afterLogout);//remove login session object on server 
-        return false;
+        server_request.sendServerRequest("Select", ajaxData, handle_login_status); 
     }
 
+    function login(){
+        getLoginStatus();
+    }
 
-    function afterLogout(serverData) {
-        if (serverData.status == 'error') { 
-            alert("error in logout - please contact support center ");
+    function handle_login_status(user_login_status) {
+        //userLoggedIn = session object on server / sessionStorage.getItem("administrator") on client
+        if (user_login_status == "no" || //response from server was that user no longer logged-in
+            sessionStorage.getItem("administrator") === null) {  
+            $.ajax("templates/login.html").done(function(data) {
+                $("#login").empty();
+                $("#login").prepend(data);
+                
+                setNavigationBar_LoggedOut();
+                initValidations();
+    
+                $("#btnLogin").off().click(function() {
+                    if (validationsLogin.formValidated.contents.valid()){
+                        var formContents = $("form").serialize();
+                        server_request.sendServerRequest("Select", formContents, afterLogin); 
+                        return false;
+                    }
+                });
+            });
         }
-    }        
+        else { // user logged in set navigation-bar - occurs if user reloads page
+            var data = sessionStorage.getItem("administrator");
+            var admin = JSON.parse(data);
+            setNavigationBar_LoggedIn(admin);
+        }
+    }
 
     return {
         handle_login_status : handle_login_status,

@@ -6,98 +6,7 @@ var courses = (function() {
     var courseHandled = {}; //course data also used by validationsCourse.js 
     var courseArray = [];
     var courses_retrieved = {}; //flag used by student.js which needs to know if all courses have been retrieved
-
-    function loadCourseView() {
-
-        $.ajax("templates/school/courses/view-course.html").done(function(data) {
-            $("#main-container").empty();
-            $("#main-container").prepend(data);
-            var studentNumbers = courseHandled.details.number_of_students_for_course == 0 ? "no" :  courseHandled.details.number_of_students_for_course ;
-            var courseText = courseHandled.details.course_name + ", " + studentNumbers + " students";
-            $("#courseName").html(courseText);
-            $("#CourseDescription").html(courseHandled.details.course_description); 
-
-            if (courseHandled.details.student_ids != "") {// student_ids == "" - no students found for course being handled
-                var studentHtml = "";
-                var studentIDs = courseHandled.details.student_ids.split(",");
-                for (let i = 0; i < studentIDs.length; i++) {
-                        let student = $.grep(students.studentArray, function(e){ return e.student_id ==  studentIDs[i]});
-                        studentHtml += "<div class='info-row-minor'>";
-                        studentHtml += "<canvas  data-canvas-id='" + studentIDs[i] + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
-                        studentHtml += "<div class='info-container'>";
-                        studentHtml += "<label class='text-left'>" + student[0].student_name + "</label>";
-                        studentHtml += "</div>";
-                        studentHtml += "</div>";
-                }
-                $("#studentList").append(studentHtml);
-                //load images for all canvas elements created
-                common.loadCanvasList($("#studentList canvas"), app.studentImagePath, "small");
-            }
-
-            //get admin data to check if admin role is sales => may not update course data
-            if (sessionStorage.getItem("administrator") === null) {//admin session object not found MUST immediately log in agaןn 
-                login_logout.login();
-                return;
-            }
-            var sessionAdmin = sessionStorage.getItem("administrator");
-            var admin = JSON.parse(sessionAdmin);
-            if (admin.role_name == "sales") { //administrator type sales is not entitled to update course => hide edit button 
-                $("#btnEdit").hide();
-            }
-            display_course_image();
-            $("#btnEdit").off().click(function() {
-                loadCourseCUD("Update"); 
-            });
-
-        });
-    }
-    
-    function courseSelected(row)  {
-        var courseID = row.find("#course-id").text();
-        var courseName = row.find("#course-name").text(); 
-        var courseDescr= row.find("#course-description").text();
-        var studentCourse = row.find("#number-of-students-for-course").text();
-        var studentIDs = row.find("#student-ids").text();
-        var co = CourseObject();
-        courseHandled.details = new co.Course(courseID, courseName, courseDescr, studentCourse, studentIDs)
-        loadCourseView();
-    }
-
-    function loadCourseCUD(action) {
-        $.ajax("templates/school/courses/cud-course.html").done(function(data) {
-            $("#cud-course-title").empty();
-            $("#main-container").empty();
-            $("#main-container").prepend(data);
-            initValidations();
-            btnSaveHandler(action);
-            if(action == "Update"){
-                //place name and description of course being updated in input field
-                $("#cud-course-title").html( "Update Course Number: " + courseHandled.details.course_id);
-                $("#courseID").val(courseHandled.details.course_id);//set course_id in hidden field for update/delete
-                $("#courseName").val(courseHandled.details.course_name);
-                $("#courseDescription").val(courseHandled.details.course_description); 
-                if (courseHandled.details.number_of_students_for_course > 0){ //course has been assigned to students cannot be deleted
-                    $("#btnDelete").hide(); 
-                }
-                display_course_image();
-                $("#studentTotal").html("Total " + courseHandled.details.number_of_students_for_course + " students taking this course");
-            }
-            else {//create
-                    $("#cud-course-title").html(action + " Course");
-                    $("#btnDelete").hide(); 
-                    $("#cbDeleteImage").hide(); 
-                }
-
-            $("#courseImage").change(function() {
-                common.uploadImage($("#canvasCourse")[0], this);
-            });
-
-            $("#btnCancel").off().click(function() {
-                common.clearImage($("#canvasCourse")[0], $("#courseImage")[0]);
-            });
-        });
-    }
-
+   
     function display_course_image(){
         var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
         var imgPath = app.courseImagePath + courseHandled.details.course_id + ".jpg?" + dt_force_reload.getTime();
@@ -114,7 +23,7 @@ var courses = (function() {
     }        
 
     function btnSaveHandler(action) {
-
+        
         $(".btnSave").off().click(function() {
             var verb;
             var ajaxData = $("#frmCUD").serialize();
@@ -137,53 +46,6 @@ var courses = (function() {
             }
         });
     }  
-
-    function afterSave(serverResponse) {
-        if (serverResponse.status == "error") {
-            alert("Following error(s) occured in " + serverResponse.action + ":\n" + serverResponse.message);
-            return;
-        }
-        if (serverResponse.message.search("following errors") != -1) { //display msg about failed image upload
-            alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
-        }
-        var action = serverResponse.action.split(" ", 1)[0]; //first word of server_response.action contains action performed
-        if (action == "Delete") {
-            school.loadSchoolMain();
-            return
-        }
-
-        //after each update must update both course and student date (student data also uses course data)
-        showCourses();
-        students.showStudents();
-        //displayAfterSave must only run after both course and student has been retrieved 
-        var get_course_student_data = setInterval(test_completion, 500);
-        function test_completion() {
-            if (courses.courses_retrieved.status && students.students_retrieved.status) {
-                displayAfterSave(serverResponse, action);
-                clearInterval(get_course_student_data);
-            }
-        }
-    }
-
-    function displayAfterSave(server_response, action){
-        let courseTemp = action == "Create" ? server_response.new_courseID  : courseHandled.details.course_id; 
-        let course_to_display = $.grep(courseArray, function(e){ return e.course_id ==  courseTemp});
-        let co = CourseObject();
-        //update courseHandled with updated course data
-        courseHandled.details = new co.Course(  course_to_display[0].course_id, 
-                                                course_to_display[0].course_name, 
-                                                course_to_display[0].course_description, 
-                                                course_to_display[0].number_of_students_for_course, 
-                                                course_to_display[0].student_ids);
-        loadCourseView();
-    }
-
-    function showCourses(){
-        var ajaxData = { ctrl: 'course' };
-        courses_retrieved.status = false;
-        server_request.sendServerRequest("Select", ajaxData, buildCourseTable); 
-        return false;
-    }
 
     function buildCourseTable(serverData){
         if (serverData.status == "error") {
@@ -226,6 +88,144 @@ var courses = (function() {
         });
     }
 
+    function showCourses(){
+        var ajaxData = { ctrl: 'course' };
+        courses_retrieved.status = false;
+        server_request.sendServerRequest("Select", ajaxData, buildCourseTable); 
+        return false;
+    }
+    
+    function loadCourseView() {
+        
+        $.ajax("templates/school/courses/view-course.html").done(function(data) {
+            $("#main-container").empty();
+            $("#main-container").prepend(data);
+            var studentNumbers = courseHandled.details.number_of_students_for_course == 0 ? "no" :  courseHandled.details.number_of_students_for_course ;
+            var courseText = courseHandled.details.course_name + ", " + studentNumbers + " students";
+            $("#courseName").html(courseText);
+            $("#CourseDescription").html(courseHandled.details.course_description); 
+
+            if (courseHandled.details.student_ids != "") {// student_ids == "" - no students found for course being handled
+                var studentHtml = "";
+                var studentIDs = courseHandled.details.student_ids.split(",");
+                for (let i = 0; i < studentIDs.length; i++) {
+                        let student = $.grep(students.studentArray, function(e){ return e.student_id ==  studentIDs[i]});
+                        studentHtml += "<div class='info-row-minor'>";
+                        studentHtml += "<canvas  data-canvas-id='" + studentIDs[i] + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
+                        studentHtml += "<div class='info-container'>";
+                        studentHtml += "<label class='text-left'>" + student[0].student_name + "</label>";
+                        studentHtml += "</div>";
+                        studentHtml += "</div>";
+                }
+                $("#studentList").append(studentHtml);
+                //load images for all canvas elements created
+                common.loadCanvasList($("#studentList canvas"), app.studentImagePath, "small");
+            }
+
+            //get admin data to check if admin role is sales => may not update course data
+            if (sessionStorage.getItem("administrator") === null) {//admin session object not found MUST immediately log in agaןn 
+                login_logout.login();
+                return;
+            }
+            var sessionAdmin = sessionStorage.getItem("administrator");
+            var admin = JSON.parse(sessionAdmin);
+            if (admin.role_name == "sales") { //administrator type sales is not entitled to update course => hide edit button 
+                $("#btnEdit").hide();
+            }
+            display_course_image();
+            $("#btnEdit").off().click(function() {
+                loadCourseCUD("Update"); 
+            });
+
+        });
+    }
+            
+          
+    function displayAfterSave(server_response, action){
+        let courseTemp = action == "Create" ? server_response.new_courseID  : courseHandled.details.course_id; 
+        let course_to_display = $.grep(courseArray, function(e){ return e.course_id ==  courseTemp});
+        let co = CourseObject();
+        //update courseHandled with updated course data
+        courseHandled.details = new co.Course(  course_to_display[0].course_id, 
+                                                course_to_display[0].course_name, 
+                                                course_to_display[0].course_description, 
+                                                course_to_display[0].number_of_students_for_course, 
+                                                course_to_display[0].student_ids);
+        loadCourseView();
+    }
+
+    function loadCourseCUD(action) {
+        $.ajax("templates/school/courses/cud-course.html").done(function(data) {
+            $("#cud-course-title").empty();
+            $("#main-container").empty();
+            $("#main-container").prepend(data);
+            initValidations();
+            btnSaveHandler(action);
+            if(action == "Update"){
+                //place name and description of course being updated in input field
+                $("#cud-course-title").html( "Update Course Number: " + courseHandled.details.course_id);
+                $("#courseID").val(courseHandled.details.course_id);//set course_id in hidden field for update/delete
+                $("#courseName").val(courseHandled.details.course_name);
+                $("#courseDescription").val(courseHandled.details.course_description); 
+                if (courseHandled.details.number_of_students_for_course > 0){ //course has been assigned to students cannot be deleted
+                    $("#btnDelete").hide(); 
+                }
+                display_course_image();
+                $("#studentTotal").html("Total " + courseHandled.details.number_of_students_for_course + " students taking this course");
+            }
+            else {//create
+                    $("#cud-course-title").html(action + " Course");
+                    $("#btnDelete").hide(); 
+                    $("#cbDeleteImage").hide(); 
+                }
+
+            $("#courseImage").change(function() {
+                common.uploadImage($("#canvasCourse")[0], this);
+            });
+
+            $("#btnCancel").off().click(function() {
+                common.clearImage($("#canvasCourse")[0], $("#courseImage")[0]);
+            });
+        });
+    }
+
+    function courseSelected(row)  {
+        var courseID = row.find("#course-id").text();
+        var courseName = row.find("#course-name").text(); 
+        var courseDescr= row.find("#course-description").text();
+        var studentCourse = row.find("#number-of-students-for-course").text();
+        var studentIDs = row.find("#student-ids").text();
+        var co = CourseObject();
+        courseHandled.details = new co.Course(courseID, courseName, courseDescr, studentCourse, studentIDs)
+        loadCourseView();
+    }
+
+    function afterSave(serverResponse) {
+        if (serverResponse.status == "error") {
+            alert("Following error(s) occured in " + serverResponse.action + ":\n" + serverResponse.message);
+            return;
+        }
+        if (serverResponse.message.search("following errors") != -1) { //display msg about failed image upload
+            alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
+        }
+        var action = serverResponse.action.split(" ", 1)[0]; //first word of server_response.action contains action performed
+        if (action == "Delete") {
+            school.loadSchoolMain();
+            return
+        }
+
+        //after each update must update both course and student date (student data also uses course data)
+        showCourses();
+        students.showStudents();
+        //displayAfterSave must only run after both course and student has been retrieved 
+        var get_course_student_data = setInterval(test_completion, 500);
+        function test_completion() {
+            if (courses.courses_retrieved.status && students.students_retrieved.status) {
+                displayAfterSave(serverResponse, action);
+                clearInterval(get_course_student_data);
+            }
+        }
+    }
 
     return {
 

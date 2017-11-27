@@ -7,57 +7,80 @@ var students = (function() {
     var studentHandled = {};  //create object (in return statement) that can be referenced by validationsStudent.js
     var students_retrieved = {};
     
-    function loadStudentView() {
-        $.ajax("templates/school/students/view-student.html").done(function(data) {
-            $("#main-container").empty();
-            $("#main-container").prepend(data);
-            $("#studentName").html(studentHandled.details.student_name);
-            $("#studentPhone").html(studentHandled.details.student_phone); 
-            $("#studentEmail").html(studentHandled.details.student_email); 
-            if (studentHandled.details.student_courses != "") {// student_courses == "" - no courses found for student being handled
-                var container = $("#courseList");
-                var courseHtml = "";
-                var studentCourses = studentHandled.details.student_courses.split(",");
-                for (let i = 0; i < studentCourses.length; i++) {
-                    let course_id = studentCourses[i].replace("cbCourse","");
-                    let course = $.grep(courses.courseArray, function(e){ return e.course_id == course_id; });
-                    courseHtml += "<div class='info-row-minor'>";
-                    courseHtml += "<canvas  data-canvas-id='" + course_id + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
-                    courseHtml += "<div class='info-container'>";
-                    courseHtml += "<label class='text-left'>" + course[0].course_name + "</label>";
-                    courseHtml += "</div>";
-                    courseHtml += "</div>";
-                }
-                $("#courseList").append(courseHtml);
-                //load images for all canvas elements created
-                common.loadCanvasList($("#courseList canvas"), app.courseImagePath, "small");
-            }
-            display_student_image();
-            $("#btnEdit").off().click(function() {
-                loadStudentCUD("Update"); 
-            });
-
-        });
-    }
-
     function display_student_image(){
         var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
         var imgPath = app.studentImagePath + studentHandled.details.student_id + ".jpg?" + dt_force_reload.getTime();
         common.setCanvas($("#canvasStudent")[0], imgPath, "regular");
     }
 
-    function studentSelected(row)
-    {
-        var studentID = row.find("#student-id").text();
-        var studentName = row.find("#student-name").text(); 
-        var studentPhone = row.find("#student-phone").text();
-        var studentEmail = row.find("#student-email").text();
-        var studentCourses = row.find("#student-courses").text();
-        var so = StudentObject();
-        studentHandled.details = new so.Student(studentID, studentName, studentPhone, studentEmail, studentCourses)
-        loadStudentView();
+    function buildCourses_cbl() {
+        var container = $("#cblistCourses");
+        var id = 1;
+        for (let i = 0; i < courses.courseArray.length; i++) {
+            $("<input/>",
+             { type: 'checkbox', id: 'cbCourse' + courses.courseArray[i].course_id, 
+                                 value: courses.courseArray[i].course_name,
+                                 name: 'cbCourse' + courses.courseArray[i].course_id }).appendTo(container);
+            $("<span/>", { text: courses.courseArray[i].course_name }).appendTo(container);
+            $("<br />").appendTo(container);
+        }
     }
 
+    function initValidations() {
+        validationsStudent.initValidator();
+        var validation_messages = validationsStudent.formValidated.validator.settings.messages;
+        validation_messages.student_name = "Student name required";
+        validation_messages.student_phone = "Valid phone required";
+        validation_messages.student_email = "Valid email required";
+        validation_messages.student_image = "Valid extensions: jpg, jpeg, png or gif";
+        validation_messages.duplicate_student = "Student with same name, phone & email already exists";
+    }        
+    
+    function buildStudentTable(serverData){
+        if (serverData.status == "error") {
+            alert("Error occured: " + serverData.message);
+            return;
+        }
+        //build array of student objects with data returned from server
+        var so = StudentObject();
+        studentArray.length = 0; //clear data from previous calls to buildStudentTable
+        for (let i = 0; i < serverData.length; i++) {
+            studentArray.push(new so.Student(serverData[i].student_id, 
+                                              serverData[i].student_name,
+                                              serverData[i].student_phone, 
+                                              serverData[i].student_email,
+                                              serverData[i].student_courses 
+                                            ));
+        }  
+        students_retrieved.status = true;
+        $.ajax("templates/school/students/student-row.html").done(function(data) {
+            $("#students").html("");
+            $("#totalStudents").html("Total number of Students: " + studentArray.length);
+            //after loading students table row template append data from 1 student object to each row
+            for(let i=0; i < studentArray.length; i++) {
+                let template = data;
+                //student data displayed in school aside
+                template = template.replace("{{student_id}}", studentArray[i].student_id);
+                template = template.replace("{{student_name}}", studentArray[i].student_name);
+                template = template.replace("{{student_phone}}", studentArray[i].student_phone);
+                //student data used to create student object
+                template = template.replace("{{student-id}}", studentArray[i].student_id);
+                template = template.replace("{{student-name}}", studentArray[i].student_name);
+                template = template.replace("{{student-phone}}", studentArray[i].student_phone);
+                template = template.replace("{{student-email}}", studentArray[i].student_email);
+                template = template.replace("{{student-courses}}", studentArray[i].student_courses);
+                $("#students").append(template);
+            }
+            common.loadCanvasList($("#students canvas"), app.studentImagePath, "school_aside");
+        });
+    }    
+
+    function showStudents(){
+        var ajaxData = { ctrl: 'student' };
+        students_retrieved.status = false;
+        server_request.sendServerRequest("Select", ajaxData, buildStudentTable); 
+        return false;
+    }
 
     function loadStudentCUD(action) {
         $.ajax("templates/school/students/cud-student.html").done(function(data) {
@@ -101,27 +124,49 @@ var students = (function() {
         });
     }
 
-    function initValidations() {
-        validationsStudent.initValidator();
-        var validation_messages = validationsStudent.formValidated.validator.settings.messages;
-        validation_messages.student_name = "Student name required";
-        validation_messages.student_phone = "Valid phone required";
-        validation_messages.student_email = "Valid email required";
-        validation_messages.student_image = "Valid extensions: jpg, jpeg, png or gif";
-        validation_messages.duplicate_student = "Student with same name, phone & email already exists";
-    }        
+    function loadStudentView() {
+        $.ajax("templates/school/students/view-student.html").done(function(data) {
+            $("#main-container").empty();
+            $("#main-container").prepend(data);
+            $("#studentName").html(studentHandled.details.student_name);
+            $("#studentPhone").html(studentHandled.details.student_phone); 
+            $("#studentEmail").html(studentHandled.details.student_email); 
+            if (studentHandled.details.student_courses != "") {// student_courses == "" - no courses found for student being handled
+                var container = $("#courseList");
+                var courseHtml = "";
+                var studentCourses = studentHandled.details.student_courses.split(",");
+                for (let i = 0; i < studentCourses.length; i++) {
+                    let course_id = studentCourses[i].replace("cbCourse","");
+                    let course = $.grep(courses.courseArray, function(e){ return e.course_id == course_id; });
+                    courseHtml += "<div class='info-row-minor'>";
+                    courseHtml += "<canvas  data-canvas-id='" + course_id + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
+                    courseHtml += "<div class='info-container'>";
+                    courseHtml += "<label class='text-left'>" + course[0].course_name + "</label>";
+                    courseHtml += "</div>";
+                    courseHtml += "</div>";
+                }
+                $("#courseList").append(courseHtml);
+                //load images for all canvas elements created
+                common.loadCanvasList($("#courseList canvas"), app.courseImagePath, "small");
+            }
+            display_student_image();
+            $("#btnEdit").off().click(function() {
+                loadStudentCUD("Update"); 
+            });
 
-    function buildCourses_cbl() {
-        var container = $("#cblistCourses");
-        var id = 1;
-        for (let i = 0; i < courses.courseArray.length; i++) {
-            $("<input/>",
-             { type: 'checkbox', id: 'cbCourse' + courses.courseArray[i].course_id, 
-                                 value: courses.courseArray[i].course_name,
-                                 name: 'cbCourse' + courses.courseArray[i].course_id }).appendTo(container);
-            $("<span/>", { text: courses.courseArray[i].course_name }).appendTo(container);
-            $("<br />").appendTo(container);
-        }
+        });
+    }
+
+    function studentSelected(row)
+    {
+        var studentID = row.find("#student-id").text();
+        var studentName = row.find("#student-name").text(); 
+        var studentPhone = row.find("#student-phone").text();
+        var studentEmail = row.find("#student-email").text();
+        var studentCourses = row.find("#student-courses").text();
+        var so = StudentObject();
+        studentHandled.details = new so.Student(studentID, studentName, studentPhone, studentEmail, studentCourses)
+        loadStudentView();
     }
 
     function btnSaveHandler(action) {
@@ -188,52 +233,6 @@ var students = (function() {
                                                 student_to_display[0].student_courses);
         loadStudentView();
     }
-
-    function showStudents(){
-        var ajaxData = { ctrl: 'student' };
-        students_retrieved.status = false;
-        server_request.sendServerRequest("Select", ajaxData, buildStudentTable); 
-        return false;
-    }
-
-    function buildStudentTable(serverData){
-        if (serverData.status == "error") {
-            alert("Error occured: " + serverData.message);
-            return;
-        }
-        //build array of student objects with data returned from server
-        var so = StudentObject();
-        studentArray.length = 0; //clear data from previous calls to buildStudentTable
-        for (let i = 0; i < serverData.length; i++) {
-            studentArray.push(new so.Student(serverData[i].student_id, 
-                                              serverData[i].student_name,
-                                              serverData[i].student_phone, 
-                                              serverData[i].student_email,
-                                              serverData[i].student_courses 
-                                            ));
-        }  
-        students_retrieved.status = true;
-        $.ajax("templates/school/students/student-row.html").done(function(data) {
-            $("#students").html("");
-            $("#totalStudents").html("Total number of Students: " + studentArray.length);
-            //after loading students table row template append data from 1 student object to each row
-            for(let i=0; i < studentArray.length; i++) {
-                let template = data;
-                //student data displayed in school aside
-                template = template.replace("{{student_id}}", studentArray[i].student_id);
-                template = template.replace("{{student_name}}", studentArray[i].student_name);
-                template = template.replace("{{student_phone}}", studentArray[i].student_phone);
-                //student data used to create student object
-                template = template.replace("{{student-id}}", studentArray[i].student_id);
-                template = template.replace("{{student-name}}", studentArray[i].student_name);
-                template = template.replace("{{student-phone}}", studentArray[i].student_phone);
-                template = template.replace("{{student-email}}", studentArray[i].student_email);
-                template = template.replace("{{student-courses}}", studentArray[i].student_courses);
-                $("#students").append(template);
-            }
-            common.loadCanvasList($("#students canvas"), app.studentImagePath, "school_aside");
-        });
-    }    
 
     return {
 
