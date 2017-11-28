@@ -26,7 +26,7 @@ var server_request = (function() {
 
         var verb_changed = false;
         //image was selected and verb is PUT => must change to POST - images can only be transfered with post
-        if($("#" + fuImage).val() && verb == "PUT"){ //image was selected and action = "update" (verb is PUT)
+        if($("#" + fuImage).val() && verb === "PUT"){ //image was selected and action = "update" (verb is PUT)
             verb = "POST";
             verb_changed = true;
         } 

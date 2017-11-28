@@ -51,7 +51,7 @@ var validationsCourse = (function() {
                     var course_img_delete_checked = ($("#deleteImage").is(":checked"));
 
                     if (courseName == courses.courseHandled.details.course_name &&
-                        courseDescription == courses.courseHandled.details.course_description &&
+                        courseDescription === courses.courseHandled.details.course_description &&
                         courseImage == "" && !course_img_delete_checked) { 
                             formValidated.validator.settings.messages.duplicate_course = 'No change in data - No update';
                             return false; 

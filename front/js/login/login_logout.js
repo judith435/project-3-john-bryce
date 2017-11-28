@@ -21,7 +21,7 @@ var login_logout = (function() {
     }
 
     function afterLogout(serverData) {
-        if (serverData.status == 'error') { 
+        if (serverData.status === "error") { 
             alert("error in logout - please contact support center ");
         }
     }   
@@ -38,7 +38,7 @@ var login_logout = (function() {
         $("#login").hide();
         $("#logout-link").removeClass("hide");
         $("#school-link").removeClass("hide");
-        if (admin.role_name != "sales") { //role sales in not permitted to access Administration menu
+        if (admin.role_name !== "sales") { //role sales in not permitted to access Administration menu
             $("#administration-link").removeClass("hide");
             $("#administration-link" ).off().click(function(event) {
                 event.preventDefault();
@@ -59,7 +59,7 @@ var login_logout = (function() {
     }
 
     function afterLogin(serverData) {
-        if (serverData.status == 'error') { 
+        if (serverData.status === "error") { 
             alert("error in login - please contact support center ");
             return;
         }

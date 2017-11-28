@@ -98,7 +98,7 @@ var students = (function() {
             }   
             else {
                 student_action.chosen = action;
-                verb =  action == "Add" ? "Add" : "Update"; 
+                verb =  action === "Add" ? "Add" : "Update"; 
                 if (validationsStudent.formValidated.contents.valid()){
                     server_request.sendServerRequest
                         (verb, ajaxData, afterSave, "studentImage", "student_image");  
@@ -116,7 +116,7 @@ var students = (function() {
             initValidations();
             btnSaveHandler(action);
             buildCourses_cbl(); //build checkboxlist of all courses
-            if(action == "Update"){
+            if(action === "Update"){
                 //place name and description of student being updated in input field
                 $("#cud-student-title").html( "Update Student Number: " + studentHandled.details.student_id);
                 $("#studentID").val(studentHandled.details.student_id);//set student_id in hidden field for update/delete

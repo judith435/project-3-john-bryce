@@ -68,9 +68,9 @@ var validationsAdministrator = (function() {
                     var adminImage = $("#adminImage").val().trim(); 
                     var admin_img_delete_checked = ($("#deleteImage").is(":checked"));
     
-                    if (adminName == administration.adminHandled.details.admin_name &&
-                        adminEmail == administration.adminHandled.details.admin_email &&
-                        adminPhone == administration.adminHandled.details.admin_phone &&
+                    if (adminName === administration.adminHandled.details.admin_name &&
+                        adminEmail === administration.adminHandled.details.admin_email &&
+                        adminPhone === administration.adminHandled.details.admin_phone &&
                         adminRole == administration.adminHandled.details.role_id &&
                         adminImage == "" && !admin_img_delete_checked) { 
                              formValidated.validator.settings.messages.duplicate_admin = 'No change in data - No update';
@@ -106,7 +106,7 @@ var validationsAdministrator = (function() {
                     {
                         var admin = JSON.parse(data);
                         if ($.inArray(status, admin)) {//call to server revealed admin sales accessing admin menu
-                            if (admin.status == "error") {
+                            if (admin.status === "error") {
                                 alert("Following error(s) occured in " + admin.action + ":\n" + admin.message);
                                 return true;
                             }

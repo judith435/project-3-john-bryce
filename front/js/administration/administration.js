@@ -17,7 +17,7 @@ var administration = (function() {
         var roles = JSON.parse(data);
 
         $("#RoleDDL").empty();
-        if (action.chosen == "Add"){
+        if (action.chosen === "Add"){
             $("#RoleDDL").append("<option value=''>Please Select Role</option>");
         }
 
@@ -34,7 +34,7 @@ var administration = (function() {
                 $("#RoleDDL").prop("disabled", true);
             }
             else { //or change  another managers role to owner - make owner unselectable in RoleDDL
-                var role_owner = $.grep(roles, function(e){ return e.role_name ==  "owner"}); //must retrive id of owner to be able to disable it
+                var role_owner = $.grep(roles, function(e){ return e.role_name ===  "owner"}); //must retrive id of owner to be able to disable it
                 $("option[value='" + role_owner[0].role_id + "']").attr("disabled", "disabled").siblings().removeAttr("disabled");
             }
         }

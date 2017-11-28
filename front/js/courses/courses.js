@@ -126,7 +126,7 @@ var courses = (function() {
             }   
             else {
                 course_action.chosen = action;
-                verb =  action == "Add" ? "Add" : "Update"; 
+                verb =  action === "Add" ? "Add" : "Update"; 
                 if (validationsCourse.formValidated.contents.valid()){
                     server_request.sendServerRequest(verb, ajaxData, afterSave, "courseImage", "course_image");  
                     return false;
@@ -142,7 +142,7 @@ var courses = (function() {
             $("#main-container").prepend(data);
             initValidations();
             btnSaveHandler(action);
-            if(action == "Update"){
+            if(action === "Update"){
                 //place name and description of course being updated in input field
                 $("#cud-course-title").html( "Update Course Number: " + courseHandled.details.course_id);
                 $("#courseID").val(courseHandled.details.course_id);//set course_id in hidden field for update/delete
