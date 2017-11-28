@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 //entry point for entire application - jQuery(document).ready(function()  is first thing to run
 
 //global variables used by all js files

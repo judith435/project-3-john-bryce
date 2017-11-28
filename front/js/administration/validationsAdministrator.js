@@ -1,4 +1,4 @@
-"use strict" 
+"use strict"; 
 
 var validationsAdministrator = (function() {
 
@@ -89,7 +89,7 @@ var validationsAdministrator = (function() {
                 }
         
                 var ajaxData = {
-                    ctrl: 'administrator',
+                    ctrl: "administrator",
                     admin_name: adminName,
                     admin_email: adminEmail
                   }; 

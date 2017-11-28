@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 var login_logout = (function() {
 
     function initValidations() {

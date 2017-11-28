@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 var server_request = (function() {
 
@@ -37,7 +37,9 @@ var server_request = (function() {
             //because of  image upload new FormData() must be used to send data to server and thus it can no longer be sent simply as $("form").serialize() 
             //the  individual input fields must be appeded to FormData() as key value pairs => statement below creates object from $("form").serialize() containing
             //key value pairs of input data  
-            var input_data_pairs = JSON.parse('{"' + decodeURI(input_data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
+            var input_data_pairs = 
+            JSON.parse('{"' + decodeURI(input_data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
+            
             for (var key in input_data_pairs) {
                 if (input_data_pairs.hasOwnProperty(key)) {
                     if (app.debugMode) {
@@ -53,7 +55,7 @@ var server_request = (function() {
             }
 
             if($("#" + fuImage).val()){ //image was selected
-                var file_data = $("#" + fuImage).prop('files')[0]; 
+                var file_data = $("#" + fuImage).prop("files")[0]; 
                 ajaxData.append(image_name, file_data);
             } 
         }
