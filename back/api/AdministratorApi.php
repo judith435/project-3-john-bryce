@@ -11,9 +11,9 @@
             if (array_key_exists("admin_name", $params) && array_key_exists("admin_email", $params)) {
                 return  $ac->getAdministratorByNameEmail($params);
             }
-            else { //get all administrators for side menu administrators
-                return  $ac->getAll_Administrators();
-            }
+
+            //get all administrators for side menu administrators 
+            return  $ac->getAll_Administrators();
         }
 
         function Create($params) {

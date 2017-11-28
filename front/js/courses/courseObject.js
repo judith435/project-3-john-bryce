@@ -11,4 +11,4 @@ var CourseObject = function() {
     return {
             Course: Course
            }; 
-    }
+    };

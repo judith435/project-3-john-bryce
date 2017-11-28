@@ -7,7 +7,7 @@ var common = (function() {
             small: [40, 50],
             admin_aside: [48, 60],
             school_aside: [33, 42]   
-      }
+      };
         
       function setCanvas(canvas, imgPath, size) {
             var context = canvas.getContext("2d");

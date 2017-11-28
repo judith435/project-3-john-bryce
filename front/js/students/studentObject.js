@@ -10,6 +10,5 @@ var StudentObject = function() {
         
     return {
             Student: Student
-           } 
+           }; 
     }
-

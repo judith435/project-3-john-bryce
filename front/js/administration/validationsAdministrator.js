@@ -122,7 +122,7 @@ var validationsAdministrator = (function() {
                     .fail(function(data){
                         console.log(".fail >>>  data  " + data);
                         response = true;
-                    })
+                    });
                     return response;
                 });
     }

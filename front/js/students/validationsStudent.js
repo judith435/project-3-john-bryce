@@ -113,7 +113,7 @@ var validationsStudent = (function() {
                         .fail(function(data){
                             console.log(".fail >>>  data  " + data);
                             response = false;
-                        })
+                        });
                         return response;
                 });
       

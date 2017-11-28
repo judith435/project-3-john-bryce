@@ -24,7 +24,7 @@ var courses = (function() {
           
     function displayAfterSave(server_response, action){
         let courseTemp = action == "Create" ? server_response.new_courseID  : courseHandled.details.course_id; 
-        let course_to_display = $.grep(courseArray, function(e){ return e.course_id ==  courseTemp});
+        let course_to_display = $.grep(courseArray, function(e){ return e.course_id ==  courseTemp;});
         let co = CourseObject();
         //update courseHandled with updated course data
         courseHandled.details = new co.Course(  course_to_display[0].course_id, 
@@ -184,7 +184,7 @@ var courses = (function() {
                 var studentHtml = "";
                 var studentIDs = courseHandled.details.student_ids.split(",");
                 for (let i = 0; i < studentIDs.length; i++) {
-                        let student = $.grep(students.studentArray, function(e){ return e.student_id ==  studentIDs[i]});
+                        let student = $.grep(students.studentArray, function(e){ return e.student_id ==  studentIDs[i];});
                         studentHtml += "<div class='info-row-minor'>";
                         studentHtml += "<canvas  data-canvas-id='" + studentIDs[i] + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
                         studentHtml += "<div class='info-container'>";
@@ -222,7 +222,7 @@ var courses = (function() {
         var studentCourse = row.find("#number-of-students-for-course").text();
         var studentIDs = row.find("#student-ids").text();
         var co = CourseObject();
-        courseHandled.details = new co.Course(courseID, courseName, courseDescr, studentCourse, studentIDs)
+        courseHandled.details = new co.Course(courseID, courseName, courseDescr, studentCourse, studentIDs);
         loadCourseView();
     }
 

@@ -12,5 +12,4 @@ var AdministratorObject = function() {
     return {
               Administrator: Administrator
            }; 
-    }
-
+    };

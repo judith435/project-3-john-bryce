@@ -34,15 +34,14 @@ var administration = (function() {
                 $("#RoleDDL").prop("disabled", true);
             }
             else { //or change  another managers role to owner - make owner unselectable in RoleDDL
-                var role_owner = $.grep(roles, function(e){ return e.role_name ===  "owner"}); //must retrive id of owner to be able to disable it
+                var role_owner = $.grep(roles, function(e){ return e.role_name ===  "owner";}); //must retrive id of owner to be able to disable it
                 $("option[value='" + role_owner[0].role_id + "']").attr("disabled", "disabled").siblings().removeAttr("disabled");
             }
         }
 
         $("#RoleDDL").off().on("change", function() { //save role name selected in hidden input so it can be sent to server
             $("#roleName").val($("#RoleDDL option:selected" ).text());
-        })
-    
+        });
     }
     
     function initValidations() {//used for jquery validation plugin

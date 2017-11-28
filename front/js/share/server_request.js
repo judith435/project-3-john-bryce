@@ -38,7 +38,7 @@ var server_request = (function() {
             //the  individual input fields must be appeded to FormData() as key value pairs => statement below creates object from $("form").serialize() containing
             //key value pairs of input data  
             var input_data_pairs = 
-            JSON.parse('{"' + decodeURI(input_data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
+            JSON.parse('{"' + decodeURI(input_data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}');
             
             for (var key in input_data_pairs) {
                 if (input_data_pairs.hasOwnProperty(key)) {
@@ -101,7 +101,7 @@ var server_request = (function() {
                 console.log("error in sendServerRequest");
                 console.log(data);
                 alert("problem in ajax : " + data);
-        })
+        });
         return false;
     }
         

@@ -191,7 +191,7 @@ var students = (function() {
         var studentEmail = row.find("#student-email").text();
         var studentCourses = row.find("#student-courses").text();
         var so = StudentObject();
-        studentHandled.details = new so.Student(studentID, studentName, studentPhone, studentEmail, studentCourses)
+        studentHandled.details = new so.Student(studentID, studentName, studentPhone, studentEmail, studentCourses);
         loadStudentView();
     }
 
