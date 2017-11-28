@@ -100,7 +100,8 @@ var administration = (function() {
             $("#main-container").prepend(data);
             if (sessionStorage.getItem("roles") == null) {
                 var ajaxData = { ctrl: 'role' };
-                server_request.sendServerRequest("Select", ajaxData, callback_Save_Roles); 
+                var serverRequest  = server_request;
+                serverRequest.sendServerRequest("Select", ajaxData, callback_Save_Roles); 
             }
             else {
                 buildRolesDDL();
