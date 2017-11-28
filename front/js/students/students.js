@@ -18,9 +18,9 @@ var students = (function() {
         var id = 1;
         for (let i = 0; i < courses.courseArray.length; i++) {
             $("<input/>",
-             { type: 'checkbox', id: 'cbCourse' + courses.courseArray[i].course_id, 
+             { type: "checkbox", id: "cbCourse" + courses.courseArray[i].course_id, 
                                  value: courses.courseArray[i].course_name,
-                                 name: 'cbCourse' + courses.courseArray[i].course_id }).appendTo(container);
+                                 name: "cbCourse" + courses.courseArray[i].course_id }).appendTo(container);
             $("<span/>", { text: courses.courseArray[i].course_name }).appendTo(container);
             $("<br />").appendTo(container);
         }
@@ -76,7 +76,7 @@ var students = (function() {
     }    
 
     function showStudents(){
-        var ajaxData = { ctrl: 'student' };
+        var ajaxData = { ctrl: "student" };
         students_retrieved.status = false;
         server_request.sendServerRequest("Select", ajaxData, buildStudentTable); 
         return false;
@@ -89,7 +89,7 @@ var students = (function() {
             var ajaxData = $("#frmCUD").serialize();
 
             if(this.id == "btnDelete"){ // don't perform validations in case of delete
-                var confirmation = confirm('Are you sure you want to delete student number ' + studentHandled.details.student_id + "?");
+                var confirmation = confirm("Are you sure you want to delete student number " + studentHandled.details.student_id + "?");
                 if (confirmation == true) {
                     verb = "Delete";
                     server_request.sendServerRequest(verb, ajaxData, afterSave);  
@@ -126,7 +126,7 @@ var students = (function() {
 
                 //check course checkbox if student registered for specific course
                 if (studentHandled.details.student_courses != "") {
-                    var courses = studentHandled.details.student_courses.split(',');
+                    var courses = studentHandled.details.student_courses.split(",");
                     for (let i = 0; i < courses.length; i++) {
                         document.getElementById(courses[i]).checked = true;
                     }

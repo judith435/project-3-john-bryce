@@ -103,7 +103,7 @@ var administration = (function() {
             $("#main-container").empty();
             $("#main-container").prepend(data);
             if (sessionStorage.getItem("roles") == null) {
-                var ajaxData = { ctrl: 'role' };
+                var ajaxData = { ctrl: "role" };
                 serverRequestModule.sendServerRequest("Select", ajaxData, callback_Save_Roles); 
             }
             else {
@@ -194,7 +194,7 @@ var administration = (function() {
     }
 
     function showAdministrators(){
-        var ajaxData = { ctrl: 'administrator' };
+        var ajaxData = { ctrl: "administrator" };
         serverRequestModule.sendServerRequest("Select", ajaxData, buildAdminTable); 
         return false;
     }

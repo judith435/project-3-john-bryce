@@ -3,7 +3,7 @@
 var validationsAdministrator = (function() {
 
     var formValidated = {};
-
+    
     function initValidator() {
         formValidated.contents = $("#frmCUD");
         formValidated.validator = formValidated.contents.validate({
@@ -59,29 +59,31 @@ var validationsAdministrator = (function() {
                     return true; //if admin name or phone  missing no point in checking
                 }
                 //update administrator : no change made to data retrieved from db return relevant message to user
-                if (administration.action.chosen === "Update") {
+                var administrationModule = administration; //administrationModule contains all data exposed from js file administration.js
+                
+                if (administrationModule.action.chosen === "Update") {
                     if (app.debugMode){
-                        console.log("admin_already_exists() adminName from update: " + administration.adminHandled.admin_name);
+                        console.log("admin_already_exists() adminName from update: " + administrationModule.adminHandled.admin_name);
                     }
                     var adminPhone = $("#adminPhone").val().trim();
                     var adminRole = $("#RoleDDL").val().trim();  
                     var adminImage = $("#adminImage").val().trim(); 
                     var admin_img_delete_checked = ($("#deleteImage").is(":checked"));
     
-                    if (adminName === administration.adminHandled.details.admin_name &&
-                        adminEmail === administration.adminHandled.details.admin_email &&
-                        adminPhone === administration.adminHandled.details.admin_phone &&
-                        adminRole == administration.adminHandled.details.role_id &&
+                    if (adminName === administrationModule.adminHandled.details.admin_name &&
+                        adminEmail === administrationModule.adminHandled.details.admin_email &&
+                        adminPhone === administrationModule.adminHandled.details.admin_phone &&
+                        adminRole == administrationModule.adminHandled.details.role_id &&
                         adminImage == "" && !admin_img_delete_checked) { 
-                             formValidated.validator.settings.messages.duplicate_admin = 'No change in data - No update';
+                             formValidated.validator.settings.messages.duplicate_admin = "No change in data - No update";
                              return false; 
                     }
                     else {
-                        formValidated.validator.settings.messages.duplicate_admin = 'Administrator with same name and email already exists';
+                        formValidated.validator.settings.messages.duplicate_admin = "Administrator with same name and email already exists";
                     }
 
                     //check administrator name & email changed - if NOT don't run duplicate admin test ==> it always going to exist (refering to itself)
-                    if (adminName == administration.adminHandled.details.admin_name && adminEmail == administration.adminHandled.details.admin_email) {
+                    if (adminName == administrationModule.adminHandled.details.admin_name && adminEmail == administrationModule.adminHandled.details.admin_email) {
                         return true; 
                     }  
                 }
@@ -97,7 +99,7 @@ var validationsAdministrator = (function() {
                     console.log("validations >>>  ajaxData.administrator_phone  " + ajaxData.admin_email);
                   }  
                 $.ajax({
-                          type: 'GET',
+                          type: "GET",
                           url: app.schoolApi,
                           async: false,
                           data: ajaxData

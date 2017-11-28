@@ -53,11 +53,11 @@ var validationsCourse = (function() {
                     if (courseName == courses.courseHandled.details.course_name &&
                         courseDescription === courses.courseHandled.details.course_description &&
                         courseImage == "" && !course_img_delete_checked) { 
-                            formValidated.validator.settings.messages.duplicate_course = 'No change in data - No update';
+                            formValidated.validator.settings.messages.duplicate_course = "No change in data - No update";
                             return false; 
                     }
                     else {
-                        formValidated.validator.settings.messages.duplicate_course = 'Course with same name already exists';
+                        formValidated.validator.settings.messages.duplicate_course = "Course with same name already exists";
                     }
 
                     //check course name has been changed - if NOT prevent running duplicate_course test ==> it always going to exist
@@ -67,7 +67,7 @@ var validationsCourse = (function() {
                 }
 
               var ajaxData = {
-                  ctrl: 'course',
+                  ctrl: "course",
                   course_name: courseName
               }; 
       
@@ -76,7 +76,7 @@ var validationsCourse = (function() {
               }  
               
               $.ajax({
-                        type: 'GET',
+                        type: "GET",
                         url: app.schoolApi,
                         async: false,
                         data: ajaxData

@@ -28,7 +28,7 @@ var login_logout = (function() {
 
     function Logout(){
         handle_login_status("no"); //set page / navigation bar to logged out state
-        var ajaxData = { ctrl: 'login' };
+        var ajaxData = { ctrl: "login" };
         server_request.sendServerRequest("Delete", ajaxData, afterLogout);//remove login session object on server 
         return false;
     }
@@ -75,7 +75,7 @@ var login_logout = (function() {
                                                 serverData.role_name, 
                                                 serverData.admin_phone,
                                                 serverData.admin_email);
-            sessionStorage.setItem('administrator', JSON.stringify(admin));   
+            sessionStorage.setItem("administrator", JSON.stringify(admin));   
             setNavigationBar_LoggedIn(admin); 
         }
     }
@@ -108,7 +108,7 @@ var login_logout = (function() {
     }
 
     function getLoginStatus(){
-        var ajaxData = { ctrl: 'login' };
+        var ajaxData = { ctrl: "login" };
         server_request.sendServerRequest("Select", ajaxData, handle_login_status); 
     }
 

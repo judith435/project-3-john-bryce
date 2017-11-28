@@ -77,7 +77,7 @@ var courses = (function() {
     }
 
     function showCourses(){
-        var ajaxData = { ctrl: 'course' };
+        var ajaxData = { ctrl: "course" };
         courses_retrieved.status = false;
         server_request.sendServerRequest("Select", ajaxData, buildCourseTable); 
         return false;
@@ -117,7 +117,7 @@ var courses = (function() {
             var ajaxData = $("#frmCUD").serialize();
 
             if(this.id == "btnDelete"){ // don't perform validations in case of delete
-                var confirmation = confirm('Are you sure you want to delete course number ' + courseHandled.details.course_id + "?");
+                var confirmation = confirm("Are you sure you want to delete course number " + courseHandled.details.course_id + "?");
                 if (confirmation == true) {
                     verb = "Delete";
                     server_request.sendServerRequest(verb, ajaxData, afterSave);  
