@@ -63,7 +63,7 @@ var login_logout = (function() {
             alert("error in login - please contact support center ");
             return;
         }
-        if (serverData == "no administrator with this email and password found") {
+        if (serverData === "no administrator with this email and password found") {
             alert(serverData);
         }
         else { 

@@ -32,7 +32,7 @@ var server_request = (function() {
         } 
 
         var ajaxData = "";
-        if (verb == "POST"){
+        if (verb === "POST"){
             ajaxData = new FormData();    
             //because of  image upload new FormData() must be used to send data to server and thus it can no longer be sent simply as $("form").serialize() 
             //the  individual input fields must be appeded to FormData() as key value pairs => statement below creates object from $("form").serialize() containing
@@ -70,8 +70,8 @@ var server_request = (function() {
             type: verb,
             url: app.schoolApi,
             data: ajaxData,
-            contentType: verb == "POST" ? false : undefined,
-            processData: verb == "POST" ? false : undefined 
+            contentType: verb === "POST" ? false : undefined,
+            processData: verb === "POST" ? false : undefined 
         })
         .done(function(data)
         {
@@ -83,12 +83,12 @@ var server_request = (function() {
             var serverResponse = JSON.parse(data);
 
             //user no longer logged in on server (session no longer exists - make user login again) DON'T call callback method
-            if (serverResponse.status == "no longer logged in") { 
+            if (serverResponse.status === "no longer logged in") { 
                 login_logout.handle_login_status("no"); //no = user not logged in
                 return;
             }
             //security breach by administrator sales - DON'T call callback method
-            if (serverResponse.status == "administrator sales attempted forbidden action") { 
+            if (serverResponse.status === "administrator sales attempted forbidden action") { 
                 alert(serverResponse.status +  "  " + serverResponse.action);
                 return;
             }

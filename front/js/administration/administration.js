@@ -26,7 +26,7 @@ var administration = (function() {
                 $("#RoleDDL").append(new Option(roles[i].role_name, roles[i].role_id));
         }
 
-        if (action.chosen == "Update"){
+        if (action.chosen === "Update"){
             $("#RoleDDL").val(adminHandled.details.role_id);
 
             //manager/owner may not change his own role
@@ -111,7 +111,7 @@ var administration = (function() {
             }
             initValidations();
             btnSaveHandler();
-            if(action.chosen == "Update"){
+            if(action.chosen === "Update"){
                 //place details of administrator being updated in input fields
                 $("#cud-admin-title").html( "Update Administrator Number: " + adminHandled.details.admin_id);
                 $("#adminID").val(adminHandled.details.admin_id);//set admin_id in hidden field for update/delete
@@ -151,7 +151,7 @@ var administration = (function() {
     }
 
     function buildAdminTable(serverData){
-        if (serverData.status == "error") {
+        if (serverData.status === "error") {
             alert("Error occured: " + serverData.message);
             return;
         }

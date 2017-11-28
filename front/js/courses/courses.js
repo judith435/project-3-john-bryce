@@ -36,7 +36,7 @@ var courses = (function() {
     }
 
     function buildCourseTable(serverData){
-        if (serverData.status == "error") {
+        if (serverData.status === "error") {
             alert("Error occured: " + serverData.message);
             return;
         }
@@ -204,7 +204,7 @@ var courses = (function() {
             }
             var sessionAdmin = sessionStorage.getItem("administrator");
             var admin = JSON.parse(sessionAdmin);
-            if (admin.role_name == "sales") { //administrator type sales is not entitled to update course => hide edit button 
+            if (admin.role_name === "sales") { //administrator type sales is not entitled to update course => hide edit button 
                 $("#btnEdit").hide();
             }
             display_course_image();

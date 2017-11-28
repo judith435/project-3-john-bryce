@@ -37,7 +37,7 @@ var students = (function() {
     }        
     
     function buildStudentTable(serverData){
-        if (serverData.status == "error") {
+        if (serverData.status === "error") {
             alert("Error occured: " + serverData.message);
             return;
         }

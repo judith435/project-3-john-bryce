@@ -51,7 +51,7 @@ var validationsStudent = (function() {
                 }
               
             //update student: no change made to data retrieved from db return relevant message to user
-            if (students.student_action.chosen == "Update") {
+            if (students.student_action.chosen === "Update") {
                 if (app.debugMode){
                     console.log("student_already_exists(): " + students.studentHandled.details.student_name + "  " + students.studentHandled.details.student_phone + "  " + students.studentHandled.details.student_email + "  ");
                 }

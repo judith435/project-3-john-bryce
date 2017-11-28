@@ -17,7 +17,7 @@
             $this->role_id = $role_id;
         }
 
-        public function setRoleName($role_name, &$errorInInput){
+        public function setRoleName($role_name){
             $this->role_name = $role_name;
         }
 

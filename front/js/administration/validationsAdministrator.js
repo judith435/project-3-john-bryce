@@ -59,7 +59,7 @@ var validationsAdministrator = (function() {
                     return true; //if admin name or phone  missing no point in checking
                 }
                 //update administrator : no change made to data retrieved from db return relevant message to user
-                if (administration.action.chosen == "Update") {
+                if (administration.action.chosen === "Update") {
                     if (app.debugMode){
                         console.log("admin_already_exists() adminName from update: " + administration.adminHandled.admin_name);
                     }

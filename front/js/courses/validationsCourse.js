@@ -42,7 +42,7 @@ var validationsCourse = (function() {
                 }
                 
                 //update course: no change made to data retrieved from db return relevant message to user
-                if (courses.course_action.chosen == "Update") {
+                if (courses.course_action.chosen === "Update") {
                     if (app.debugMode){
                         console.log("course_already_exists() courseName from update: " + courses.courseHandled.details.course_name);
                     }
