@@ -110,6 +110,31 @@ var courses = (function() {
         }
     }
 
+    function btnSaveHandler(action) {
+        
+        $(".btnSave").off().click(function() {
+            var verb;
+            var ajaxData = $("#frmCUD").serialize();
+
+            if(this.id == "btnDelete"){ // don't perform validations in case of delete
+                var confirmation = confirm('Are you sure you want to delete course number ' + courseHandled.details.course_id + "?");
+                if (confirmation == true) {
+                    verb = "Delete";
+                    server_request.sendServerRequest(verb, ajaxData, afterSave);  
+                    return false;
+                }
+            }   
+            else {
+                course_action.chosen = action;
+                verb =  action == "Add" ? "Add" : "Update"; 
+                if (validationsCourse.formValidated.contents.valid()){
+                    server_request.sendServerRequest(verb, ajaxData, afterSave, "courseImage", "course_image");  
+                    return false;
+                }
+            }
+        });
+    }  
+
     function loadCourseCUD(action) {
         $.ajax("templates/school/courses/cud-course.html").done(function(data) {
             $("#cud-course-title").empty();
@@ -144,31 +169,6 @@ var courses = (function() {
             });
         });
     }
-
-    function btnSaveHandler(action) {
-        
-        $(".btnSave").off().click(function() {
-            var verb;
-            var ajaxData = $("#frmCUD").serialize();
-
-            if(this.id == "btnDelete"){ // don't perform validations in case of delete
-                var confirmation = confirm('Are you sure you want to delete course number ' + courseHandled.details.course_id + "?");
-                if (confirmation == true) {
-                    verb = "Delete";
-                    server_request.sendServerRequest(verb, ajaxData, afterSave);  
-                    return false;
-                }
-            }   
-            else {
-                course_action.chosen = action;
-                verb =  action == "Add" ? "Add" : "Update"; 
-                if (validationsCourse.formValidated.contents.valid()){
-                    server_request.sendServerRequest(verb, ajaxData, afterSave, "courseImage", "course_image");  
-                    return false;
-                }
-            }
-        });
-    }  
 
     function loadCourseView() {
         

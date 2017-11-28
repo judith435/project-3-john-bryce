@@ -53,7 +53,7 @@
             else {
                 //if new course send new course id returned from mysql if update send course_id of updated course to handle_course_image function any errors 
                 //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
-                $ih->save_uploaded_image($method, $method == "Create" ? $new_courseID :  $params["course_id"], "course", $ImageUploadError);
+                $ih->save_uploaded_image($method == "Create" ? $new_courseID :  $params["course_id"], "course", $ImageUploadError);
             }
             return $new_courseID;
         }

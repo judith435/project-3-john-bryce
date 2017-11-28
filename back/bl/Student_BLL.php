@@ -73,7 +73,6 @@
 
             if ( $applicationError != "" ){ //insert or update student failed
                 //write entry to error log on server with parameters used to call sp insert_student/update_student so error in mysql can be recreated 
-                $sp_parms = array_map(function ($parm) { return $parm->getID() . "  " . $parm->getValue() . "  " . $parm->getType(); }, $spParms);
                 ErrorHandling::LogApplicationError("error in sp " . $spName . " sp parameter used: " . 
                     implode(";  ", array_map(function ($parm) { return $parm->getID() . "  " . $parm->getValue() . "  " . $parm->getType(); }, $spParms))); 
             }

@@ -24,7 +24,14 @@ var login_logout = (function() {
         if (serverData.status == 'error') { 
             alert("error in logout - please contact support center ");
         }
-    }    
+    }   
+
+    function Logout(){
+        handle_login_status("no"); //set page / navigation bar to logged out state
+        var ajaxData = { ctrl: 'login' };
+        server_request.sendServerRequest("Delete", ajaxData, afterLogout);//remove login session object on server 
+        return false;
+    }
 
     function setNavigationBar_LoggedIn(admin) {
         $("#admr-summary").html(admin.admin_name + ", " +  admin.role_name);
@@ -98,13 +105,6 @@ var login_logout = (function() {
             var admin = JSON.parse(data);
             setNavigationBar_LoggedIn(admin);
         }
-    }
-
-    function Logout(){
-        handle_login_status("no"); //set page / navigation bar to logged out state
-        var ajaxData = { ctrl: 'login' };
-        server_request.sendServerRequest("Delete", ajaxData, afterLogout);//remove login session object on server 
-        return false;
     }
 
     function getLoginStatus(){

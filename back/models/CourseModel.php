@@ -16,7 +16,7 @@
                 (array_key_exists("course_id", $params) ? $params["course_id"] : 0); 
             $this->setCourseName($params["course_name"], $errorInInput);
             $this->setCourseDescription
-                (array_key_exists("course_description", $params) ? $params["course_description"] : ""); 
+                (array_key_exists("course_description", $params) ? $params["course_description"] : "", $errorInInput); 
             //always assigng empty string -> this property is used for course retrival NOT course update     
             $this->setStudentsNumberForCourse
                (array_key_exists("number_of_students_for_course", $params) ? $params["number_of_students_for_course"] : "");    
@@ -35,7 +35,7 @@
             $this->course_name = rawurldecode($crs_name);
         }
 
-        public function setCourseDescription($crs_description){
+        public function setCourseDescription($crs_description, &$errorInInput){
             if (!Validations::nameOK($crs_description)){
                 $errorInInput .= " Course Description must contain at least one letter\n";
             }

@@ -10,15 +10,10 @@
             $resultSet = $role_bll->get_roles();
 
             $allRoles = array();
-            //$errorInInput will contain any problems found in data retrieved from db () creating RoleModel
-            //object automatically validates the data - at this stage no further processing occurs with any faulty
-            //db data
-            $errorInInput = ""; 
-
             while ($row = $resultSet->fetch())
             {                           
                 array_push($allRoles, new RoleModel(["role_id" => $row['role_id'], 
-                                                     "role_name" => $row['role_name']], $errorInInput));
+                                                     "role_name" => $row['role_name']]));
             }
             return $allRoles;
         }

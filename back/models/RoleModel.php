@@ -7,10 +7,10 @@
         private $role_id;
         private $role_name;
 
-        function __construct($params, &$errorInInput) {
+        function __construct($params) {
             $this->setRoleID
              (array_key_exists("role_id", $params) ? $params["role_id"] : 0); 
-            $this->setRoleName($params["role_name"], $errorInInput);
+            $this->setRoleName($params["role_name"]);
         }
 
         public function setRoleID($role_id){

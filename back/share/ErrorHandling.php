@@ -11,7 +11,7 @@
 
         //log any php/mysql error(that mysql throws back to php) that may occur during runtime
         private static function Log_PHP_Error($Error) {
-            $ErrorFile = fopen("../ErrorLog.txt", "a") or die("Unable to open file!");
+            $ErrorFile = fopen("../ErrorLog.txt", "a");
             $txt = "******************************************************************************************************************************" .PHP_EOL;
             fwrite($ErrorFile, $txt);
             $txt = "Error occured at " . date('Y-m-d H:i:s') .PHP_EOL;
@@ -43,7 +43,7 @@
         //log any application error that may occur during runtime: application errors may be image upload errors or mysql insert/update student errors 
         public  static function LogApplicationError($Error) {
             
-            $ErrorFile = fopen("../ErrorLog.txt", "a") or die("Unable to open file!");
+            $ErrorFile = fopen("../ErrorLog.txt", "a");
             $txt = "******************************************************************************************************************************" .PHP_EOL;
             fwrite($ErrorFile, $txt);
             $txt = "Error occured at " . date('Y-m-d H:i:s') .PHP_EOL;

@@ -52,7 +52,7 @@
             else {
                 //if new student send new student id returned from mysql if update send student_id of updated student to handle_student_image function any errors 
                 //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
-                $ih->save_uploaded_image($method, $method == "Create" ? $new_studentID :  $params["student_id"], "student", $ImageUploadError);
+                $ih->save_uploaded_image($method == "Create" ? $new_studentID :  $params["student_id"], "student", $ImageUploadError);
             }
             return $new_studentID;
         }

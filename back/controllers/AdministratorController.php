@@ -58,7 +58,7 @@
             else {
                 //if new admin send new admin id returned from mysql if update send admin_id of updated admin ; errors
                 //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
-                $ih->save_uploaded_image($method, $method == "Create" ? $new_adminID :  $params["admin_id"], "admin", $ImageUploadError);
+                $ih->save_uploaded_image($method == "Create" ? $new_adminID :  $params["admin_id"], "admin", $ImageUploadError);
             }
             return $new_adminID;
         }

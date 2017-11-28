@@ -7,7 +7,7 @@
 
     class ImageHandling { 
 
-        public function save_uploaded_image($method, $ID, $entity, &$ImageUploadError) {   
+        public function save_uploaded_image($ID, $entity, &$ImageUploadError) {   
 
             $imageName =  $entity . "_image";
 
