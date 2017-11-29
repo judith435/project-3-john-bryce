@@ -46,14 +46,14 @@ var administration = (function() {
     
     function initValidations() {//used for jquery validation plugin
         validationsAdministratorModule.initValidator();
-        var validation_messages = validationsAdministratorModule.formValidated.validator.settings.messages;
-        validation_messages.admin_name = "Administrator name required";
-        validation_messages.admin_phone = "Valid phone required";
-        validation_messages.admin_email = "Valid email required";
-        validation_messages.admin_password = "Password required";
-        validation_messages.role_id = "Please select role";
-        validation_messages.admin_image = "Valid extensions: jpg, jpeg, png or gif";
-        validation_messages.duplicate_admin = "Administrator with same name and email already exists";
+        var validationMessages = validationsAdministratorModule.formValidated.validator.settings.messages;
+        validationMessages.admin_name = "Administrator name required";
+        validationMessages.admin_phone = "Valid phone required";
+        validationMessages.admin_email = "Valid email required";
+        validationMessages.admin_password = "Password required";
+        validationMessages.role_id = "Please select role";
+        validationMessages.admin_image = "Valid extensions: jpg, jpeg, png or gif";
+        validationMessages.duplicate_admin = "Administrator with same name and email already exists";
     }  
 
     function buildAdminTable(serverData){
@@ -95,7 +95,7 @@ var administration = (function() {
 
                 $("#administrators").append(template);
             }
-            commonModule.loadCanvasList($("#administrators canvas"), app.adminImagePath, "admin_aside");
+            commonModule.loadCanvasList($("#administrators canvas"), app.adminImagePath, "adminAside");
         });
     }
 
@@ -191,8 +191,8 @@ var administration = (function() {
                 //set role_id in hidden field for update - used on server to check if manager is trying to change his own role
                 $("#roleID").val(adminHandled.details.role_id);
 
-                var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
-                var imgPath = app.adminImagePath + adminHandled.details.admin_id + ".jpg?" + dt_force_reload.getTime();
+                var dtForceReload = new Date();//way to force browser to reload picture after update of picture
+                var imgPath = app.adminImagePath + adminHandled.details.admin_id + ".jpg?" + dtForceReload.getTime();
                 commonModule.setCanvas($("#canvasAdmin")[0], imgPath, "regular");
 
                 if(adminLoggedIn.admin_id == adminHandled.details.admin_id) { //administrator cannot delete himself

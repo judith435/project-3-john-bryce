@@ -37,15 +37,15 @@ var server_request = (function() {
             //because of  image upload new FormData() must be used to send data to server and thus it can no longer be sent simply as $("form").serialize() 
             //the  individual input fields must be appeded to FormData() as key value pairs => statement below creates object from $("form").serialize() containing
             //key value pairs of input data  
-            var input_data_pairs = 
+            var inputDataPairs = 
             JSON.parse('{"' + decodeURI(input_data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}');
             
-            for (var key in input_data_pairs) {
-                if (input_data_pairs.hasOwnProperty(key)) {
+            for (var key in inputDataPairs) {
+                if (inputDataPairs.hasOwnProperty(key)) {
                     if (app.debugMode) {
-                        console.log("sendServerRequest parms from form data serialize  key: " + key + " -> value: " + input_data_pairs[key]);
+                        console.log("sendServerRequest parms from form data serialize  key: " + key + " -> value: " + inputDataPairs[key]);
                     }
-                    ajaxData.append(key, input_data_pairs[key]);
+                    ajaxData.append(key, inputDataPairs[key]);
                 }
             }
 
@@ -86,7 +86,7 @@ var server_request = (function() {
 
             //user no longer logged in on server (session no longer exists - make user login again) DON'T call callback method
             if (serverResponse.status === "no longer logged in") { 
-                login_logout.handle_login_status("no"); //no = user not logged in
+                login_logout.handleLoginStatus("no"); //no = user not logged in
                 return;
             }
             //security breach by administrator sales - DON'T call callback method

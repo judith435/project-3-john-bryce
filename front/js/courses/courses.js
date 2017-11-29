@@ -2,28 +2,28 @@
 
 var courses = (function() {
 
-    var course_action = {}; //data used by validationsCourse.js ->  need to know if update or insert
+    var courseAction = {}; //data used by validationsCourse.js ->  need to know if update or insert
     var courseHandled = {}; //course data also used by validationsCourse.js 
     var courseArray = [];
-    var courses_retrieved = {}; //flag used by student.js which needs to know if all courses have been retrieved
+    var coursesRetrieved = {}; //flag used by student.js which needs to know if all courses have been retrieved
     var serverRequestModule  = server_request;//refernce server_request.js file and all its exposed function sendServerRequest
     var commonModule  = common;//refernce common.js file and all its exposed functions
     var validationsCourseModule  = validationsCourse;//refernce validationsCourse.js file and all its exposed functions
     var LoginLogoutModule  = login_logout;//refernce validationsCourse.js file and all its exposed functions
     
     function display_course_image(){
-        var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
-        var imgPath = app.courseImagePath + courseHandled.details.course_id + ".jpg?" + dt_force_reload.getTime();
+        var dtForceReload = new Date();//way to force browser to reload picture after update of picture
+        var imgPath = app.courseImagePath + courseHandled.details.course_id + ".jpg?" + dtForceReload.getTime();
         commonModule.setCanvas($("#canvasCourse")[0], imgPath, "regular");
     }
 
     function initValidations() {
         validationsCourseModule.initValidator();
-        var validation_messages = validationsCourseModule.formValidated.validator.settings.messages;
-        validation_messages.course_name = "Course name required";
-        validation_messages.course_description = "Course description required";
-        validation_messages.course_image = "Valid extensions: jpg, jpeg, png or gif";
-        validation_messages.duplicate_course = "Course with same name already exists";
+        var validationMessages = validationsCourseModule.formValidated.validator.settings.messages;
+        validationMessages.course_name = "Course name required";
+        validationMessages.course_description = "Course description required";
+        validationMessages.course_image = "Valid extensions: jpg, jpeg, png or gif";
+        validationMessages.duplicate_course = "Course with same name already exists";
     }        
           
     function displayAfterSave(server_response, action){
@@ -56,7 +56,7 @@ var courses = (function() {
                                         ));
         } 
 
-        courses_retrieved.status = true;
+        coursesRetrieved.status = true;
 
         $.ajax("templates/school/courses/course-row.html").done(function(data) {
             $("#courses").html("");
@@ -76,13 +76,13 @@ var courses = (function() {
                 template = template.replace("{{student-ids}}", courseArray[i].student_ids);
                 $("#courses").append(template);
             }
-            commonModule.loadCanvasList($("#courses canvas"), app.courseImagePath, "school_aside");
+            commonModule.loadCanvasList($("#courses canvas"), app.courseImagePath, "schoolAside");
         });
     }
 
     function showCourses(){
         var ajaxData = { ctrl: "course" };
-        courses_retrieved.status = false;
+        coursesRetrieved.status = false;
         serverRequestModule.sendServerRequest("Select", ajaxData, buildCourseTable); 
         return false;
     }
@@ -107,7 +107,7 @@ var courses = (function() {
         //displayAfterSave must only run after both course and student has been retrieved 
         var get_course_student_data = setInterval(test_completion, 500);
         function test_completion() {
-            if (courses.courses_retrieved.status && students.students_retrieved.status) {
+            if (courses.coursesRetrieved.status && students.students_retrieved.status) {
                 displayAfterSave(serverResponse, action);
                 clearInterval(get_course_student_data);
             }
@@ -129,7 +129,7 @@ var courses = (function() {
                 }
             }   
             else {
-                course_action.chosen = action;
+                courseAction.chosen = action;
                 verb =  action === "Add" ? "Add" : "Update"; 
                 if (validationsCourseModule.formValidated.contents.valid()){
                     serverRequestModule.sendServerRequest(verb, ajaxData, afterSave, "courseImage", "course_image");  
@@ -236,9 +236,9 @@ var courses = (function() {
         showCourses: showCourses, //function: used by school.js/students.js
         courseSelected: courseSelected, //fucntion: used by school.js
         courseArray : courseArray, //data: used by students.js to build course checkboxlist
-        courses_retrieved: courses_retrieved, //data: flag used to signal to student.js that building courseArray has completed after student update 
+        coursesRetrieved: coursesRetrieved, //data: flag used to signal to student.js that building courseArray has completed after student update 
         courseHandled : courseHandled, //data: course data used by validationsCourse.js 
-        course_action: course_action //data: data used by validationsCourse.js ->  need to know if update or insert
+        courseAction: courseAction //data: data used by validationsCourse.js ->  need to know if update or insert
     };
 
 })();

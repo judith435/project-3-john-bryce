@@ -6,27 +6,27 @@
 //     function afterLogout(serverData) {    }   
 
 //     function Logout(){
-//         handle_login_status("no"); //set page / navigation bar to logged out state
+//         handleLoginStatus("no"); //set page / navigation bar to logged out state
 //         serverRequestModule.sendServerRequest("Delete", ajaxData, afterLogout);//remove login session object on server 
 //     }
 
-//     function setNavigationBar_LoggedIn(admin) {
+//     function setNavigationBarLoggedIn(admin) {
 //             Logout();
 //     }
 
 //     function afterLogin(serverData) {
-//             setNavigationBar_LoggedIn(admin); 
+//             setNavigationBarLoggedIn(admin); 
 //     }
 
-//     function handle_login_status(user_login_status) {
+//     function handleLoginStatus(user_login_status) {
                 
 //         setNavigationBar_LoggedOut();
 //         initValidations();
-//         setNavigationBar_LoggedIn(admin);
+//         setNavigationBarLoggedIn(admin);
 //     }
 
 //     function getLoginStatus(){
-//         server_request.sendServerRequest("Select", ajaxData, handle_login_status); 
+//         server_request.sendServerRequest("Select", ajaxData, handleLoginStatus); 
 //     }
 
 //     function login(){

@@ -11,8 +11,8 @@ var students = (function() {
     var validationsStudentModule  = validationsStudent;//refernce validationsStudent.js file and all its exposed functions
 
     function display_student_image(){
-        var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
-        var imgPath = app.studentImagePath + studentHandled.details.student_id + ".jpg?" + dt_force_reload.getTime();
+        var dtForceReload = new Date();//way to force browser to reload picture after update of picture
+        var imgPath = app.studentImagePath + studentHandled.details.student_id + ".jpg?" + dtForceReload.getTime();
         commonModule.setCanvas($("#canvasStudent")[0], imgPath, "regular");
     }
 
@@ -31,12 +31,12 @@ var students = (function() {
 
     function initValidations() {
         validationsStudentModule.initValidator();
-        var validation_messages = validationsStudentModule.formValidated.validator.settings.messages;
-        validation_messages.student_name = "Student name required";
-        validation_messages.student_phone = "Valid phone required";
-        validation_messages.student_email = "Valid email required";
-        validation_messages.student_image = "Valid extensions: jpg, jpeg, png or gif";
-        validation_messages.duplicate_student = "Student with same name, phone & email already exists";
+        var validationMessages = validationsStudentModule.formValidated.validator.settings.messages;
+        validationMessages.student_name = "Student name required";
+        validationMessages.student_phone = "Valid phone required";
+        validationMessages.student_email = "Valid email required";
+        validationMessages.student_image = "Valid extensions: jpg, jpeg, png or gif";
+        validationMessages.duplicate_student = "Student with same name, phone & email already exists";
     }        
     
     function buildStudentTable(serverData){
@@ -74,7 +74,7 @@ var students = (function() {
                 template = template.replace("{{student-courses}}", studentArray[i].student_courses);
                 $("#students").append(template);
             }
-            commonModule.loadCanvasList($("#students canvas"), app.studentImagePath, "school_aside");
+            commonModule.loadCanvasList($("#students canvas"), app.studentImagePath, "schoolAside");
         });
     }    
 
@@ -217,7 +217,7 @@ var students = (function() {
 
         var get_course_student_data = setInterval(test_completion, 500);
         function test_completion() {
-            if (courses.courses_retrieved.status && students.students_retrieved.status) {
+            if (courses.coursesRetrieved.status && students.students_retrieved.status) {
                 displayAfterSave(serverResponse, action);
                 clearInterval(get_course_student_data);
             }

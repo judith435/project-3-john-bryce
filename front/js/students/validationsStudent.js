@@ -62,15 +62,15 @@ var validationsStudent = (function() {
                 var student_img_delete_checked = ($("#deleteImage").is(":checked"));
 
                 //build array of all courses selected in checkbox list which is then converted to string to compare it to courses selected in studentHandled before update 
-                var selected_in_panel   = [];
+                var selectedInPanel   = [];
                 $("#cblistCourses input:checked").each(function() {
-                    selected_in_panel.push($(this).attr("name"));
+                    selectedInPanel.push($(this).attr("name"));
                 });
 
                 if (studentName === studentsModule.studentHandled.details.student_name &&
                     studentPhone === studentsModule.studentHandled.details.student_phone &&
                     studentEmail === studentsModule.studentHandled.details.student_email &&
-                    selected_in_panel + "" == studentsModule.studentHandled.details.student_courses &&
+                    selectedInPanel + "" == studentsModule.studentHandled.details.student_courses &&
                     studentImage == "" && !student_img_delete_checked) { 
                          formValidated.validator.settings.messages.duplicate_student = "No change in data - No update";
                          return false; 
@@ -109,7 +109,7 @@ var validationsStudent = (function() {
                             var serverResponse = JSON.parse(data);
                             //user no longer logged in on server (session no longer exists - make user login again) DON'T call callback method
                             if (serverResponse.status === "no longer logged in") { 
-                                login_logout.handle_login_status("no"); //no = user not logged in
+                                login_logout.handleLoginStatus("no"); //no = user not logged in
                                 return;
                             }
                             //-1 means student with same student name, phone $ email was not found

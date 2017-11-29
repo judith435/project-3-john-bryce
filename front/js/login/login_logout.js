@@ -5,9 +5,9 @@ var login_logout = (function() {
     
     function initValidations() {
         validationsLogin.initValidator();
-        var validation_messages = validationsLogin.formValidated.validator.settings.messages;
-        validation_messages.user_email = "User name required";
-        validation_messages.user_password = "User password required";
+        var validationMessages = validationsLogin.formValidated.validator.settings.messages;
+        validationMessages.user_email = "User name required";
+        validationMessages.user_password = "User password required";
     }        
 
     function setNavigationBar_LoggedOut() {
@@ -29,13 +29,13 @@ var login_logout = (function() {
     }   
 
     function Logout(){
-        handle_login_status("no"); //set page / navigation bar to logged out state
+        handleLoginStatus("no"); //set page / navigation bar to logged out state
         var ajaxData = { ctrl: "login" };
         serverRequestModule.sendServerRequest("Delete", ajaxData, afterLogout);//remove login session object on server 
         return false;
     }
 
-    function setNavigationBar_LoggedIn(admin) {
+    function setNavigationBarLoggedIn(admin) {
         $("#admr-summary").html(admin.admin_name + ", " +  admin.role_name);
         $("#login").hide();
         $("#logout-link").removeClass("hide");
@@ -48,8 +48,8 @@ var login_logout = (function() {
             });
         }    
         $("#admr-image").removeClass("hide");
-        var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
-        $("#admr-image").attr("src", app.adminImagePath + admin.admin_id + ".jpg?" + dt_force_reload.getTime());
+        var dtForceReload = new Date();//way to force browser to reload picture after update of picture
+        $("#admr-image").attr("src", app.adminImagePath + admin.admin_id + ".jpg?" + dtForceReload.getTime());
         $( "#school-link" ).off().click(function(event) {
             event.preventDefault();
             school.loadSchoolAside();
@@ -78,11 +78,11 @@ var login_logout = (function() {
                                                 serverData.admin_phone,
                                                 serverData.admin_email);
             sessionStorage.setItem("administrator", JSON.stringify(admin));   
-            setNavigationBar_LoggedIn(admin); 
+            setNavigationBarLoggedIn(admin); 
         }
     }
 
-    function handle_login_status(user_login_status) {
+    function handleLoginStatus(user_login_status) {
         //userLoggedIn = session object on server / sessionStorage.getItem("administrator") on client
         if (user_login_status === "no" || //response from server was that user no longer logged-in
             sessionStorage.getItem("administrator") === null) {  
@@ -105,13 +105,13 @@ var login_logout = (function() {
         else { // user logged in set navigation-bar - occurs if user reloads page
             var data = sessionStorage.getItem("administrator");
             var admin = JSON.parse(data);
-            setNavigationBar_LoggedIn(admin);
+            setNavigationBarLoggedIn(admin);
         }
     }
 
     function getLoginStatus(){
         var ajaxData = { ctrl: "login" };
-        server_request.sendServerRequest("Select", ajaxData, handle_login_status); 
+        server_request.sendServerRequest("Select", ajaxData, handleLoginStatus); 
     }
 
     function login(){
@@ -119,7 +119,7 @@ var login_logout = (function() {
     }
 
     return {
-        handle_login_status : handle_login_status,
+        handleLoginStatus : handleLoginStatus,
         login: login
     };
 
