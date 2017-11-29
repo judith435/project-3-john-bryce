@@ -56,6 +56,74 @@ var administration = (function() {
         validation_messages.duplicate_admin = "Administrator with same name and email already exists";
     }  
 
+    function buildAdminTable(serverData){
+        if (serverData.status === "error") {
+            alert("Error occured: " + serverData.message);
+            return;
+        }
+        //build array of administrator objects with data returned from server
+        var ao = new AdministratorObject();
+        var administratorsArray = [];
+        for (let i = 0; i < serverData.length; i++) {
+            administratorsArray.push(new ao.Administrator(serverData[i].admin_id, 
+                                                          serverData[i].admin_name,
+                                                          serverData[i].role_id, 
+                                                          serverData[i].role_name, 
+                                                          serverData[i].admin_phone,
+                                                          serverData[i].admin_email
+                                        ));
+        }     
+        
+        $.ajax("templates/administration/admin-row.html").done(function(data) {
+            $("#administrators").html("");
+            $("#totalAdministrators").html("Total number of Administrators: " + administratorsArray.length);
+            for(let i=0; i < administratorsArray.length; i++) {
+                let template = data;
+                //admin data displayed in admin aside
+                template = template.replace("{{admin_id}}", administratorsArray[i].admin_id);
+                template = template.replace("{{admin_name}}", administratorsArray[i].admin_name);
+                template = template.replace("{{role_name}}", administratorsArray[i].role_name);
+                template = template.replace("{{admin_phone}}", administratorsArray[i].admin_phone);
+                template = template.replace("{{admin_email}}", administratorsArray[i].admin_email);
+                //admin data used to create admin object
+                template = template.replace("{{admin-id}}", administratorsArray[i].admin_id);
+                template = template.replace("{{admin-name}}", administratorsArray[i].admin_name);
+                template = template.replace("{{role-id}}", administratorsArray[i].role_id);
+                template = template.replace("{{role-name}}", administratorsArray[i].role_name);
+                template = template.replace("{{admin-phone}}", administratorsArray[i].admin_phone);
+                template = template.replace("{{admin-email}}", administratorsArray[i].admin_email);
+
+                $("#administrators").append(template);
+            }
+            commonModule.loadCanvasList($("#administrators canvas"), app.adminImagePath, "admin_aside");
+        });
+    }
+
+    function showAdministrators(){
+        var ajaxData = { ctrl: "administrator" };
+        serverRequestModule.sendServerRequest("Select", ajaxData, buildAdminTable); 
+        return false;
+    }
+
+    function loadAdminMain() { 
+        $.ajax("templates/administration/admin-summary.html").done(function(data) {
+            $("#main-container").empty();
+            $("#main-container").prepend(data);
+            showAdministrators();
+        });
+    }
+
+    function afterSave(serverResponse) {
+        if (serverResponse.status === "error") {
+            alert("Following error(s) occured in " + serverResponse.action + ":\n" + serverResponse.message);
+            return;
+        }
+        if (serverResponse.message.search("following errors") != -1) { //display msg about failed image upload
+                alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
+        }
+        loadAdminMain();
+    }  
+
     function btnSaveHandler() {
         
         $(".btnSave").off().click(function() {
@@ -149,55 +217,6 @@ var administration = (function() {
         });
     }
 
-    function buildAdminTable(serverData){
-        if (serverData.status === "error") {
-            alert("Error occured: " + serverData.message);
-            return;
-        }
-        //build array of administrator objects with data returned from server
-        var ao = new AdministratorObject();
-        var administratorsArray = [];
-        for (let i = 0; i < serverData.length; i++) {
-            administratorsArray.push(new ao.Administrator(serverData[i].admin_id, 
-                                                          serverData[i].admin_name,
-                                                          serverData[i].role_id, 
-                                                          serverData[i].role_name, 
-                                                          serverData[i].admin_phone,
-                                                          serverData[i].admin_email
-                                        ));
-        }     
-        
-        $.ajax("templates/administration/admin-row.html").done(function(data) {
-            $("#administrators").html("");
-            $("#totalAdministrators").html("Total number of Administrators: " + administratorsArray.length);
-            for(let i=0; i < administratorsArray.length; i++) {
-                let template = data;
-                //admin data displayed in admin aside
-                template = template.replace("{{admin_id}}", administratorsArray[i].admin_id);
-                template = template.replace("{{admin_name}}", administratorsArray[i].admin_name);
-                template = template.replace("{{role_name}}", administratorsArray[i].role_name);
-                template = template.replace("{{admin_phone}}", administratorsArray[i].admin_phone);
-                template = template.replace("{{admin_email}}", administratorsArray[i].admin_email);
-                //admin data used to create admin object
-                template = template.replace("{{admin-id}}", administratorsArray[i].admin_id);
-                template = template.replace("{{admin-name}}", administratorsArray[i].admin_name);
-                template = template.replace("{{role-id}}", administratorsArray[i].role_id);
-                template = template.replace("{{role-name}}", administratorsArray[i].role_name);
-                template = template.replace("{{admin-phone}}", administratorsArray[i].admin_phone);
-                template = template.replace("{{admin-email}}", administratorsArray[i].admin_email);
-
-                $("#administrators").append(template);
-            }
-            commonModule.loadCanvasList($("#administrators canvas"), app.adminImagePath, "admin_aside");
-        });
-    }
-
-    function showAdministrators(){
-        var ajaxData = { ctrl: "administrator" };
-        serverRequestModule.sendServerRequest("Select", ajaxData, buildAdminTable); 
-        return false;
-    }
-        
     function adminSelected(row)
     {
         var adminID = row.find("#admin-id").text();
@@ -209,14 +228,6 @@ var administration = (function() {
         var ao = new AdministratorObject();
         adminHandled.details = new ao.Administrator(adminID, adminName, adminRoleID, adminRoleName, adminPhone, adminEmail);
         loadAdminCUD("Update"); 
-    }
-
-    function loadAdminMain() { 
-        $.ajax("templates/administration/admin-summary.html").done(function(data) {
-            $("#main-container").empty();
-            $("#main-container").prepend(data);
-            showAdministrators();
-        });
     }
 
     function loadAdminAside() {//called from login_logout.js => event when admin clicks link button
@@ -240,17 +251,6 @@ var administration = (function() {
             loadAdminMain();
         });
     }
-
-    function afterSave(serverResponse) {
-        if (serverResponse.status === "error") {
-            alert("Following error(s) occured in " + serverResponse.action + ":\n" + serverResponse.message);
-            return;
-        }
-        if (serverResponse.message.search("following errors") != -1) { //display msg about failed image upload
-                alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
-        }
-        loadAdminMain();
-    }  
 
     return {
         loadAdminAside: loadAdminAside, //function: used by login_logout.js
