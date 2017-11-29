@@ -17,11 +17,11 @@
             return  $loginCtrl->checkUserLoggedIn(); 
         }
 
-        function Create() {}
+        function Create($params) {}
 
-        function Update() {}
+        function Update($params) {}
 
-        function Delete() { //user clicked logout link
+        function Delete($params) { //user clicked logout link
 
             $loginCtrl = new LoginController;
             return  $loginCtrl->endLogin();
