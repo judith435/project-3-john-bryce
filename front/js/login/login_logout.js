@@ -1,6 +1,8 @@
 "use strict";
 var login_logout = (function() {
 
+    var serverRequestModule  = server_request;//refernce server_request.js file and all its exposed function sendServerRequest
+    
     function initValidations() {
         validationsLogin.initValidator();
         var validation_messages = validationsLogin.formValidated.validator.settings.messages;
@@ -29,7 +31,7 @@ var login_logout = (function() {
     function Logout(){
         handle_login_status("no"); //set page / navigation bar to logged out state
         var ajaxData = { ctrl: "login" };
-        server_request.sendServerRequest("Delete", ajaxData, afterLogout);//remove login session object on server 
+        serverRequestModule.sendServerRequest("Delete", ajaxData, afterLogout);//remove login session object on server 
         return false;
     }
 
@@ -67,7 +69,7 @@ var login_logout = (function() {
             alert(serverData);
         }
         else { 
-            var ao = AdministratorObject();
+            var ao = new AdministratorObject();
             var admin  = new ao.Administrator(
                                                 serverData.admin_id, 
                                                 serverData.admin_name,
@@ -94,7 +96,7 @@ var login_logout = (function() {
                 $("#btnLogin").off().click(function() {
                     if (validationsLogin.formValidated.contents.valid()){
                         var formContents = $("form").serialize();
-                        server_request.sendServerRequest("Select", formContents, afterLogin); 
+                        serverRequestModule.sendServerRequest("Select", formContents, afterLogin); 
                         return false;
                     }
                 });

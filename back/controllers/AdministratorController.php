@@ -45,20 +45,20 @@
             if ($method == "Create"){
                 $new_adminID =  $adminID['new_admin_id'];         
             }
-            else {
+            else { //update $new_adminID irrelevant set default value
                 $new_adminID = 0;
             }
 
             //save student image
-            $ih = new ImageHandling();
+            $imgHandling = new ImageHandling();
             //test if update with option to delete image (checkbox deleteImage) Delete Image on Server
             if ($method == "Update" && array_key_exists("delete_image", $params)) {
-                $ih->delete_image($params["admin_id"], "admin");
+                $imgHandling->delete_image($params["admin_id"], "admin");
             }
             else {
                 //if new admin send new admin id returned from mysql if update send admin_id of updated admin ; errors
                 //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
-                $ih->save_uploaded_image($method == "Create" ? $new_adminID :  $params["admin_id"], "admin", $ImageUploadError);
+                $imgHandling->save_uploaded_image($method == "Create" ? $new_adminID :  $params["admin_id"], "admin", $ImageUploadError);
             }
             return $new_adminID;
         }
@@ -77,8 +77,8 @@
             $admin_bll = new Administrator_BLL();
             $admin_bll->delete_admin($params);
             //delete admin image stored in images folder
-            $ih = new ImageHandling();
-            $ih->delete_image($params["admin_id"], "admin");
+            $imgHandling = new ImageHandling();
+            $imgHandling->delete_image($params["admin_id"], "admin");
         }
     }
 ?>

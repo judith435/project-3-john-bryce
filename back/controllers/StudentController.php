@@ -39,20 +39,20 @@
             if ($method == "Create"){
                 $new_studentID =  $studentID['new_student_id'];         
             }
-            else {
+            else { //update $new_studentID irrelevant set default value 
                 $new_studentID = 0;
             }
 
             //save student image
-            $ih = new ImageHandling();
+            $imgHandling = new ImageHandling();
             //test if update with option to delete image (checkbox deleteImage) Delete Image on Server
             if ($method == "Update" && array_key_exists("delete_image", $params)) {
-                $ih->delete_image($params["student_id"], "student");
+                $imgHandling->delete_image($params["student_id"], "student");
             }
             else {
                 //if new student send new student id returned from mysql if update send student_id of updated student to handle_student_image function any errors 
                 //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
-                $ih->save_uploaded_image($method == "Create" ? $new_studentID :  $params["student_id"], "student", $ImageUploadError);
+                $imgHandling->save_uploaded_image($method == "Create" ? $new_studentID :  $params["student_id"], "student", $ImageUploadError);
             }
             return $new_studentID;
         }
@@ -61,8 +61,8 @@
             $student_bll = new Student_BLL();
             $student_bll->delete_student($params);
             //delete student image stored in images folder
-            $ih = new ImageHandling();
-            $ih->delete_image($params["student_id"], "student");
+            $imgHandling = new ImageHandling();
+            $imgHandling->delete_image($params["student_id"], "student");
         }
         
         //used for js remote validation validationsStudent.js  method: student_already_exists
@@ -70,7 +70,7 @@
             $student_bll = new Student_BLL();
             $student_id = $student_bll->check_student_exists($params);
             if ($student_id == false){ //no student found with given student name
-                $student_id = ["id" => -1];
+                $student_id = ["status" => -1];
             }
             return $student_id;
         }

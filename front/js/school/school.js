@@ -2,12 +2,16 @@
 
 var school = (function() {
 
+    var coursesModule  = courses;//refernce courses.js file and all its exposed functions
+    var studentsModule  = students;//refernce students.js file and all its exposed functions
+    var LoginLogoutModule  = login_logout;//refernce validationsCourse.js file and all its exposed functions
+    
     function loadSchoolMain() { 
         $.ajax("templates/school/school-summary.html").done(function(data) {
             $("#main-container").empty();
             $("#main-container").prepend(data);
-            courses.showCourses();
-            students.showStudents();
+            coursesModule.showCourses();
+            studentsModule.showStudents();
         });
     }
 
@@ -19,15 +23,15 @@ var school = (function() {
             $("#side-container").addClass("bordered-right");
             
             $(document).off().on("click",".courses-flex #courses tr",function(e){
-                courses.courseSelected($(this));
+                coursesModule.courseSelected($(this));
             });
 
             $(document).on("click",".students-flex #students tr",function(e){
-                students.studentSelected($(this));
+                studentsModule.studentSelected($(this));
             })
 
             if (sessionStorage.getItem("administrator") === null) { //admin session object not found MUST immediately log in again 
-                login_logout.login();
+                LoginLogoutModule.login();
                 return;
             }
             var sessionAdmin = sessionStorage.getItem("administrator");
@@ -38,10 +42,10 @@ var school = (function() {
 
             $( ".add-button" ).off().click(function() {
                 if (this.id === "btnAddCourse"){
-                    courses.loadCourseCUD("Add");
+                    coursesModule.loadCourseCUD("Add");
                 }
                 else {  
-                    students.loadStudentCUD("Add");
+                    studentsModule.loadStudentCUD("Add");
                 }
             });
             loadSchoolMain();

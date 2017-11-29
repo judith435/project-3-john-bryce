@@ -5,8 +5,8 @@
     class RoleApi extends Api{
 
         function Read($params) { //used to fill role combo on administrator's CUD panel
-            $rc = new RoleController;
-            return  $rc->getRoles(); 
+            $roleCtrl = new RoleController;
+            return  $roleCtrl->getRoles(); 
         }
 
         function Create($params) {}

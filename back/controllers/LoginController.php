@@ -10,9 +10,7 @@
             if(array_key_exists('user_logged_in',$_SESSION) && !empty($_SESSION['user_logged_in'])) {
                  return $_SESSION["user_logged_in"];
             }
-            else {
-                   return  "no" ;
-                 }
+            return  "no" ; //no one logged in
         }
 
         function getAdministratorByLogin($params) {

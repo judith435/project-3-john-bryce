@@ -5,15 +5,13 @@
     class StudentApi extends Api{
 
         function Read($params) {
-            $sc = new StudentController;
+            $studentCtrl = new StudentController;
 
             if (array_key_exists("student_name", $params) && array_key_exists("student_phone", $params) && array_key_exists("student_email", $params)) {
                 //used to check if student by same name already exists: js remote validation validationsStudent.js  method: student_already_exists
-                return  $sc->getStudentByName($params); 
+                return  $studentCtrl->getStudentByName($params); 
             }
-            else {
-                return $sc->getAll_Students();
-            }
+            return $studentCtrl->getAll_Students();
         }
 
         function Create($params) {
@@ -26,8 +24,8 @@
 
          function Delete($params) {
 
-            $sc = new StudentController;
-            $sc->delete_Student($params);
+            $studentCtrl = new StudentController;
+            $studentCtrl->delete_Student($params);
             $response_array['status'] = 'ok'; 
             $response_array['action'] = 'Delete student';
             $response_array['message'] = 'student deleted successfully'; 
@@ -43,8 +41,8 @@
             // => must be handled separately from $applicationError
             //insert/update student can be successfull but there might be problem with uploading image and this will be conveyed in the $response_array['status'] = 'ok'
             $ImageUploadError = "";
-            $sc = new StudentController;
-            $new_studentID = $sc->create_update_Student($params, $function, $applicationError, $ImageUploadError);
+            $studentCtrl = new StudentController;
+            $new_studentID = $studentCtrl->create_update_Student($params, $function, $applicationError, $ImageUploadError);
 
             if ($applicationError != "") {
                 $response_array['status'] = 'error';  

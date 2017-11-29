@@ -6,14 +6,14 @@
 
         function Read($params) {
 
-            $ac = new AdministratorController;
+            $adminCtrl = new AdministratorController;
             //used to check if admin by same name & phone already exists: js remote validation validationsAdministrator.js  method: admin_already_exists
             if (array_key_exists("admin_name", $params) && array_key_exists("admin_email", $params)) {
-                return  $ac->getAdministratorByNameEmail($params);
+                return  $adminCtrl->getAdministratorByNameEmail($params);
             }
 
             //get all administrators for side menu administrators 
-            return  $ac->getAll_Administrators();
+            return  $adminCtrl->getAll_Administrators();
         }
 
         function Create($params) {
@@ -54,8 +54,8 @@
                 $response_array['message'] = 'administrator tried to delete himself'; 
                 return $response_array;
             }
-            $ac = new AdministratorController;
-            $ac->delete_Admin($params);
+            $adminCtrl = new AdministratorController;
+            $adminCtrl->delete_Admin($params);
             $response_array['status'] = 'ok'; 
             $response_array['action'] = 'Delete administrator';
             $response_array['message'] = 'administrator deleted successfully'; 
@@ -71,22 +71,22 @@
             // => must be handled separately from $applicationError
             //insert/update admin can be successfull but there might be problem with uploading image and this will be conveyed in the $response_array['status'] = 'ok'
             $ImageUploadError = "";
-            $ac = new AdministratorController;
-            $new_adminID = $ac->create_update_Admin($params, $function, $applicationError, $ImageUploadError);
+            $adminCtrl = new AdministratorController;
+            $new_adminID = $adminCtrl->create_update_Admin($params, $function, $applicationError, $ImageUploadError);
 
             if ($applicationError != "") {
                 $response_array['status'] = 'error';  
                 $response_array['action'] = $function . ' administrator';
                 $response_array['message'] =  $applicationError; 
+                return $response_array;
             }
-            else {
-                $response_array['status'] = 'ok'; 
-                $response_array['action'] = $function . ' administrator';
-                $response_array['message'] = ' administrator ' . ($function == "Create" ? 'added' : 'updated') . ' successfully';  
-                $response_array['new_adminID'] = $new_adminID;
-                if ($ImageUploadError != "") { //errors in administrator image upload
-                    $response_array['message'] .= "\n however; following errors in administrator image upload: " . $ImageUploadError ;  
-                }
+            
+            $response_array['status'] = 'ok'; 
+            $response_array['action'] = $function . ' administrator';
+            $response_array['message'] = ' administrator ' . ($function == "Create" ? 'added' : 'updated') . ' successfully';  
+            $response_array['new_adminID'] = $new_adminID;
+            if ($ImageUploadError != "") { //errors in administrator image upload
+                $response_array['message'] .= "\n however; following errors in administrator image upload: " . $ImageUploadError ;  
             }
             return $response_array;
         }

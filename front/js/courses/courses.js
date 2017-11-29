@@ -6,16 +6,20 @@ var courses = (function() {
     var courseHandled = {}; //course data also used by validationsCourse.js 
     var courseArray = [];
     var courses_retrieved = {}; //flag used by student.js which needs to know if all courses have been retrieved
-   
+    var serverRequestModule  = server_request;//refernce server_request.js file and all its exposed function sendServerRequest
+    var commonModule  = common;//refernce common.js file and all its exposed functions
+    var validationsCourseModule  = validationsCourse;//refernce validationsCourse.js file and all its exposed functions
+    var LoginLogoutModule  = login_logout;//refernce validationsCourse.js file and all its exposed functions
+    
     function display_course_image(){
         var dt_force_reload = new Date();//way to force browser to reload picture after update of picture
         var imgPath = app.courseImagePath + courseHandled.details.course_id + ".jpg?" + dt_force_reload.getTime();
-        common.setCanvas($("#canvasCourse")[0], imgPath, "regular");
+        commonModule.setCanvas($("#canvasCourse")[0], imgPath, "regular");
     }
 
     function initValidations() {
-        validationsCourse.initValidator();
-        var validation_messages = validationsCourse.formValidated.validator.settings.messages;
+        validationsCourseModule.initValidator();
+        var validation_messages = validationsCourseModule.formValidated.validator.settings.messages;
         validation_messages.course_name = "Course name required";
         validation_messages.course_description = "Course description required";
         validation_messages.course_image = "Valid extensions: jpg, jpeg, png or gif";
@@ -25,7 +29,7 @@ var courses = (function() {
     function displayAfterSave(server_response, action){
         let courseTemp = action == "Create" ? server_response.new_courseID  : courseHandled.details.course_id; 
         let course_to_display = $.grep(courseArray, function(e){ return e.course_id ==  courseTemp;});
-        let co = CourseObject();
+        let co = new CourseObject();
         //update courseHandled with updated course data
         courseHandled.details = new co.Course(  course_to_display[0].course_id, 
                                                 course_to_display[0].course_name, 
@@ -72,14 +76,14 @@ var courses = (function() {
                 template = template.replace("{{student-ids}}", courseArray[i].student_ids);
                 $("#courses").append(template);
             }
-            common.loadCanvasList($("#courses canvas"), app.courseImagePath, "school_aside");
+            commonModule.loadCanvasList($("#courses canvas"), app.courseImagePath, "school_aside");
         });
     }
 
     function showCourses(){
         var ajaxData = { ctrl: "course" };
         courses_retrieved.status = false;
-        server_request.sendServerRequest("Select", ajaxData, buildCourseTable); 
+        serverRequestModule.sendServerRequest("Select", ajaxData, buildCourseTable); 
         return false;
     }
     
@@ -120,15 +124,15 @@ var courses = (function() {
                 var confirmation = confirm("Are you sure you want to delete course number " + courseHandled.details.course_id + "?");
                 if (confirmation == true) {
                     verb = "Delete";
-                    server_request.sendServerRequest(verb, ajaxData, afterSave);  
+                    serverRequestModule.sendServerRequest(verb, ajaxData, afterSave);  
                     return false;
                 }
             }   
             else {
                 course_action.chosen = action;
                 verb =  action === "Add" ? "Add" : "Update"; 
-                if (validationsCourse.formValidated.contents.valid()){
-                    server_request.sendServerRequest(verb, ajaxData, afterSave, "courseImage", "course_image");  
+                if (validationsCourseModule.formValidated.contents.valid()){
+                    serverRequestModule.sendServerRequest(verb, ajaxData, afterSave, "courseImage", "course_image");  
                     return false;
                 }
             }
@@ -161,11 +165,11 @@ var courses = (function() {
                 }
 
             $("#courseImage").change(function() {
-                common.uploadImage($("#canvasCourse")[0], this);
+                commonModule.uploadImage($("#canvasCourse")[0], this);
             });
 
             $("#btnCancel").off().click(function() {
-                common.clearImage($("#canvasCourse")[0], $("#courseImage")[0]);
+                commonModule.clearImage($("#canvasCourse")[0], $("#courseImage")[0]);
             });
         });
     }
@@ -194,12 +198,12 @@ var courses = (function() {
                 }
                 $("#studentList").append(studentHtml);
                 //load images for all canvas elements created
-                common.loadCanvasList($("#studentList canvas"), app.studentImagePath, "small");
+                commonModule.loadCanvasList($("#studentList canvas"), app.studentImagePath, "small");
             }
 
             //get admin data to check if admin role is sales => may not update course data
             if (sessionStorage.getItem("administrator") === null) {//admin session object not found MUST immediately log in agaןn 
-                login_logout.login();
+                LoginLogoutModule.login();
                 return;
             }
             var sessionAdmin = sessionStorage.getItem("administrator");

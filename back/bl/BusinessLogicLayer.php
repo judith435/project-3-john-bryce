@@ -20,13 +20,13 @@
             return $this->dbName;
         }
         
-        public function update($db, $spName, $SP_parms) {
-            $con = new Connection($db);  
+        public function update($database, $spName, $SP_parms) {
+            $con = new Connection($database);  
             $con->executeSP($spName, $SP_parms);
         }
 
-        public function get($db, $spName, $SP_parms) {
-            $con = new Connection($db);  
+        public function get($database, $spName, $SP_parms) {
+            $con = new Connection($database);  
             return $con->executeSP($spName, $SP_parms);
         }
     }

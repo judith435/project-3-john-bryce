@@ -4,7 +4,7 @@
     class Connection {
 
         private $host = '127.0.0.1';
-        private $db;
+        private $database;
         private $user = 'root';
         private $pass = '';
         private $charset = 'utf8';
@@ -15,8 +15,8 @@
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
 
-        public function __construct($db) {
-            $this->setDB($db);
+        public function __construct($database) {
+            $this->setDB($database);
             $this->dsn = "mysql:host=$this->host;dbname=" . $this->getDB() . ";charset=$this->charset";
         }
 
@@ -26,8 +26,8 @@
         }
 
         //function should be private so that outside hackers cannot change datatbase access
-        private function setDB($db){
-            $this->db = $db;
+        private function setDB($database){
+            $this->db = $database;
         }
 
         //generic function to execute any mysql statement

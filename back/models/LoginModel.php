@@ -20,8 +20,8 @@
         }
 
         public function setLoginPassword($login_pwd){
-            $pw = new PasswordHandler();
-            $this->login_password = $pw->getHash($login_pwd);
+            $pwh = new PasswordHandler();
+            $this->login_password = $pwh->getHash($login_pwd);
         }
 
         public function getLoginEmail(){

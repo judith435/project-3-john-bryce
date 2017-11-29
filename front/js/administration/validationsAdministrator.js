@@ -51,16 +51,17 @@ var validationsAdministrator = (function() {
         $.validator.addMethod(
             "admin_already_exists", 
             function() {
+
+                var administrationModule = administration; //administrationModule contains all data exposed from js file administration.js
+                
                 var adminName = $("#adminName").val().trim();
                 var adminEmail = $("#adminEmail").val().trim();
 
-                
                 if (adminName == "" || adminEmail == "") {
                     return true; //if admin name or phone  missing no point in checking
                 }
-                //update administrator : no change made to data retrieved from db return relevant message to user
-                var administrationModule = administration; //administrationModule contains all data exposed from js file administration.js
                 
+                //update administrator : no change made to data retrieved from db return relevant message to user
                 if (administrationModule.action.chosen === "Update") {
                     if (app.debugMode){
                         console.log("admin_already_exists() adminName from update: " + administrationModule.adminHandled.admin_name);

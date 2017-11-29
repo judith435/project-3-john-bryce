@@ -42,6 +42,9 @@ var validationsStudent = (function() {
         $.validator.addMethod(
             "student_already_exists", 
             function() {
+
+                var studentsModule = students; //studentsModule contains all data exposed from js file students.js
+                
                 var studentName = $("#studentName").val().trim();
                 var studentPhone = $("#studentPhone").val().trim();
                 var studentEmail = $("#studentEmail").val().trim();
@@ -51,9 +54,9 @@ var validationsStudent = (function() {
                 }
               
             //update student: no change made to data retrieved from db return relevant message to user
-            if (students.student_action.chosen === "Update") {
+            if (studentsModule.student_action.chosen === "Update") {
                 if (app.debugMode){
-                    console.log("student_already_exists(): " + students.studentHandled.details.student_name + "  " + students.studentHandled.details.student_phone + "  " + students.studentHandled.details.student_email + "  ");
+                    console.log("student_already_exists(): " + studentsModule.studentHandled.details.student_name + "  " + studentsModule.studentHandled.details.student_phone + "  " + studentsModule.studentHandled.details.student_email + "  ");
                 }
                 var studentImage = $("#studentImage").val().trim(); 
                 var student_img_delete_checked = ($("#deleteImage").is(":checked"));
@@ -64,10 +67,10 @@ var validationsStudent = (function() {
                     selected_in_panel.push($(this).attr("name"));
                 });
 
-                if (studentName === students.studentHandled.details.student_name &&
-                    studentPhone === students.studentHandled.details.student_phone &&
-                    studentEmail === students.studentHandled.details.student_email &&
-                    selected_in_panel + "" == students.studentHandled.details.student_courses &&
+                if (studentName === studentsModule.studentHandled.details.student_name &&
+                    studentPhone === studentsModule.studentHandled.details.student_phone &&
+                    studentEmail === studentsModule.studentHandled.details.student_email &&
+                    selected_in_panel + "" == studentsModule.studentHandled.details.student_courses &&
                     studentImage == "" && !student_img_delete_checked) { 
                          formValidated.validator.settings.messages.duplicate_student = "No change in data - No update";
                          return false; 
@@ -77,9 +80,9 @@ var validationsStudent = (function() {
                 }
 
                 //check student name, phone & email has been changed - if NOT prevent running duplicate student test ==> it always going to exist
-                if (studentName === students.studentHandled.details.student_name &&
-                    studentPhone === students.studentHandled.details.student_phone &&
-                    studentEmail === students.studentHandled.details.student_email) {
+                if (studentName === studentsModule.studentHandled.details.student_name &&
+                    studentPhone === studentsModule.studentHandled.details.student_phone &&
+                    studentEmail === studentsModule.studentHandled.details.student_email) {
                     return true; 
                 }  
             }
@@ -103,9 +106,14 @@ var validationsStudent = (function() {
                         })
                         .done(function(data)
                         {
-                            var student = JSON.parse(data);
-                            //-1 means student with same student name was not found
-                            response = ( student.id == -1 ) ?  true : false;
+                            var serverResponse = JSON.parse(data);
+                            //user no longer logged in on server (session no longer exists - make user login again) DON'T call callback method
+                            if (serverResponse.status === "no longer logged in") { 
+                                login_logout.handle_login_status("no"); //no = user not logged in
+                                return;
+                            }
+                            //-1 means student with same student name, phone $ email was not found
+                            response = ( serverResponse.status == -1 ) ?  true : false;
                             if(app.debugMode){
                                 console.log("check student name does not already exist" + data);
                             }

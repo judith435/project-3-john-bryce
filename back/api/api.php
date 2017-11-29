@@ -8,7 +8,8 @@
     require_once 'RoleApi.php';
     require_once 'StudentApi.php';
     require_once '../share/ErrorHandling.php';
-
+    //unset($_SESSION['user_logged_in']); //%$#%#$$#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+    
     //define error handling for site
     set_exception_handler('exception_handler');
     function exception_handler($exception) {

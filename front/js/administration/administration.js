@@ -155,7 +155,7 @@ var administration = (function() {
             return;
         }
         //build array of administrator objects with data returned from server
-        var ao = AdministratorObject();
+        var ao = new AdministratorObject();
         var administratorsArray = [];
         for (let i = 0; i < serverData.length; i++) {
             administratorsArray.push(new ao.Administrator(serverData[i].admin_id, 
@@ -206,7 +206,7 @@ var administration = (function() {
         var adminRoleName = row.find("#admin-role-name").text();
         var adminPhone = row.find("#admin-phone").text();
         var adminEmail = row.find("#admin-email").text();
-        var ao = AdministratorObject();
+        var ao = new AdministratorObject();
         adminHandled.details = new ao.Administrator(adminID, adminName, adminRoleID, adminRoleName, adminPhone, adminEmail);
         loadAdminCUD("Update"); 
     }

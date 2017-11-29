@@ -5,15 +5,13 @@
     class CourseApi extends Api{
 
         function Read($params) {
-            $cc = new CourseController;
+            $courseCtrl = new CourseController;
            
             if (array_key_exists("course_name", $params)) { 
                 //used to check if course by same name already exists: js remote validation validationsCourse.js  method: course_already_exists
-                return  $cc->getCourseByName($params); 
+                return  $courseCtrl->getCourseByName($params); 
             }
-            else {
-                return $cc->getAll_Courses();
-            }
+            return $courseCtrl->getAll_Courses();
         }
 
         function Create($params) {
@@ -26,8 +24,8 @@
 
          function Delete($params) {
 
-            $cc = new CourseController;
-            $cc->delete_Course($params);
+            $courseCtrl = new CourseController;
+            $courseCtrl->delete_Course($params);
             $response_array['status'] = 'ok'; 
             $response_array['action'] = 'Delete course';
             $response_array['message'] = 'course deleted successfully'; 
@@ -43,8 +41,8 @@
             // => must be handled separately from $applicationError
             //insert/update course can be successfull but there might be problem with uploading image and this will be conveyed in the $response_array['status'] = 'ok'
             $ImageUploadError = "";
-            $cc = new CourseController;
-            $new_courseID = $cc->create_update_Course($params, $function, $applicationError, $ImageUploadError);
+            $courseCtrl = new CourseController;
+            $new_courseID = $courseCtrl->create_update_Course($params, $function, $applicationError, $ImageUploadError);
 
             if ($applicationError != "") {
                 $response_array['status'] = 'error';  

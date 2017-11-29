@@ -40,20 +40,20 @@
             if ($method == "Create"){
                 $new_courseID =  $courseID['new_course_id'];         
             }
-            else {
+            else { //update $new_courseID irrelevant set default value 
                 $new_courseID = 0;
             }
 
             //save course image
-            $ih = new ImageHandling();
+            $imgHandling = new ImageHandling();
             //test if update with option to delete image (checkbox deleteImage) Delete Image on Server
             if ($method == "Update" && array_key_exists("delete_image", $params)) {
-                $ih->delete_image($params["course_id"], "course");
+                $imgHandling->delete_image($params["course_id"], "course");
             }
             else {
                 //if new course send new course id returned from mysql if update send course_id of updated course to handle_course_image function any errors 
                 //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
-                $ih->save_uploaded_image($method == "Create" ? $new_courseID :  $params["course_id"], "course", $ImageUploadError);
+                $imgHandling->save_uploaded_image($method == "Create" ? $new_courseID :  $params["course_id"], "course", $ImageUploadError);
             }
             return $new_courseID;
         }
@@ -62,8 +62,8 @@
             $course_bll = new Course_BLL();
             $course_bll->delete_course($params);
             //delete course image stored in images folder
-            $ih = new ImageHandling();
-            $ih->delete_image($params["course_id"], "course");
+            $imgHandling = new ImageHandling();
+            $imgHandling->delete_image($params["course_id"], "course");
         }
 
         //used for js remote validation validationsCourse.js  method: course_already_exists
