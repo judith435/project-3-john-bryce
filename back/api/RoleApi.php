@@ -9,8 +9,8 @@
             return  $roleCtrl->getRoles(); 
         }
 
-        function Create($params) {}
-        function Update($params) {}
-        function Delete($params) {}
+        function Create() {}
+        function Update() {}
+        function Delete() {}
     }
 ?>

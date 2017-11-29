@@ -88,7 +88,7 @@ var courses = (function() {
     }
     
     function afterSave(serverResponse) {
-        if (serverResponse.status == "error") {
+        if (serverResponse.status === "error") {
             alert("Following error(s) occured in " + serverResponse.action + ":\n" + serverResponse.message);
             return;
         }
@@ -120,7 +120,7 @@ var courses = (function() {
             var verb;
             var ajaxData = $("#frmCUD").serialize();
 
-            if(this.id == "btnDelete"){ // don't perform validations in case of delete
+            if(this.id === "btnDelete"){ // don't perform validations in case of delete
                 var confirmation = confirm("Are you sure you want to delete course number " + courseHandled.details.course_id + "?");
                 if (confirmation == true) {
                     verb = "Delete";

@@ -48,17 +48,16 @@
                 $response_array['status'] = 'error';  
                 $response_array['action'] = $function . ' student';
                 $response_array['message'] =  $applicationError; 
+                return $response_array;
             }
-            else {
-                $response_array['status'] = 'ok'; 
-                $response_array['action'] = $function . ' student';
-                $response_array['message'] = ' student ' . ($function == "Create" ? 'added' : 'updated') . ' successfully';  
-                $response_array['new_studentID'] = $new_studentID;
-                if ($ImageUploadError != "") { //errors in student image upload
-                    $response_array['message'] .= "\n however; following errors in student image upload: " . $ImageUploadError ;  
-                }
+            
+            $response_array['status'] = 'ok'; 
+            $response_array['action'] = $function . ' student';
+            $response_array['message'] = ' student ' . ($function == "Create" ? 'added' : 'updated') . ' successfully';  
+            $response_array['new_studentID'] = $new_studentID;
+            if ($ImageUploadError != "") { //errors in student image upload
+                $response_array['message'] .= "\n however; following errors in student image upload: " . $ImageUploadError ;  
             }
-
             return $response_array;
         }
     }

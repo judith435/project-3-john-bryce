@@ -69,7 +69,7 @@ var administration = (function() {
             }
             var ajaxData = $("#frmCUD").serialize();
 
-            if(this.id == "btnDelete"){ // don't perform validations in case of delete
+            if(this.id === "btnDelete"){ // don't perform validations in case of delete
                 var confirmation = confirm("Are you sure you want to delete administrator number " + adminHandled.details.admin_id + "?");
                 if (confirmation == true) {
                     verb = "Delete";
@@ -242,7 +242,7 @@ var administration = (function() {
     }
 
     function afterSave(serverResponse) {
-        if (serverResponse.status == "error") {
+        if (serverResponse.status === "error") {
             alert("Following error(s) occured in " + serverResponse.action + ":\n" + serverResponse.message);
             return;
         }
