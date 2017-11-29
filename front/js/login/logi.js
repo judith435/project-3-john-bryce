@@ -26,7 +26,7 @@
 //     }
 
 //     function getLoginStatus(){
-//         server_request.sendServerRequest("Select", ajaxData, handleLoginStatus); 
+//         serverRequest.sendServerRequest("Select", ajaxData, handleLoginStatus); 
 //     }
 
 //     function login(){

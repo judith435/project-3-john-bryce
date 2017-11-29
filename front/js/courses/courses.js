@@ -6,10 +6,10 @@ var courses = (function() {
     var courseHandled = {}; //course data also used by validationsCourse.js 
     var courseArray = [];
     var coursesRetrieved = {}; //flag used by student.js which needs to know if all courses have been retrieved
-    var serverRequestModule  = server_request;//refernce server_request.js file and all its exposed function sendServerRequest
-    var commonModule  = common;//refernce common.js file and all its exposed functions
-    var validationsCourseModule  = validationsCourse;//refernce validationsCourse.js file and all its exposed functions
-    var LoginLogoutModule  = login_logout;//refernce validationsCourse.js file and all its exposed functions
+    var serverRequestModule  = serverRequest; //refernce serverRequest.js file and all its exposed function sendServerRequest
+    var commonModule  = common; //refernce common.js file and all its exposed functions
+    var validationsCourseModule  = validationsCourse; //refernce validationsCourse.js file and all its exposed functions
+    var LoginLogoutModule  = login_logout; //refernce validationsCourse.js file and all its exposed functions
     
     function display_course_image(){
         var dtForceReload = new Date();//way to force browser to reload picture after update of picture
@@ -26,8 +26,8 @@ var courses = (function() {
         validationMessages.duplicate_course = "Course with same name already exists";
     }        
           
-    function displayAfterSave(server_response, action){
-        let courseTemp = action == "Create" ? server_response.new_courseID  : courseHandled.details.course_id; 
+    function displayAfterSave(serverResponse, action){
+        let courseTemp = action == "Create" ? serverResponse.new_courseID  : courseHandled.details.course_id; 
         let course_to_display = $.grep(courseArray, function(e){ return e.course_id ==  courseTemp;});
         let co = new CourseObject();
         //update courseHandled with updated course data
@@ -95,7 +95,7 @@ var courses = (function() {
         if (serverResponse.message.search("following errors") != -1) { //display msg about failed image upload
             alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
         }
-        var action = serverResponse.action.split(" ", 1)[0]; //first word of server_response.action contains action performed
+        var action = serverResponse.action.split(" ", 1)[0]; //first word of serverResponse.action contains action performed
         if (action == "Delete") {
             school.loadSchoolMain();
             return

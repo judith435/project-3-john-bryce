@@ -69,13 +69,13 @@ var validationsAdministrator = (function() {
                     var adminPhone = $("#adminPhone").val().trim();
                     var adminRole = $("#RoleDDL").val().trim();  
                     var adminImage = $("#adminImage").val().trim(); 
-                    var admin_img_delete_checked = ($("#deleteImage").is(":checked"));
+                    var adminImgDeleteChecked = ($("#deleteImage").is(":checked"));
     
                     if (adminName === administrationModule.adminHandled.details.admin_name &&
                         adminEmail === administrationModule.adminHandled.details.admin_email &&
                         adminPhone === administrationModule.adminHandled.details.admin_phone &&
                         adminRole == administrationModule.adminHandled.details.role_id &&
-                        adminImage == "" && !admin_img_delete_checked) { 
+                        adminImage == "" && !adminImgDeleteChecked) { 
                              formValidated.validator.settings.messages.duplicate_admin = "No change in data - No update";
                              return false; 
                     }

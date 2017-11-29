@@ -28,7 +28,7 @@
 //         loadCourseCUD("Update"); 
 //     }
     
-//     function displayAfterSave(server_response, action){
+//     function displayAfterSave(serverResponse, action){
 //         loadCourseView();//###############################################################
 //     }
 

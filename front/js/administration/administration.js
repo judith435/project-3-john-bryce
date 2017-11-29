@@ -5,9 +5,9 @@ var administration = (function() {
     var action = {}; //create object (in return statement) that can be referenced by validationsAdministrator.js
     var adminHandled = {};  //create object (in return statement) that can be referenced by validationsAdministrator.js
     var adminLoggedIn;
-    var serverRequestModule  = server_request;//refernce server_request.js file and all its exposed function sendServerRequest
-    var commonModule  = common;//refernce common.js file and all its exposed functions
-    var validationsAdministratorModule  = validationsAdministrator;//refernce validationsAdministrator.js file and all its exposed functions
+    var serverRequestModule  = serverRequest; //refernce serverRequest.js file and all its exposed function sendServerRequest
+    var commonModule  = common; //refernce common.js file and all its exposed functions
+    var validationsAdministratorModule  = validationsAdministrator; //refernce validationsAdministrator.js file and all its exposed functions
     
 
     //fill role combo in input fields with roles retrieved from db in function LoadRoles()
@@ -242,7 +242,7 @@ var administration = (function() {
             $(document).off().on("click","#administrators tr",function(e){
                 action.chosen = "Update";
                 adminSelected($(this));
-            })
+            });
 
             $( "#btnAddAdmin" ).off().click(function() {
                 action.chosen = "Add";

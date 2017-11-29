@@ -1,10 +1,10 @@
 "use strict";
 
-var server_request = (function() {
+var serverRequest = (function() {
 
     function sendServerRequest( action, 
                                 input_data, 
-                                CallBack_function,
+                                CallBackFunction,
                                 fuImage, //name of input type file control
                                 image_name) //name of image in object model
     {
@@ -95,7 +95,7 @@ var server_request = (function() {
                 return;
             }
             //use call back function to ensure ajax request has returned before continuing
-            CallBack_function(serverResponse); 
+            CallBackFunction(serverResponse); 
         })
         .fail(function(data){
                 console.log("error in sendServerRequest");

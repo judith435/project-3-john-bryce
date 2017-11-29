@@ -28,7 +28,7 @@ var school = (function() {
 
             $(document).on("click",".students-flex #students tr",function(e){
                 studentsModule.studentSelected($(this));
-            })
+            });
 
             if (sessionStorage.getItem("administrator") === null) { //admin session object not found MUST immediately log in again 
                 LoginLogoutModule.login();

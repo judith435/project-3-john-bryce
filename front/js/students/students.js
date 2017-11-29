@@ -6,7 +6,7 @@ var students = (function() {
     var student_action = {}; //create object (in return statement) that can be referenced by validationsStudent.js - validations need to know whether update or insert
     var studentHandled = {};  //create object (in return statement) that can be referenced by validationsStudent.js
     var students_retrieved = {};
-    var serverRequestModule  = server_request;//refernce server_request.js file and all its exposed function sendServerRequest
+    var serverRequestModule  = serverRequest;//refernce serverRequest.js file and all its exposed function sendServerRequest
     var commonModule  = common;//refernce common.js file and all its exposed functions
     var validationsStudentModule  = validationsStudent;//refernce validationsStudent.js file and all its exposed functions
 
@@ -16,7 +16,7 @@ var students = (function() {
         commonModule.setCanvas($("#canvasStudent")[0], imgPath, "regular");
     }
 
-    function buildCourses_cbl() {
+    function buildCoursesCBL() {
         var container = $("#cblistCourses");
         var id = 1;
         for (let i = 0; i < courses.courseArray.length; i++) {
@@ -118,7 +118,7 @@ var students = (function() {
             $("#main-container").prepend(data);
             initValidations();
             btnSaveHandler(action);
-            buildCourses_cbl(); //build checkboxlist of all courses
+            buildCoursesCBL(); //build checkboxlist of all courses
             if(action === "Update"){
                 //place name and description of student being updated in input field
                 $("#cud-student-title").html( "Update Student Number: " + studentHandled.details.student_id);
@@ -206,7 +206,7 @@ var students = (function() {
         if (serverResponse.message.search("following errors") != -1) { //display msg about failed image upload
             alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
         }
-        var action = serverResponse.action.split(" ", 1)[0]; //first word of server_response.action contains action performed
+        var action = serverResponse.action.split(" ", 1)[0]; //first word of serverResponse.action contains action performed
         if (action == "Delete") {
             school.loadSchoolMain();
             return
@@ -225,8 +225,8 @@ var students = (function() {
 
     }
 
-    function displayAfterSave(server_response, action){
-        let studentTemp = action == "Create" ? server_response.new_studentID  : studentHandled.details.student_id; 
+    function displayAfterSave(serverResponse, action){
+        let studentTemp = action == "Create" ? serverResponse.new_studentID  : studentHandled.details.student_id; 
         let student_to_display = $.grep(studentArray, function(e){ return e.student_id ==  studentTemp});
         var so = StudentObject();
         studentHandled.details = new so.Student(student_to_display[0].student_id, 

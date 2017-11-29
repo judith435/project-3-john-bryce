@@ -1,7 +1,7 @@
 "use strict";
 var login_logout = (function() {
 
-    var serverRequestModule  = server_request;//refernce server_request.js file and all its exposed function sendServerRequest
+    var serverRequestModule  = serverRequest; //refernce serverRequest.js file and all its exposed function sendServerRequest
     
     function initValidations() {
         validationsLogin.initValidator();
@@ -111,7 +111,7 @@ var login_logout = (function() {
 
     function getLoginStatus(){
         var ajaxData = { ctrl: "login" };
-        server_request.sendServerRequest("Select", ajaxData, handleLoginStatus); 
+        serverRequest.sendServerRequest("Select", ajaxData, handleLoginStatus); 
     }
 
     function login(){
