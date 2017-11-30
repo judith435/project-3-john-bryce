@@ -21,7 +21,7 @@ var courses = (function() {
             return;
         }
         //build array of course objects with data returned from server
-        var co = CourseObject();
+        var co = courseObject();
         courseArray.length = 0; //clear data from previous calls to buildCourseTable
         for (let i = 0; i < serverData.length; i++) {
             courseArray.push(new co.Course(serverData[i].course_id, 
@@ -149,7 +149,7 @@ var courses = (function() {
         var courseDescr= row.find("#course-description").text();
         var studentCourse = row.find("#number-of-students-for-course").text();
         var studentIDs = row.find("#student-ids").text();
-        var co = CourseObject();
+        var co = courseObject();
         courseHandled.details = new co.Course(courseID, courseName, courseDescr, studentCourse, studentIDs);
         loadCourseView();
     }

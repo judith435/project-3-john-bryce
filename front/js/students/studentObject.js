@@ -1,4 +1,4 @@
-var StudentObject = function() {
+var studentObject = function() {
     
             function Student(stdnt_id, stdnt_name, stdnt_phone, stdnt_email, stdnt_crs) {
                 this.student_id = stdnt_id;

@@ -16,7 +16,7 @@ var courseSave = (function() {
     function displayAfterSave(serverResponse, action){
         let courseTemp = action == "Create" ? serverResponse.new_courseID  : courses.courseHandled.details.course_id; 
         let courseToDisplay = $.grep(courses.courseArray, function(e){ return e.course_id ==  courseTemp;});
-        let co = new CourseObject();
+        let co = new courseObject();
         //update courseHandled with updated course data
         courses.courseHandled.details = new co.Course(  courseToDisplay[0].course_id, 
                                                 courseToDisplay[0].course_name, 
@@ -44,13 +44,14 @@ var courseSave = (function() {
         courses.showCourses();
         students.showStudents();
         //displayAfterSave must only run after both course and student has been retrieved 
+        var get_course_student_data;
         function testCompletion() {
             if (courses.coursesRetrieved.status && students.studentsRetrieved.status) {
                 displayAfterSave(serverResponse, action);
                 clearInterval(get_course_student_data);
             }
         }
-        var get_course_student_data = setInterval(testCompletion, 500);
+        get_course_student_data = setInterval(testCompletion, 500);
     }
 
     function btnSaveHandler(action) {

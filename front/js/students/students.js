@@ -33,7 +33,7 @@ var students = (function() {
             return;
         }
         //build array of student objects with data returned from server
-        var so = StudentObject();
+        var so = studentObject();
         studentArray.length = 0; //clear data from previous calls to buildStudentTable
         for (let i = 0; i < serverData.length; i++) {
             studentArray.push(new so.Student(serverData[i].student_id, 
@@ -155,7 +155,7 @@ var students = (function() {
         var studentPhone = row.find("#student-phone").text();
         var studentEmail = row.find("#student-email").text();
         var studentCourses = row.find("#student-courses").text();
-        var so = StudentObject();
+        var so = studentObject();
         studentHandled.details = new so.Student(studentID, studentName, studentPhone, studentEmail, studentCourses);
         loadStudentView();
     }

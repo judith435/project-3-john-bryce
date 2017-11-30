@@ -4,7 +4,7 @@ var serverRequest = (function() {
 
     function sendServerRequest( action, 
                                 inputData, 
-                                CallBackFunction,
+                                callBackFunction,
                                 fuImage, //name of input type file control
                                 imageName) //name of image in object model
     {
@@ -95,7 +95,7 @@ var serverRequest = (function() {
                 return;
             }
             //use call back function to ensure ajax request has returned before continuing
-            CallBackFunction(serverResponse); 
+            callBackFunction(serverResponse); 
         })
         .fail(function(data){
                 console.log("error in sendServerRequest");

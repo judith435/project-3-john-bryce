@@ -230,7 +230,7 @@ var administration = (function() {
         loadAdminCUD("Update"); 
     }
 
-    function loadAdminAside() {//called from loginLogout.js => event when admin clicks link button
+    function loadAdminAside() {//called from login.js => event when admin clicks link button
         var data = sessionStorage.getItem("administrator");
         adminLoggedIn = JSON.parse(data);
     
@@ -253,7 +253,7 @@ var administration = (function() {
     }
 
     return {
-        loadAdminAside: loadAdminAside, //function: used by loginLogout.js
+        loadAdminAside: loadAdminAside, //function: used by login.js
         adminHandled: adminHandled, //data: used by validationsAdministrator.js
         action: action  //data: used by validationsAdministrator.js
     };

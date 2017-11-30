@@ -1,4 +1,4 @@
-var CourseObject = function() {
+var courseObject = function() {
     
             function Course(crs_id, crs_name, crs_desc, stdnt_crs, stdnt_ids) {
                 this.course_id = crs_id;

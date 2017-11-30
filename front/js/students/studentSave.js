@@ -17,7 +17,7 @@ var studentSave = (function() {
     function displayAfterSave(serverResponse, action){
         let studentTemp = action == "Create" ? serverResponse.new_studentID  : students.studentHandled.details.student_id; 
         let student_to_display = $.grep(students.studentArray, function(e){ return e.student_id ==  studentTemp});
-        var so = StudentObject();
+        var so = studentObject();
         students.studentHandled.details = new so.Student(student_to_display[0].student_id, 
                                                         student_to_display[0].student_name, 
                                                         student_to_display[0].student_phone, 
@@ -42,14 +42,15 @@ var studentSave = (function() {
 
         courses.showCourses();
         students.showStudents();
-
+        //displayAfterSave must only run after both course and student has been retrieved 
+        var get_course_student_data;
         function testCompletion() {
             if (courses.coursesRetrieved.status && students.studentsRetrieved.status) {
                 displayAfterSave(serverResponse, action);
                 clearInterval(get_course_student_data);
             }
         }
-        var get_course_student_data = setInterval(testCompletion, 500);
+        get_course_student_data = setInterval(testCompletion, 500);
     }
 
 
