@@ -1,0 +1,12 @@
+******************************************************************************************************************************
+Error occured at 2017-11-30 12:54:45
+Trace:
+file: C:\xampp\htdocs\project-3-john-bryce\back\dal\Connection.php => line: 56 => function: execute => class: PDOStatement => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\bl\BusinessLogicLayer.php => line: 30 => function: executeSP => class: Connection => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\bl\Student_BLL.php => line: 96 => function: get => class: BusinessLogicLayer => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\controllers\StudentController.php => line: 62 => function: delete_student => class: Student_BLL => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\StudentApi.php => line: 28 => function: delete_Student => class: StudentController => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\abstract-api.php => line: 18 => function: Delete => class: StudentApi => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\api.php => line: 79 => function: gateway => class: Api => type: ->
+Message: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away
+Code: HY000

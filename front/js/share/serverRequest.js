@@ -86,7 +86,7 @@ var serverRequest = (function() {
 
             //user no longer logged in on server (session no longer exists - make user login again) DON'T call callback method
             if (serverResponse.status === "no longer logged in") { 
-                loginLogout.handleLoginStatus("no"); //no = user not logged in
+                login.setUpLogin(); //user not logged in - redirect user to login page
                 return;
             }
             //security breach by administrator sales - DON'T call callback method

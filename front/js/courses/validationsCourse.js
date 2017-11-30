@@ -36,8 +36,6 @@ var validationsCourse = (function() {
             "course_already_exists", 
             function() {
                 
-                var coursesModule = courses; //coursesModule contains all data exposed from js file courses.js
-                
                 var courseName = $("#courseName").val().trim();
                 
                 if (courseName == "") {
@@ -45,16 +43,16 @@ var validationsCourse = (function() {
                 }
 
                 //update course: no change made to data retrieved from db return relevant message to user
-                if (coursesModule.courseAction.chosen === "Update") {
+                if (courseSave.courseAction.chosen === "Update") {
                     if (app.debugMode){
-                        console.log("course_already_exists() courseName from update: " + coursesModule.courseHandled.details.course_name);
+                        console.log("course_already_exists() courseName from update: " + courses.courseHandled.details.course_name);
                     }
                     var courseDescription = $("#courseDescription").val().trim();
                     var courseImage = $("#courseImage").val().trim(); 
                     var courseImgDeleteChecked = ($("#deleteImage").is(":checked"));
 
-                    if (courseName == coursesModule.courseHandled.details.course_name &&
-                        courseDescription === coursesModule.courseHandled.details.course_description &&
+                    if (courseName == courses.courseHandled.details.course_name &&
+                        courseDescription === courses.courseHandled.details.course_description &&
                         courseImage == "" && !courseImgDeleteChecked) { 
                             formValidated.validator.settings.messages.duplicate_course = "No change in data - No update";
                             return false; 
@@ -64,7 +62,7 @@ var validationsCourse = (function() {
                     }
 
                     //check course name has been changed - if NOT prevent running duplicate_course test ==> it always going to exist
-                    if (courseName == coursesModule.courseHandled.details.course_name) {
+                    if (courseName == courses.courseHandled.details.course_name) {
                         return true; 
                     }  
                 }

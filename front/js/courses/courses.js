@@ -2,43 +2,19 @@
 
 var courses = (function() {
 
-    var courseAction = {}; //data used by validationsCourse.js ->  need to know if update or insert
     var courseHandled = {}; //course data also used by validationsCourse.js 
     var courseArray = [];
     var coursesRetrieved = {}; //flag used by student.js which needs to know if all courses have been retrieved
     var serverRequestModule  = serverRequest; //refernce serverRequest.js file and all its exposed function sendServerRequest
     var commonModule  = common; //refernce common.js file and all its exposed functions
-    var validationsCourseModule  = validationsCourse; //refernce validationsCourse.js file and all its exposed functions
-    var LoginLogoutModule  = loginLogout; //refernce validationsCourse.js file and all its exposed functions
     
-    function display_course_image(){
+    function  displayCourseImage(){
         var dtForceReload = new Date();//way to force browser to reload picture after update of picture
         var imgPath = app.courseImagePath + courseHandled.details.course_id + ".jpg?" + dtForceReload.getTime();
         commonModule.setCanvas($("#canvasCourse")[0], imgPath, "regular");
     }
 
-    function initValidations() {
-        validationsCourseModule.initValidator();
-        var validationMessages = validationsCourseModule.formValidated.validator.settings.messages;
-        validationMessages.course_name = "Course name required";
-        validationMessages.course_description = "Course description required";
-        validationMessages.course_image = "Valid extensions: jpg, jpeg, png or gif";
-        validationMessages.duplicate_course = "Course with same name already exists";
-    }        
           
-    function displayAfterSave(serverResponse, action){
-        let courseTemp = action == "Create" ? serverResponse.new_courseID  : courseHandled.details.course_id; 
-        let courseToDisplay = $.grep(courseArray, function(e){ return e.course_id ==  courseTemp;});
-        let co = new CourseObject();
-        //update courseHandled with updated course data
-        courseHandled.details = new co.Course(  courseToDisplay[0].course_id, 
-                                                courseToDisplay[0].course_name, 
-                                                courseToDisplay[0].course_description, 
-                                                courseToDisplay[0].number_of_students_for_course, 
-                                                courseToDisplay[0].student_ids);
-        loadCourseView();
-    }
-
     function buildCourseTable(serverData){
         if (serverData.status === "error") {
             alert("Error occured: " + serverData.message);
@@ -87,65 +63,13 @@ var courses = (function() {
         return false;
     }
     
-    function afterSave(serverResponse) {
-        if (serverResponse.status === "error") {
-            alert("Following error(s) occured in " + serverResponse.action + ":\n" + serverResponse.message);
-            return;
-        }
-        if (serverResponse.message.search("following errors") != -1) { //display msg about failed image upload
-            alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
-        }
-        var action = serverResponse.action.split(" ", 1)[0]; //first word of serverResponse.action contains action performed
-        if (action == "Delete") {
-            school.loadSchoolMain();
-            return
-        }
-
-        //after each update must update both course and student date (student data also uses course data)
-        showCourses();
-        students.showStudents();
-        //displayAfterSave must only run after both course and student has been retrieved 
-        var get_course_student_data = setInterval(test_completion, 500);
-        function test_completion() {
-            if (courses.coursesRetrieved.status && students.studentsRetrieved.status) {
-                displayAfterSave(serverResponse, action);
-                clearInterval(get_course_student_data);
-            }
-        }
-    }
-
-    function btnSaveHandler(action) {
-        
-        $(".btnSave").off().click(function() {
-            var verb;
-            var ajaxData = $("#frmCUD").serialize();
-
-            if(this.id === "btnDelete"){ // don't perform validations in case of delete
-                var confirmation = confirm("Are you sure you want to delete course number " + courseHandled.details.course_id + "?");
-                if (confirmation == true) {
-                    verb = "Delete";
-                    serverRequestModule.sendServerRequest(verb, ajaxData, afterSave);  
-                    return false;
-                }
-            }   
-            else {
-                courseAction.chosen = action;
-                verb =  action === "Add" ? "Add" : "Update"; 
-                if (validationsCourseModule.formValidated.contents.valid()){
-                    serverRequestModule.sendServerRequest(verb, ajaxData, afterSave, "courseImage", "course_image");  
-                    return false;
-                }
-            }
-        });
-    }  
-
     function loadCourseCUD(action) {
         $.ajax("templates/school/courses/cud-course.html").done(function(data) {
             $("#cud-course-title").empty();
             $("#main-container").empty();
             $("#main-container").prepend(data);
-            initValidations();
-            btnSaveHandler(action);
+            courseSave.initValidations();
+            courseSave.btnSaveHandler(action);
             if(action === "Update"){
                 //place name and description of course being updated in input field
                 $("#cud-course-title").html( "Update Course Number: " + courseHandled.details.course_id);
@@ -155,7 +79,7 @@ var courses = (function() {
                 if (courseHandled.details.number_of_students_for_course > 0){ //course has been assigned to students cannot be deleted
                     $("#btnDelete").hide(); 
                 }
-                display_course_image();
+                 displayCourseImage();
                 $("#studentTotal").html("Total " + courseHandled.details.number_of_students_for_course + " students taking this course");
             }
             else {//create
@@ -203,7 +127,7 @@ var courses = (function() {
 
             //get admin data to check if admin role is sales => may not update course data
             if (sessionStorage.getItem("administrator") === null) {//admin session object not found MUST immediately log in agaןn 
-                LoginLogoutModule.login();
+                login.setUpLogin();
                 return;
             }
             var sessionAdmin = sessionStorage.getItem("administrator");
@@ -211,7 +135,7 @@ var courses = (function() {
             if (admin.role_name === "sales") { //administrator type sales is not entitled to update course => hide edit button 
                 $("#btnEdit").hide();
             }
-            display_course_image();
+             displayCourseImage();
             $("#btnEdit").off().click(function() {
                 loadCourseCUD("Update"); 
             });
@@ -233,12 +157,12 @@ var courses = (function() {
     return {
 
         loadCourseCUD: loadCourseCUD, //function:  used by school.js
-        showCourses: showCourses, //function: used by school.js/students.js
+        loadCourseView: loadCourseView, //function:  used by courseSave.js
+        showCourses: showCourses, //function: used by school.js/students.js/courseSave.js
         courseSelected: courseSelected, //fucntion: used by school.js
         courseArray : courseArray, //data: used by students.js to build course checkboxlist
         coursesRetrieved: coursesRetrieved, //data: flag used to signal to student.js that building courseArray has completed after student update 
         courseHandled : courseHandled, //data: course data used by validationsCourse.js 
-        courseAction: courseAction //data: data used by validationsCourse.js ->  need to know if update or insert
     };
 
 })();

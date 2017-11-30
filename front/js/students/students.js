@@ -3,14 +3,12 @@
 var students = (function() {
 
     var studentArray = [];
-    var student_action = {}; //create object (in return statement) that can be referenced by validationsStudent.js - validations need to know whether update or insert
     var studentHandled = {};  //create object (in return statement) that can be referenced by validationsStudent.js
     var studentsRetrieved = {};
     var serverRequestModule  = serverRequest;//refernce serverRequest.js file and all its exposed function sendServerRequest
     var commonModule  = common;//refernce common.js file and all its exposed functions
-    var validationsStudentModule  = validationsStudent;//refernce validationsStudent.js file and all its exposed functions
 
-    function display_student_image(){
+    function displayStudentImage(){
         var dtForceReload = new Date();//way to force browser to reload picture after update of picture
         var imgPath = app.studentImagePath + studentHandled.details.student_id + ".jpg?" + dtForceReload.getTime();
         commonModule.setCanvas($("#canvasStudent")[0], imgPath, "regular");
@@ -29,16 +27,6 @@ var students = (function() {
         }
     }
 
-    function initValidations() {
-        validationsStudentModule.initValidator();
-        var validationMessages = validationsStudentModule.formValidated.validator.settings.messages;
-        validationMessages.student_name = "Student name required";
-        validationMessages.student_phone = "Valid phone required";
-        validationMessages.student_email = "Valid email required";
-        validationMessages.student_image = "Valid extensions: jpg, jpeg, png or gif";
-        validationMessages.duplicate_student = "Student with same name, phone & email already exists";
-    }        
-    
     function buildStudentTable(serverData){
         if (serverData.status === "error") {
             alert("Error occured: " + serverData.message);
@@ -85,39 +73,13 @@ var students = (function() {
         return false;
     }
 
-    function btnSaveHandler(action) {
-        
-        $(".btnSave").off().click(function() {
-            var verb;
-            var ajaxData = $("#frmCUD").serialize();
-
-            if(this.id === "btnDelete"){ // don't perform validations in case of delete
-                var confirmation = confirm("Are you sure you want to delete student number " + studentHandled.details.student_id + "?");
-                if (confirmation == true) {
-                    verb = "Delete";
-                    serverRequestModule.sendServerRequest(verb, ajaxData, afterSave);  
-                    return false;
-                }
-            }   
-            else {
-                student_action.chosen = action;
-                verb =  action === "Add" ? "Add" : "Update"; 
-                if (validationsStudentModule.formValidated.contents.valid()){
-                    serverRequestModule.sendServerRequest
-                        (verb, ajaxData, afterSave, "studentImage", "student_image");  
-                    return false;
-                }
-            }
-        });
-    }  
-        
     function loadStudentCUD(action) {
         $.ajax("templates/school/students/cud-student.html").done(function(data) {
             $("#cud-student-title").empty();
             $("#main-container").empty();
             $("#main-container").prepend(data);
-            initValidations();
-            btnSaveHandler(action);
+            studentSave.initValidations();
+            studentSave.btnSaveHandler(action);
             buildCoursesCBL(); //build checkboxlist of all courses
             if(action === "Update"){
                 //place name and description of student being updated in input field
@@ -134,7 +96,7 @@ var students = (function() {
                         document.getElementById(courses[i]).checked = true;
                     }
                 }
-                display_student_image();
+                displayStudentImage();
             }
             else {
                     $("#cud-student-title").html(action + " Student");
@@ -178,7 +140,7 @@ var students = (function() {
                 //load images for all canvas elements created
                 commonModule.loadCanvasList($("#courseList canvas"), app.courseImagePath, "small");
             }
-            display_student_image();
+            displayStudentImage();
             $("#btnEdit").off().click(function() {
                 loadStudentCUD("Update"); 
             });
@@ -198,54 +160,15 @@ var students = (function() {
         loadStudentView();
     }
 
-    function afterSave(serverResponse) {
-        if (serverResponse.status === "error") {
-            alert("Following error(s) occured in " + serverResponse.action + ":\n" + serverResponse.message);
-            return;
-        }
-        if (serverResponse.message.search("following errors") != -1) { //display msg about failed image upload
-            alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
-        }
-        var action = serverResponse.action.split(" ", 1)[0]; //first word of serverResponse.action contains action performed
-        if (action == "Delete") {
-            school.loadSchoolMain();
-            return
-        }
-
-        courses.showCourses();
-        showStudents();
-
-        var get_course_student_data = setInterval(test_completion, 500);
-        function test_completion() {
-            if (courses.coursesRetrieved.status && students.studentsRetrieved.status) {
-                displayAfterSave(serverResponse, action);
-                clearInterval(get_course_student_data);
-            }
-        }
-
-    }
-
-    function displayAfterSave(serverResponse, action){
-        let studentTemp = action == "Create" ? serverResponse.new_studentID  : studentHandled.details.student_id; 
-        let student_to_display = $.grep(studentArray, function(e){ return e.student_id ==  studentTemp});
-        var so = StudentObject();
-        studentHandled.details = new so.Student(student_to_display[0].student_id, 
-                                                student_to_display[0].student_name, 
-                                                student_to_display[0].student_phone, 
-                                                student_to_display[0].student_email, 
-                                                student_to_display[0].student_courses);
-        loadStudentView();
-    }
-
     return {
 
         loadStudentCUD: loadStudentCUD,  //function: used by school.js
+        loadStudentView: loadStudentView,  //function: used by studentSave.js
         showStudents: showStudents,  //function: used by school.js/courses.js
         studentSelected: studentSelected, //fucntion: used by school.js
         studentArray : studentArray, //data: used by courses.js to build list of students in view-course.html
         studentsRetrieved: studentsRetrieved, //data: flag used to signal to course.js that building studentArray has completed after course update 
         studentHandled: studentHandled, //data: student data used by validationsStudent.js 
-        student_action: student_action //data: data used by validationsStudent.js ->  need to know if update or insert
     };
 
 })();

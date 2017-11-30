@@ -13,6 +13,6 @@ var app = {
 jQuery(document).ready(function() {
     $.ajax("templates/navigation.html").done(function(data) {
         $("#navigation-bar").prepend(data);
-        loginLogout.login();    
+        loginHandling.getLoginStatus(); //check whether user logged-in and act accordingly   
     });
 });

@@ -4,7 +4,6 @@ var school = (function() {
 
     var coursesModule  = courses;//refernce courses.js file and all its exposed functions
     var studentsModule  = students;//refernce students.js file and all its exposed functions
-    var LoginLogoutModule  = loginLogout;//refernce validationsCourse.js file and all its exposed functions
     
     function loadSchoolMain() { 
         $.ajax("templates/school/school-summary.html").done(function(data) {
@@ -31,7 +30,7 @@ var school = (function() {
             });
 
             if (sessionStorage.getItem("administrator") === null) { //admin session object not found MUST immediately log in again 
-                LoginLogoutModule.login();
+                login.setUpLogin();
                 return;
             }
             var sessionAdmin = sessionStorage.getItem("administrator");

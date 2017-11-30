@@ -54,7 +54,7 @@ var validationsStudent = (function() {
                 }
               
             //update student: no change made to data retrieved from db return relevant message to user
-            if (studentsModule.student_action.chosen === "Update") {
+            if (studentSave.studentAction.chosen === "Update") {
                 if (app.debugMode){
                     console.log("student_already_exists(): " + studentsModule.studentHandled.details.student_name + "  " + studentsModule.studentHandled.details.student_phone + "  " + studentsModule.studentHandled.details.student_email + "  ");
                 }
@@ -109,7 +109,7 @@ var validationsStudent = (function() {
                             var serverResponse = JSON.parse(data);
                             //user no longer logged in on server (session no longer exists - make user login again) DON'T call callback method
                             if (serverResponse.status === "no longer logged in") { 
-                                loginLogout.handleLoginStatus("no"); //no = user not logged in
+                                login.setUpLogin(); //no = user not logged in
                                 return;
                             }
                             //-1 means student with same student name, phone $ email was not found
