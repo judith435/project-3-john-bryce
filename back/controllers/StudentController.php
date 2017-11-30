@@ -35,11 +35,13 @@
             }
             $student_bll = new Student_BLL();
             //insert => if student already exists  $applicationError will contain corresponding message and StudentApi.php will send apropriate message back to client 
-            $studentID =  $student_bll->insert_update_student($student, $method, $applicationError);
+           //@@@@@@@@@@@@ $studentID =  $student_bll->insert_update_student($student, $method, $applicationError);
             if ($method == "Create"){
+                $studentID =  $student_bll->insert_student($student, $applicationError);
                 $new_studentID =  $studentID['new_student_id'];         
             }
             else { //update $new_studentID irrelevant set default value 
+                $studentID =  $student_bll->update_student($student, $applicationError);
                 $new_studentID = 0;
             }
 
@@ -66,7 +68,7 @@
         }
         
         //used for js remote validation validationsStudent.js  method: student_already_exists
-        function getStudentByName($params) { 
+        function get_student_by_details($params) { 
             $student_bll = new Student_BLL();
             $student_id = $student_bll->check_student_exists($params);
             if ($student_id == false){ //no student found with given student name
