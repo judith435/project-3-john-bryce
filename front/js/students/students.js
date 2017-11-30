@@ -5,7 +5,7 @@ var students = (function() {
     var studentArray = [];
     var student_action = {}; //create object (in return statement) that can be referenced by validationsStudent.js - validations need to know whether update or insert
     var studentHandled = {};  //create object (in return statement) that can be referenced by validationsStudent.js
-    var students_retrieved = {};
+    var studentsRetrieved = {};
     var serverRequestModule  = serverRequest;//refernce serverRequest.js file and all its exposed function sendServerRequest
     var commonModule  = common;//refernce common.js file and all its exposed functions
     var validationsStudentModule  = validationsStudent;//refernce validationsStudent.js file and all its exposed functions
@@ -55,7 +55,7 @@ var students = (function() {
                                               serverData[i].student_courses 
                                             ));
         }  
-        students_retrieved.status = true;
+        studentsRetrieved.status = true;
         $.ajax("templates/school/students/student-row.html").done(function(data) {
             $("#students").html("");
             $("#totalStudents").html("Total number of Students: " + studentArray.length);
@@ -80,7 +80,7 @@ var students = (function() {
 
     function showStudents(){
         var ajaxData = { ctrl: "student" };
-        students_retrieved.status = false;
+        studentsRetrieved.status = false;
         serverRequestModule.sendServerRequest("Select", ajaxData, buildStudentTable); 
         return false;
     }
@@ -217,7 +217,7 @@ var students = (function() {
 
         var get_course_student_data = setInterval(test_completion, 500);
         function test_completion() {
-            if (courses.coursesRetrieved.status && students.students_retrieved.status) {
+            if (courses.coursesRetrieved.status && students.studentsRetrieved.status) {
                 displayAfterSave(serverResponse, action);
                 clearInterval(get_course_student_data);
             }
@@ -243,7 +243,7 @@ var students = (function() {
         showStudents: showStudents,  //function: used by school.js/courses.js
         studentSelected: studentSelected, //fucntion: used by school.js
         studentArray : studentArray, //data: used by courses.js to build list of students in view-course.html
-        students_retrieved: students_retrieved, //data: flag used to signal to course.js that building studentArray has completed after course update 
+        studentsRetrieved: studentsRetrieved, //data: flag used to signal to course.js that building studentArray has completed after course update 
         studentHandled: studentHandled, //data: student data used by validationsStudent.js 
         student_action: student_action //data: data used by validationsStudent.js ->  need to know if update or insert
     };

@@ -51,11 +51,11 @@ var validationsCourse = (function() {
                     }
                     var courseDescription = $("#courseDescription").val().trim();
                     var courseImage = $("#courseImage").val().trim(); 
-                    var course_img_delete_checked = ($("#deleteImage").is(":checked"));
+                    var courseImgDeleteChecked = ($("#deleteImage").is(":checked"));
 
                     if (courseName == coursesModule.courseHandled.details.course_name &&
                         courseDescription === coursesModule.courseHandled.details.course_description &&
-                        courseImage == "" && !course_img_delete_checked) { 
+                        courseImage == "" && !courseImgDeleteChecked) { 
                             formValidated.validator.settings.messages.duplicate_course = "No change in data - No update";
                             return false; 
                     }

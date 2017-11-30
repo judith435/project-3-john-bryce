@@ -4,7 +4,7 @@ var school = (function() {
 
     var coursesModule  = courses;//refernce courses.js file and all its exposed functions
     var studentsModule  = students;//refernce students.js file and all its exposed functions
-    var LoginLogoutModule  = login_logout;//refernce validationsCourse.js file and all its exposed functions
+    var LoginLogoutModule  = loginLogout;//refernce validationsCourse.js file and all its exposed functions
     
     function loadSchoolMain() { 
         $.ajax("templates/school/school-summary.html").done(function(data) {

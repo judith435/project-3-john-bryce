@@ -9,7 +9,7 @@ var courses = (function() {
     var serverRequestModule  = serverRequest; //refernce serverRequest.js file and all its exposed function sendServerRequest
     var commonModule  = common; //refernce common.js file and all its exposed functions
     var validationsCourseModule  = validationsCourse; //refernce validationsCourse.js file and all its exposed functions
-    var LoginLogoutModule  = login_logout; //refernce validationsCourse.js file and all its exposed functions
+    var LoginLogoutModule  = loginLogout; //refernce validationsCourse.js file and all its exposed functions
     
     function display_course_image(){
         var dtForceReload = new Date();//way to force browser to reload picture after update of picture
@@ -28,14 +28,14 @@ var courses = (function() {
           
     function displayAfterSave(serverResponse, action){
         let courseTemp = action == "Create" ? serverResponse.new_courseID  : courseHandled.details.course_id; 
-        let course_to_display = $.grep(courseArray, function(e){ return e.course_id ==  courseTemp;});
+        let courseToDisplay = $.grep(courseArray, function(e){ return e.course_id ==  courseTemp;});
         let co = new CourseObject();
         //update courseHandled with updated course data
-        courseHandled.details = new co.Course(  course_to_display[0].course_id, 
-                                                course_to_display[0].course_name, 
-                                                course_to_display[0].course_description, 
-                                                course_to_display[0].number_of_students_for_course, 
-                                                course_to_display[0].student_ids);
+        courseHandled.details = new co.Course(  courseToDisplay[0].course_id, 
+                                                courseToDisplay[0].course_name, 
+                                                courseToDisplay[0].course_description, 
+                                                courseToDisplay[0].number_of_students_for_course, 
+                                                courseToDisplay[0].student_ids);
         loadCourseView();
     }
 
@@ -107,7 +107,7 @@ var courses = (function() {
         //displayAfterSave must only run after both course and student has been retrieved 
         var get_course_student_data = setInterval(test_completion, 500);
         function test_completion() {
-            if (courses.coursesRetrieved.status && students.students_retrieved.status) {
+            if (courses.coursesRetrieved.status && students.studentsRetrieved.status) {
                 displayAfterSave(serverResponse, action);
                 clearInterval(get_course_student_data);
             }

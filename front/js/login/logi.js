@@ -1,4 +1,4 @@
-// var login_logout = (function() {
+// var loginLogout = (function() {
 //     function initValidations() {    }        
 
 //     function setNavigationBar_LoggedOut() {    }
@@ -18,7 +18,7 @@
 //             setNavigationBarLoggedIn(admin); 
 //     }
 
-//     function handleLoginStatus(user_login_status) {
+//     function handleLoginStatus(userLoginStatus) {
                 
 //         setNavigationBar_LoggedOut();
 //         initValidations();

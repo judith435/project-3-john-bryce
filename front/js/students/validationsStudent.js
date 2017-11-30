@@ -59,7 +59,7 @@ var validationsStudent = (function() {
                     console.log("student_already_exists(): " + studentsModule.studentHandled.details.student_name + "  " + studentsModule.studentHandled.details.student_phone + "  " + studentsModule.studentHandled.details.student_email + "  ");
                 }
                 var studentImage = $("#studentImage").val().trim(); 
-                var student_img_delete_checked = ($("#deleteImage").is(":checked"));
+                var studentImgDeleteChecked = ($("#deleteImage").is(":checked"));
 
                 //build array of all courses selected in checkbox list which is then converted to string to compare it to courses selected in studentHandled before update 
                 var selectedInPanel   = [];
@@ -71,7 +71,7 @@ var validationsStudent = (function() {
                     studentPhone === studentsModule.studentHandled.details.student_phone &&
                     studentEmail === studentsModule.studentHandled.details.student_email &&
                     selectedInPanel + "" == studentsModule.studentHandled.details.student_courses &&
-                    studentImage == "" && !student_img_delete_checked) { 
+                    studentImage == "" && !studentImgDeleteChecked) { 
                          formValidated.validator.settings.messages.duplicate_student = "No change in data - No update";
                          return false; 
                 }
@@ -109,7 +109,7 @@ var validationsStudent = (function() {
                             var serverResponse = JSON.parse(data);
                             //user no longer logged in on server (session no longer exists - make user login again) DON'T call callback method
                             if (serverResponse.status === "no longer logged in") { 
-                                login_logout.handleLoginStatus("no"); //no = user not logged in
+                                loginLogout.handleLoginStatus("no"); //no = user not logged in
                                 return;
                             }
                             //-1 means student with same student name, phone $ email was not found

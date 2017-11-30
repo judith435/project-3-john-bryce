@@ -2,7 +2,7 @@
 
 var common = (function() {
 
-      var canvas_size = {
+      var canvasSize = {
             regular: [80, 100],   
             small: [40, 50],
             adminAside: [48, 60],
@@ -13,7 +13,7 @@ var common = (function() {
             var context = canvas.getContext("2d");
             var imageObj = new Image();
             imageObj.onload = function() {
-                  context.drawImage(imageObj, 0, 0, canvas_size[size][0], canvas_size[size][1]);
+                  context.drawImage(imageObj, 0, 0, canvasSize[size][0], canvasSize[size][1]);
             };
             imageObj.src = imgPath;
       }

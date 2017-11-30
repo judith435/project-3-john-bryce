@@ -1,5 +1,5 @@
 "use strict";
-var login_logout = (function() {
+var loginLogout = (function() {
 
     var serverRequestModule  = serverRequest; //refernce serverRequest.js file and all its exposed function sendServerRequest
     
@@ -82,9 +82,9 @@ var login_logout = (function() {
         }
     }
 
-    function handleLoginStatus(user_login_status) {
+    function handleLoginStatus(userLoginStatus) {
         //userLoggedIn = session object on server / sessionStorage.getItem("administrator") on client
-        if (user_login_status === "no" || //response from server was that user no longer logged-in
+        if (userLoginStatus === "no" || //response from server was that user no longer logged-in
             sessionStorage.getItem("administrator") === null) {  
             $.ajax("templates/login.html").done(function(data) {
                 $("#login").empty();

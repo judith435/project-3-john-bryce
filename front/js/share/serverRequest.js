@@ -3,10 +3,10 @@
 var serverRequest = (function() {
 
     function sendServerRequest( action, 
-                                input_data, 
+                                inputData, 
                                 CallBackFunction,
                                 fuImage, //name of input type file control
-                                image_name) //name of image in object model
+                                imageName) //name of image in object model
     {
         var verb;
         switch (action) {
@@ -24,11 +24,11 @@ var serverRequest = (function() {
                 break;
         }
 
-        var verb_changed = false;
+        var verbChanged = false;
         //image was selected and verb is PUT => must change to POST - images can only be transfered with post
         if($("#" + fuImage).val() && verb === "PUT"){ //image was selected and action = "update" (verb is PUT)
             verb = "POST";
-            verb_changed = true;
+            verbChanged = true;
         } 
 
         var ajaxData = "";
@@ -38,7 +38,7 @@ var serverRequest = (function() {
             //the  individual input fields must be appeded to FormData() as key value pairs => statement below creates object from $("form").serialize() containing
             //key value pairs of input data  
             var inputDataPairs = 
-            JSON.parse('{"' + decodeURI(input_data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}');
+            JSON.parse('{"' + decodeURI(inputData.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}');
             
             for (var key in inputDataPairs) {
                 if (inputDataPairs.hasOwnProperty(key)) {
@@ -50,17 +50,17 @@ var serverRequest = (function() {
             }
 
             //parm necessary to inform server of verb change to perform on server from POST to PUT 
-            if (verb_changed) {
+            if (verbChanged) {
                 ajaxData.append("verb_change", "update_with_image");
             }
 
             if($("#" + fuImage).val()){ //image was selected
                 var file_data = $("#" + fuImage).prop("files")[0]; 
-                ajaxData.append(image_name, file_data);
+                ajaxData.append(imageName, file_data);
             } 
         }
         else { //select -GET , delete - DELETE  & update - PUT without image 
-                ajaxData = input_data;
+                ajaxData = inputData;
         }
 
         if (app.debugMode) {
@@ -86,7 +86,7 @@ var serverRequest = (function() {
 
             //user no longer logged in on server (session no longer exists - make user login again) DON'T call callback method
             if (serverResponse.status === "no longer logged in") { 
-                login_logout.handleLoginStatus("no"); //no = user not logged in
+                loginLogout.handleLoginStatus("no"); //no = user not logged in
                 return;
             }
             //security breach by administrator sales - DON'T call callback method

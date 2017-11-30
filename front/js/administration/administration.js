@@ -158,7 +158,7 @@ var administration = (function() {
 
     //save roles retrieved in session storage to avoid repeated calls to db for same date
     // (roles are predefined and are not liable to change)
-    function callback_Save_Roles(roles)   
+    function callbackSaveRoles(roles)   
     {   
         sessionStorage.setItem("roles", JSON.stringify(roles));
         buildRolesDDL();   
@@ -171,7 +171,7 @@ var administration = (function() {
             $("#main-container").prepend(data);
             if (sessionStorage.getItem("roles") == null) {
                 var ajaxData = { ctrl: "role" };
-                serverRequestModule.sendServerRequest("Select", ajaxData, callback_Save_Roles); 
+                serverRequestModule.sendServerRequest("Select", ajaxData, callbackSaveRoles); 
             }
             else {
                 buildRolesDDL();
@@ -230,7 +230,7 @@ var administration = (function() {
         loadAdminCUD("Update"); 
     }
 
-    function loadAdminAside() {//called from login_logout.js => event when admin clicks link button
+    function loadAdminAside() {//called from loginLogout.js => event when admin clicks link button
         var data = sessionStorage.getItem("administrator");
         adminLoggedIn = JSON.parse(data);
     
@@ -253,7 +253,7 @@ var administration = (function() {
     }
 
     return {
-        loadAdminAside: loadAdminAside, //function: used by login_logout.js
+        loadAdminAside: loadAdminAside, //function: used by loginLogout.js
         adminHandled: adminHandled, //data: used by validationsAdministrator.js
         action: action  //data: used by validationsAdministrator.js
     };
