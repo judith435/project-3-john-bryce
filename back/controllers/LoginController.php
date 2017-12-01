@@ -34,9 +34,8 @@
                 $_SESSION["user_logged_in"] =  $administrator; 
                 return $administrator;  
             }
-            else {
-                return "no administrator with this email and password found";
-            }
+            
+            return "no administrator with this email and password found";
         }
 
         function endLogin() {

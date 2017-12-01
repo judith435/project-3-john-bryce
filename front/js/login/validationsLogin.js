@@ -31,5 +31,5 @@ var validationsLogin = (function() {
         formValidated: formValidated
     };
 
-})();
+}());
 

@@ -47,7 +47,7 @@
             //save course image
             $imgHandling = new ImageHandling();
             //test if update with option to delete image (checkbox deleteImage) Delete Image on Server
-            if ($method == "Update" && array_key_exists("delete_image", $params)) {
+            if (array_key_exists("delete_image", $params)) {
                 $imgHandling->delete_image($params["course_id"], "course");
             }
             else {

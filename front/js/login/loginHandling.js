@@ -25,4 +25,4 @@ var loginHandling = (function() {
         getLoginStatus: getLoginStatus
     };
 
-})();
+}());

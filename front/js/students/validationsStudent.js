@@ -133,4 +133,4 @@ var validationsStudent = (function() {
         formValidated: formValidated
     };
 
-})();
+}());

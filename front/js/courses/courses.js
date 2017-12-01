@@ -165,6 +165,6 @@ var courses = (function() {
         courseHandled : courseHandled, //data: course data used by validationsCourse.js 
     };
 
-})();
+}());
 
 

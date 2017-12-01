@@ -41,7 +41,7 @@
         }
 
         //generic function to execute any mysql stored procedure
-        public function executeSP($sp, $parms) {   
+        public function executeSP($stored_procedure, $parms) {   
             $pdo = new PDO($this->dsn, $this->user, $this->pass, $this->opt);
             $parmList = '(';
             foreach ($parms as  $parm) {  
@@ -49,7 +49,7 @@
             }
             $parmList = rtrim($parmList, ',');
             $parmList .= ')';
-            $sql = 'CALL ' . $sp . $parmList;
+            $sql = 'CALL ' . $stored_procedure . $parmList;
             $stmt = $pdo->prepare($sql);
             foreach ($parms as  $parm) { 
                 $stmt->bindValue(':' . $parm->getID() , $parm->getValue(), $parm->getType());

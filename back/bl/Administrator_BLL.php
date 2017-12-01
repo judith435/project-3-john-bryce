@@ -55,9 +55,11 @@
             if ($method == "Update") {  //for update must add admin_id as first parameter
                 array_unshift($spParms, new PDO_Parm("admin_id", $admin->getAdministratorID(), 'integer'));
             }
-            else { //for insert add password => irrelevant for update password cannot be updated
+
+            if ($method == "Create") { //for insert add password => irrelevant for update password cannot be updated
                 array_push($spParms, new PDO_Parm("admin_password", $login->getLoginPassword(), 'string')); 
             }
+            
             $spName = $method == "Create" ? 'insert_administrator' : 'update_administrator';
 
             $adminID = parent::get($this->get_dbName(), $spName, $spParms);

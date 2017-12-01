@@ -171,6 +171,6 @@ var students = (function() {
         studentHandled: studentHandled, //data: student data used by validationsStudent.js 
     };
 
-})();
+}());
 
 

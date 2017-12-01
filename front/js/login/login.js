@@ -82,5 +82,5 @@ var login = (function() {
         setNavigationBarLoggedIn : setNavigationBarLoggedIn
     };
 
-})();
+}());
 

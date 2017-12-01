@@ -258,4 +258,4 @@ var administration = (function() {
         action: action  //data: used by validationsAdministrator.js
     };
 
-})();
+}());

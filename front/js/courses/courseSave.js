@@ -37,7 +37,7 @@ var courseSave = (function() {
         var action = serverResponse.action.split(" ", 1)[0]; //first word of serverResponse.action contains action performed
         if (action == "Delete") {
             school.loadSchoolMain();
-            return
+            return;
         }
 
         //after each update must update both course and student date (student data also uses course data)
@@ -86,5 +86,5 @@ var courseSave = (function() {
                 initValidations: initValidations
            };
         
-})();
+}());
         

@@ -7,7 +7,7 @@
 
     class ImageHandling { 
 
-        public function save_uploaded_image($ID, $entity, &$ImageUploadError) {   
+        public function save_uploaded_image($identity, $entity, &$ImageUploadError) {   
 
             $imageName =  $entity . "_image";
 
@@ -28,7 +28,7 @@
                         mkdir($GLOBALS['siteRoot'] . "\\" . $target_dir . "\\", 0777, true);
                     }
 
-                    $target_file =  $GLOBALS['siteRoot'] . $target_dir .  "image_for_" . $entity ."_id_" . $ID . ".jpg";
+                    $target_file =  $GLOBALS['siteRoot'] . $target_dir .  "image_for_" . $entity ."_id_" . $identity . ".jpg";
 
                     if($_FILES[$imageName]['type'] != 'image/jpeg') {//convert all non jpg files (gif & bmp) to jpg
                         // create image resource
@@ -62,15 +62,16 @@
             }
         }
 
-        public function delete_image($ID, $entity) {
+        public function delete_image($identity, $entity) {
             //$glob_pattern contains name of image (if image for entity - course/student/admin exist)
-            $glob_pattern = 
-                $GLOBALS['siteRoot'] . "\\" . UPLOAD_FOLDER.  "\\" . $entity . "s\\/" . "image_for_" . $entity ."_id_" . $ID . ".{jpg}";
+            $glob_pattern = $GLOBALS['siteRoot'] . "\\" . UPLOAD_FOLDER.  "\\" . 
+                            $entity . "s\\/" . "image_for_" . $entity ."_id_" . $identity . ".{jpg}";
             $image = glob($glob_pattern, GLOB_BRACE); //set $image to image if exist
             if (!empty($image)) {
                 $unlink_successful =  unlink($image[0]); //delete image
                 if (!$unlink_successful) { //if deleteing image failed write to error log BUT don't return error to client
-                    ErrorHandling::LogApplicationError("unlink of " . $entity . " for " . $entity ."_id " . $ID . " failed"); 
+                    ErrorHandling::LogApplicationError
+                    ("unlink of " . $entity . " for " . $entity ."_id " . $identity . " failed"); 
                 }
             }
         }            

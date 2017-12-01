@@ -133,5 +133,5 @@ var validationsAdministrator = (function() {
         formValidated: formValidated
     };
 
-})();
+}());
 

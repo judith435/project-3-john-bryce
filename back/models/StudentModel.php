@@ -24,7 +24,8 @@
             if ($action == "select") {    
                 $this->setStudentCourses_select($params["student_courses"]);
             } 
-            else { //action = update
+            
+            if ($action == "update") { 
                 $this->setStudentCourses_update($params);
             }
         }  

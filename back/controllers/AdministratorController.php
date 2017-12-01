@@ -36,23 +36,25 @@
             if ($method == "Create"){ // login data (password irrelevant for update - password cannot be updated)
                 $login = new LoginModel($params["admin_email"],$params["admin_password"], $applicationError);
             }
+            
             if ($applicationError != "") { //error found in data members of student object - faulty user input
                 return;
             }
             $admin_bll = new Administrator_BLL();
             //insert => if student found  $applicationError will contain corresponding message and StudentApi.php will send apropriate message back to client 
             $adminID =  $admin_bll->insert_update_admin($admin, $login, $method, $applicationError);
-            if ($method == "Create"){
+            if ($method == "Create") {
                 $new_adminID =  $adminID['new_admin_id'];         
             }
-            else { //update $new_adminID irrelevant set default value
+
+            if ($method == "Update") { //update $new_adminID irrelevant set default value
                 $new_adminID = 0;
             }
 
             //save student image
             $imgHandling = new ImageHandling();
             //test if update with option to delete image (checkbox deleteImage) Delete Image on Server
-            if ($method == "Update" && array_key_exists("delete_image", $params)) {
+            if (array_key_exists("delete_image", $params)) {
                 $imgHandling->delete_image($params["admin_id"], "admin");
             }
             else {

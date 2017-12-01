@@ -33,14 +33,14 @@
             if ($applicationError != "") { //error found in data members of student object - faulty user input
                 return;
             }
+
             $student_bll = new Student_BLL();
-            //insert => if student found  $applicationError will contain corresponding message and StudentApi.php will send apropriate message back to client 
-           //@@@@@@@@@@@@ $studentID =  $student_bll->insert_update_student($student, $method, $applicationError);
-            if ($method == "Create"){
+            if ($method == "Create") {
                 $studentID =  $student_bll->insert_student($student, $applicationError);
                 $new_studentID =  $studentID['new_student_id'];         
             }
-            else { //update $new_studentID irrelevant set default value 
+
+            if ($method == "Update") { //update $new_studentID irrelevant set default value 
                 $studentID =  $student_bll->update_student($student, $applicationError);
                 $new_studentID = 0;
             }
@@ -48,7 +48,7 @@
             //save student image
             $imgHandling = new ImageHandling();
             //test if update with option to delete image (checkbox deleteImage) Delete Image on Server
-            if ($method == "Update" && array_key_exists("delete_image", $params)) {
+            if (array_key_exists("delete_image", $params)) {
                 $imgHandling->delete_image($params["student_id"], "student");
             }
             else {

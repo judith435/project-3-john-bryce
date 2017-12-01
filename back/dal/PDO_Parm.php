@@ -1,19 +1,19 @@
 <?php
     class PDO_Parm { //class containing stored procedure parameters
 
-        private $id;
+        private $identity;
         private $value;
         private $type;
 
-        public function __construct($id, $value, $type){
-            $this->setID($id);
+        public function __construct($identity, $value, $type){
+            $this->setID($identity);
             $this->setValue($value);
             $this->setType($type);
 
         }
 
         public function getID(){
-            return $this->id;
+            return $this->identity;
         }
 
         public function getValue(){
@@ -24,8 +24,8 @@
             return $this->type;
         }
 
-        public function setID($id){
-            $this->id = $id;
+        public function setID($identity){
+            $this->identity = $identity;
         }
 
         public function setValue($value){

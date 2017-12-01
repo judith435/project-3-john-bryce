@@ -33,4 +33,4 @@ var logout = (function() {
         logout: logout
     };
 
-})();
+}());

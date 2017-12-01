@@ -16,7 +16,8 @@ var studentSave = (function() {
     
     function displayAfterSave(serverResponse, action){
         let studentTemp = action == "Create" ? serverResponse.new_studentID  : students.studentHandled.details.student_id; 
-        let student_to_display = $.grep(students.studentArray, function(e){ return e.student_id ==  studentTemp});
+        let student_to_display = $.grep(students.studentArray, function(e)
+                                             { return e.student_id ==  studentTemp; });
         var so = studentObject();
         students.studentHandled.details = new so.Student(student_to_display[0].student_id, 
                                                         student_to_display[0].student_name, 
@@ -37,7 +38,7 @@ var studentSave = (function() {
         var action = serverResponse.action.split(" ", 1)[0]; //first word of serverResponse.action contains action performed
         if (action == "Delete") {
             school.loadSchoolMain();
-            return
+            return;
         }
 
         courses.showCourses();
@@ -87,6 +88,6 @@ var studentSave = (function() {
                 studentAction: studentAction //data: data used by validationsStudent.js ->  need to know if update or insert
            };
         
-})();
+}());
         
         

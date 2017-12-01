@@ -106,4 +106,4 @@ var validationsCourse = (function() {
         formValidated: formValidated
     };
 
-})();
+}());

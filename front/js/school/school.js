@@ -58,6 +58,6 @@ var school = (function() {
         loadSchoolMain: loadSchoolMain
     };
 
-})();
+}());
 
 

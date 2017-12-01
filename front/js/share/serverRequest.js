@@ -110,4 +110,4 @@ var serverRequest = (function() {
            };
 
 
-})();
+}());
