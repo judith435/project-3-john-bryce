@@ -43,25 +43,23 @@
             $admin_bll = new Administrator_BLL();
             //insert => if student found  $applicationError will contain corresponding message and StudentApi.php will send apropriate message back to client 
             $adminID =  $admin_bll->insert_update_admin($admin, $login, $method, $applicationError);
+            $new_adminID = 0;
             if ($method == "Create") {
                 $new_adminID =  $adminID['new_admin_id'];         
             }
 
-            if ($method == "Update") { //update $new_adminID irrelevant set default value
-                $new_adminID = 0;
-            }
-
-            //save student image
+            //save admin image
             $imgHandling = new ImageHandling();
             //test if update with option to delete image (checkbox deleteImage) Delete Image on Server
             if (array_key_exists("delete_image", $params)) {
-                $imgHandling->delete_image($params["admin_id"], "admin");
+                $imgHandling->delete_image($admin->getAdministratorID(), "admin");
+                return $new_adminID;
             }
-            else {
-                //if new admin send new admin id returned from mysql if update send admin_id of updated admin ; errors
-                //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
-                $imgHandling->save_uploaded_image($method == "Create" ? $new_adminID :  $params["admin_id"], "admin", $ImageUploadError);
-            }
+            //if new admin send new admin id returned from mysql if update send admin_id of updated admin ; errors
+            //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
+            $imgHandling->save_uploaded_image(
+                $method == "Create" ? $new_adminID : $admin->getAdministratorID(), 
+                "admin", $ImageUploadError);
             return $new_adminID;
         }
 

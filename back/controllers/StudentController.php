@@ -41,7 +41,8 @@
             }
 
             if ($method == "Update") { //update $new_studentID irrelevant set default value 
-                $studentID =  $student_bll->update_student($student, $applicationError);
+                // $studentID =  $student_bll->update_student($student, $applicationError);
+                $student_bll->update_student($student, $applicationError);
                 $new_studentID = 0;
             }
 
@@ -49,13 +50,14 @@
             $imgHandling = new ImageHandling();
             //test if update with option to delete image (checkbox deleteImage) Delete Image on Server
             if (array_key_exists("delete_image", $params)) {
-                $imgHandling->delete_image($params["student_id"], "student");
+                $imgHandling->delete_image($student->getStudentID(), "student");
+                return $new_studentID;
             }
-            else {
-                //if new student send new student id returned from mysql if update send student_id of updated student to handle_student_image function any errors 
-                //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
-                $imgHandling->save_uploaded_image($method == "Create" ? $new_studentID :  $params["student_id"], "student", $ImageUploadError);
-            }
+            //if new student send new student id returned from mysql if update send student_id of updated student to handle_student_image function any errors 
+            //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
+            $imgHandling->save_uploaded_image(
+                $method == "Create" ? $new_studentID :  $student->getStudentID(), 
+                "student", $ImageUploadError);
             return $new_studentID;
         }
 

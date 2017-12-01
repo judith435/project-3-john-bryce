@@ -37,25 +37,24 @@
             $course_bll = new Course_BLL();
             //insert => if course found  $applicationError will contain corresponding message and CourseApi.php will send apropriate message back to client 
             $courseID =  $course_bll->insert_update_course($course, $method, $applicationError);
+            $new_courseID = 0;
             if ($method == "Create"){
                 $new_courseID =  $courseID['new_course_id'];         
-            }
-            else { //update $new_courseID irrelevant set default value 
-                $new_courseID = 0;
             }
 
             //save course image
             $imgHandling = new ImageHandling();
             //test if update with option to delete image (checkbox deleteImage) Delete Image on Server
             if (array_key_exists("delete_image", $params)) {
-                $imgHandling->delete_image($params["course_id"], "course");
+                $imgHandling->delete_image($course->getCourseID(), "course");
+                return $new_courseID;
             }
-            else {
-                //if new course send new course id returned from mysql if update send course_id of updated course to handle_course_image function any errors 
-                //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
-                $imgHandling->save_uploaded_image($method == "Create" ? $new_courseID :  $params["course_id"], "course", $ImageUploadError);
-            }
-            return $new_courseID;
+            //if new course send new course id returned from mysql if update send course_id of updated course to handle_course_image function any errors 
+            //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
+            $imgHandling->save_uploaded_image(
+                $method == "Create" ? $new_courseID :  $course->getCourseID(), 
+                "course", $ImageUploadError);
+            return $new_courseID; 
         }
 
         function delete_Course($params) {
