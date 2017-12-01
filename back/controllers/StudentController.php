@@ -34,7 +34,7 @@
                 return;
             }
             $student_bll = new Student_BLL();
-            //insert => if student already exists  $applicationError will contain corresponding message and StudentApi.php will send apropriate message back to client 
+            //insert => if student found  $applicationError will contain corresponding message and StudentApi.php will send apropriate message back to client 
            //@@@@@@@@@@@@ $studentID =  $student_bll->insert_update_student($student, $method, $applicationError);
             if ($method == "Create"){
                 $studentID =  $student_bll->insert_student($student, $applicationError);
@@ -67,7 +67,7 @@
             $imgHandling->delete_image($params["student_id"], "student");
         }
         
-        //used for js remote validation validationsStudent.js  method: student_already_exists
+        //used for js remote validation validationsStudent.js  method: studentAlreadyExists
         function get_student_by_details($params) { 
             $student_bll = new Student_BLL();
             $student_id = $student_bll->check_student_exists($params);

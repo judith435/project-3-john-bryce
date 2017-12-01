@@ -42,14 +42,14 @@ var validationsAdministrator = (function() {
                     extension: "jpg|jpeg|png|gif"
                 }, 
                 duplicate_admin: {  
-                    admin_already_exists: true
+                    adminAlreadyExists: true
                 } 
             }
         });
 
         var response;
         $.validator.addMethod(
-            "admin_already_exists", 
+            "adminAlreadyExists", 
             function() {
 
                 var administrationModule = administration; //administrationModule contains all data exposed from js file administration.js
@@ -64,7 +64,7 @@ var validationsAdministrator = (function() {
                 //update administrator : no change made to data retrieved from db return relevant message to user
                 if (administrationModule.action.chosen === "Update") {
                     if (app.debugMode){
-                        console.log("admin_already_exists() adminName from update: " + administrationModule.adminHandled.admin_name);
+                        console.log("adminAlreadyExists() adminName from update: " + administrationModule.adminHandled.admin_name);
                     }
                     var adminPhone = $("#adminPhone").val().trim();
                     var adminRole = $("#RoleDDL").val().trim();  
@@ -80,7 +80,7 @@ var validationsAdministrator = (function() {
                              return false; 
                     }
                     else {
-                        formValidated.validator.settings.messages.duplicate_admin = "Administrator with same name and email already exists";
+                        formValidated.validator.settings.messages.duplicate_admin = "Administrator with same name and email found";
                     }
 
                     //check administrator name & email changed - if NOT don't run duplicate admin test ==> it always going to exist (refering to itself)

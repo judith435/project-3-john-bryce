@@ -20,10 +20,10 @@
             array_push($spParms, new PDO_Parm("course_name", $course->getCourseName(), 'string'));
 
             $resultSet = parent::get($this->get_dbName(), 'check_course_exists', $spParms);
-            if ($resultSet->rowCount() > 0) { // course with same name already exists
+            if ($resultSet->rowCount() > 0) { // course with same name found
                 $duplicate_course = $resultSet->fetch();
                 if (($method == "Create") || //create: if course with same name already exist then error
-                     //update: if course with same name already exists then error only if course_id different - otherwise referring to existing course being updated
+                     //update: if course with same name found then error only if course_id different - otherwise referring to existing course being updated
                     ($method == "Update" && $duplicate_course["id"] != $course->getCourseID())) { 
                         $applicationError =  "course with same name already exist - course id #" . $duplicate_course["id"];
                         return;
@@ -40,7 +40,7 @@
             return $courseID->fetch();
         }
 
-        //used for js remote validation validationsCourse.js  method: course_already_exists
+        //used for js remote validation validationsCourse.js  method: courseAlreadyExists
         public function check_course_exists($params) {
             $spParms =  array(); //contains stored procedure input parms 
             array_push($spParms, new PDO_Parm("course_name", $params["course_name"], 'string')); 

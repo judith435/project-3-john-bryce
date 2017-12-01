@@ -35,7 +35,7 @@
                 return;
             }
             $course_bll = new Course_BLL();
-            //insert => if course already exists  $applicationError will contain corresponding message and CourseApi.php will send apropriate message back to client 
+            //insert => if course found  $applicationError will contain corresponding message and CourseApi.php will send apropriate message back to client 
             $courseID =  $course_bll->insert_update_course($course, $method, $applicationError);
             if ($method == "Create"){
                 $new_courseID =  $courseID['new_course_id'];         
@@ -66,7 +66,7 @@
             $imgHandling->delete_image($params["course_id"], "course");
         }
 
-        //used for js remote validation validationsCourse.js  method: course_already_exists
+        //used for js remote validation validationsCourse.js  method: courseAlreadyExists
         function getCourseByName($params) {  
             $course_bll = new Course_BLL();
             $course_id = $course_bll->check_course_exists($params);

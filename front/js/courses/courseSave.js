@@ -10,7 +10,7 @@ var courseSave = (function() {
         validationMessages.course_name = "Course name required";
         validationMessages.course_description = "Course description required";
         validationMessages.course_image = "Valid extensions: jpg, jpeg, png or gif";
-        validationMessages.duplicate_course = "Course with same name already exists";
+        validationMessages.duplicate_course = "Course with same name found";
     }        
 
     function displayAfterSave(serverResponse, action){

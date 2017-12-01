@@ -8,7 +8,7 @@
             $courseCtrl = new CourseController;
            
             if (array_key_exists("course_name", $params)) { 
-                //used to check if course by same name already exists: js remote validation validationsCourse.js  method: course_already_exists
+                //used to check if course by same name found: js remote validation validationsCourse.js  method: courseAlreadyExists
                 return  $courseCtrl->getCourseByName($params); 
             }
             return $courseCtrl->getAll_Courses();
@@ -34,7 +34,7 @@
 
         function create_update($params, $function) {
 
-            //used to return the following kind of errors to client: errors in input data, creating course that already exists etc. 
+            //used to return the following kind of errors to client: errors in input data, creating course that found etc. 
             $applicationError = "";
             
             //used to return msg to client about errors in upload this may be error in image itself: course image  size & file type or in upload attempt

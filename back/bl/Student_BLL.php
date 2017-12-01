@@ -20,9 +20,8 @@
             $spParms =  array(); //contains stored procedure input parms 
 
             $resultSet = $this->call_sp_check_student_exists($student->getStudentName(), $student->getStudentPhone(), $student->getStudentEmail(), $spParms);
-            $student_id = $resultSet->fetch();
-            if ($resultSet->rowCount() > 0) { //student with same name, phone & email already exists
-                $duplicate_student = $resultSet->fetch();
+            $duplicate_student = $resultSet->fetch();
+            if ($duplicate_student != false) { //student with same name, phone & email found
                 $applicationError =  "student with same name, phone & email already exist - student id #" . $duplicate_student["id"];
                 return;
             }
@@ -32,7 +31,7 @@
             $studentID = $result->fetch();
             if ($studentID['new_student_id'] == -1){ //new_student_id = -1 sp insert_student failed
                 $applicationError =  "adding new student failed - please contact support center"; 
-                ErrorHandling::LogApplicationError("error in sp " . $spName . " sp parameter used: " . 
+                ErrorHandling::LogApplicationError("error in sp insert_student:  sp parameter used: " . 
                 implode(";  ", array_map(function ($parm) { return $parm->getID() . "  " . $parm->getValue() . "  " . $parm->getType(); }, $spParms))); 
             }
             return $studentID;
@@ -41,12 +40,11 @@
         public function update_student($student, &$applicationError) {
 
             $spParms =  array(); //contains stored procedure input parms 
-
             $resultSet = $this->call_sp_check_student_exists($student->getStudentName(), $student->getStudentPhone(), $student->getStudentEmail(), $spParms);
-            $student_id = $resultSet->fetch();
-            if ($resultSet->rowCount() > 0) { //student with same name, phone & email already exists
-                $duplicate_student = $resultSet->fetch();
-                //student with same name, phone & email already exist then error only if student_id different - otherwise referring to student being updated
+            $duplicate_student = $resultSet->fetch();
+            if ($duplicate_student != false) { //student with same name, phone & email found
+                //student with same name, phone & email already exist then error only if student_id different - 
+                //otherwise referring to student being updated - happens when only course data for student updated
                 if ($duplicate_student["id"] != $student->getStudentID()) {
                     $applicationError =  "student with same name, phone & email already exist - student id #" . $duplicate_student["id"];
                     return;
@@ -59,76 +57,11 @@
             $studentID = $result->fetch();
             if ($studentID['student_id'] == -1){ //student_id = -1 sp update failed
                 $applicationError =  "updating student failed - please contact support center"; 
-                ErrorHandling::LogApplicationError("error in sp " . $spName . " sp parameter used: " . 
+                ErrorHandling::LogApplicationError("error in sp update_student:  sp parameter used: " . 
                 implode(";  ", array_map(function ($parm) { return $parm->getID() . "  " . $parm->getValue() . "  " . $parm->getType(); }, $spParms))); 
             }
             return $studentID;
         }  
-                              
-        // public function insert_update_student($student, $method,  &$applicationError) {
-
-            // $spParms =  array(); //contains stored procedure input parms 
-
-            // //check student by same name, phone & email do not already exist
-            // array_push($spParms, new PDO_Parm("student_name", $student->getStudentName(), 'string'));  
-            // array_push($spParms, new PDO_Parm("student_phone", $student->getStudentPhone(), 'string'));
-            // array_push($spParms, new PDO_Parm("student_email", $student->getStudentEmail(), 'string'));
-
-            // $resultSet = parent::get($this->get_dbName(), 'check_student_exists', $spParms);
-            // if ($resultSet->rowCount() > 0) { //student with same name, phone & email already exists
-            //     $duplicate_student = $resultSet->fetch();
-            //     if (($method == "Create") || //create if student with student with same name, phone & email already exist then error
-            //         //update if student with same name, phone & email already exist then error only if student_id different - otherwise referring to student being updated
-            //         ($method == "Update" && $duplicate_student["id"] != $student->getStudentID())) { 
-            //             $applicationError =  "student with same name, phone & email already exist - student id #" . $duplicate_student["id"];
-            //             return;
-            //     }
-            // }
-            //-------------------------------------------------------------------------------------------------------------------------------------
-
-            // $studentID = 0;
-
-            // if ($method == "Update") {  //for update must add student_id as first parameter
-            //         array_unshift($spParms, new PDO_Parm("student_id", $student->getStudentID(), 'integer'));
-            // }
-
-           // $spName = $method == "Create" ? 'insert_student' : 'update_student';
-
-            //build string containing id's of all courses student is assigned to => serves as sp parm student_courses 
-            // $student_courses = ""; 
-            // $studentCourses = $student->getStudentCourses();
-            // if (!empty($studentCourses)) {
-            //     foreach($studentCourses as $course) { 
-            //         $student_courses .= "," . str_replace("cbCourse", "", $course);
-            //     } 
-            // }
-            // $student_courses = substr($student_courses, 1);
-            //array_push($spParms, new PDO_Parm("student_courses", $student_courses, 'string'));
-            //-------------------------------------------------------------------------------------------------------------------------------------
-
-            //add/update student
-           // $result = parent::get($this->get_dbName(), $spName, $spParms);
-
-           // $studentID = $result->fetch();
-            // if ($method == "Create") { //insert student
-            //     if ($studentID['new_student_id'] == -1){ //new_student_id = -1 sp insert_student failed
-            //         $applicationError =  "adding new student failed - please contact support center"; 
-            //     }
-            // }
-            // else { //update student
-            //     if ($studentID['student_id'] == -1){ //student_id = -1 sp update failed
-            //         $applicationError =  "updating student failed - please contact support center"; 
-            //     }
-            // }
-
-            // if ( $applicationError != "" ){ //insert or update student failed
-            //     //write entry to error log on server with parameters used to call sp insert_student/update_student so error in mysql can be recreated 
-            //     ErrorHandling::LogApplicationError("error in sp " . $spName . " sp parameter used: " . 
-            //         implode(";  ", array_map(function ($parm) { return $parm->getID() . "  " . $parm->getValue() . "  " . $parm->getType(); }, $spParms))); 
-            // }
-
-            // return $studentID;
-        // }
 
         public function build_student_courses_parm($student) {
 
@@ -142,12 +75,11 @@
             return substr($student_courses, 1);
         }
 
-        //used for js remote validation validationsStudent.js  method: student_already_exists
+        //used for js remote validation validationsStudent.js  method: studentAlreadyExists
         public function check_student_exists ($params) {
             $spParms =  array(); //contains stored procedure input parms 
             $resultSet = $this->call_sp_check_student_exists($params["student_name"], $params["student_phone"], $params["student_email"], $spParms);
-            $student_id = $resultSet->fetch();
-            return $student_id;
+            return $resultSet->fetch();
         }
 
         public function call_sp_check_student_exists($student_name, $student_phone, $student_email, &$spParms) {

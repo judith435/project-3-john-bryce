@@ -33,14 +33,14 @@ var validationsStudent = (function() {
                     extension: "jpg|jpeg|png|gif"
                   }, 
                 duplicate_student: {  
-                    student_already_exists: true
+                    studentAlreadyExists: true
                 } 
             }
         });
 
         var response;
         $.validator.addMethod(
-            "student_already_exists", 
+            "studentAlreadyExists", 
             function() {
 
                 var studentsModule = students; //studentsModule contains all data exposed from js file students.js
@@ -56,7 +56,7 @@ var validationsStudent = (function() {
             //update student: no change made to data retrieved from db return relevant message to user
             if (studentSave.studentAction.chosen === "Update") {
                 if (app.debugMode){
-                    console.log("student_already_exists(): " + studentsModule.studentHandled.details.student_name + "  " + studentsModule.studentHandled.details.student_phone + "  " + studentsModule.studentHandled.details.student_email + "  ");
+                    console.log("studentAlreadyExists(): " + studentsModule.studentHandled.details.student_name + "  " + studentsModule.studentHandled.details.student_phone + "  " + studentsModule.studentHandled.details.student_email + "  ");
                 }
                 var studentImage = $("#studentImage").val().trim(); 
                 var studentImgDeleteChecked = ($("#deleteImage").is(":checked"));
@@ -76,7 +76,7 @@ var validationsStudent = (function() {
                          return false; 
                 }
                 else {
-                    formValidated.validator.settings.messages.duplicate_student = "Student with same name, phone & email already exists";
+                    formValidated.validator.settings.messages.duplicate_student = "Student with same name, phone & email found";
                 }
 
                 //check student name, phone & email has been changed - if NOT prevent running duplicate student test ==> it always going to exist

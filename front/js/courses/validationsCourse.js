@@ -26,14 +26,14 @@ var validationsCourse = (function() {
                     extension: "jpg|jpeg|png|gif"
                 }, 
                 duplicate_course: {  
-                    course_already_exists: true
+                    courseAlreadyExists: true
                 } 
             }
         });
 
         var response;
         $.validator.addMethod(
-            "course_already_exists", 
+            "courseAlreadyExists", 
             function() {
                 
                 var courseName = $("#courseName").val().trim();
@@ -45,7 +45,7 @@ var validationsCourse = (function() {
                 //update course: no change made to data retrieved from db return relevant message to user
                 if (courseSave.courseAction.chosen === "Update") {
                     if (app.debugMode){
-                        console.log("course_already_exists() courseName from update: " + courses.courseHandled.details.course_name);
+                        console.log("courseAlreadyExists() courseName from update: " + courses.courseHandled.details.course_name);
                     }
                     var courseDescription = $("#courseDescription").val().trim();
                     var courseImage = $("#courseImage").val().trim(); 
@@ -58,7 +58,7 @@ var validationsCourse = (function() {
                             return false; 
                     }
                     else {
-                        formValidated.validator.settings.messages.duplicate_course = "Course with same name already exists";
+                        formValidated.validator.settings.messages.duplicate_course = "Course with same name found";
                     }
 
                     //check course name has been changed - if NOT prevent running duplicate_course test ==> it always going to exist

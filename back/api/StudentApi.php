@@ -8,7 +8,7 @@
             $studentCtrl = new StudentController;
 
             if (array_key_exists("student_name", $params) && array_key_exists("student_phone", $params) && array_key_exists("student_email", $params)) {
-                //used to check if student by same name, phone & email already exists: js remote validation validationsStudent.js  method: student_already_exists
+                //used to check if student by same name, phone & email found: js remote validation validationsStudent.js  method: studentAlreadyExists
                 return  $studentCtrl->get_student_by_details($params); 
             }
             return $studentCtrl->getAll_Students();
@@ -34,7 +34,7 @@
 
         function create_update($params, $function) {
 
-            //used to return the following kind of errors to client: errors in input data, creating student that already exists etc. 
+            //used to return the following kind of errors to client: errors in input data, creating student that found etc. 
             $applicationError = "";
             
             //used to return msg to client about errors in upload this may be error in image itself: student image  size & file type or in upload attempt

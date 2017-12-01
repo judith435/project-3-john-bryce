@@ -7,7 +7,7 @@
         function Read($params) {
 
             $adminCtrl = new AdministratorController;
-            //used to check if admin by same name & phone already exists: js remote validation validationsAdministrator.js  method: admin_already_exists
+            //used to check if admin by same name & phone found: js remote validation validationsAdministrator.js  method: adminAlreadyExists
             if (array_key_exists("admin_name", $params) && array_key_exists("admin_email", $params)) {
                 return  $adminCtrl->getAdministratorByNameEmail($params);
             }
@@ -64,7 +64,7 @@
 
 
         function create_update($params, $function) {
-            //used to return the following kind of errors to client: errors in input data, creating admin that already exists etc. 
+            //used to return the following kind of errors to client: errors in input data, creating admin that found etc. 
             $applicationError = "";
 
             //used to return msg to client about errors in upload this may be error in image itself: admin image  size & file type or in upload attempt

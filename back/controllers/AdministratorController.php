@@ -40,7 +40,7 @@
                 return;
             }
             $admin_bll = new Administrator_BLL();
-            //insert => if student already exists  $applicationError will contain corresponding message and StudentApi.php will send apropriate message back to client 
+            //insert => if student found  $applicationError will contain corresponding message and StudentApi.php will send apropriate message back to client 
             $adminID =  $admin_bll->insert_update_admin($admin, $login, $method, $applicationError);
             if ($method == "Create"){
                 $new_adminID =  $adminID['new_admin_id'];         
@@ -63,7 +63,7 @@
             return $new_adminID;
         }
 
-        //used for js remote validation validationsAdministrator.js  method: admin_already_exists
+        //used for js remote validation validationsAdministrator.js  method: adminAlreadyExists
         function getAdministratorByNameEmail($params) { 
             $admin_bll = new Administrator_BLL();
             $admin_id = $admin_bll->check_admin_exists($params);

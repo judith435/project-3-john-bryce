@@ -23,7 +23,7 @@
 
         }
 
-        //used for js remote validation validationsAdministrator.js  method: admin_already_exists
+        //used for js remote validation validationsAdministrator.js  method: adminAlreadyExists
         public function check_admin_exists($params) {
             $spParms =  array(); //contains stored procedure input parms 
             array_push($spParms, new PDO_Parm("admin_name", $params["admin_name"], 'string')); 
@@ -39,12 +39,12 @@
             array_push($spParms, new PDO_Parm("admin_email", $admin->getAdministratorEmail(), 'string'));  
 
             $resultSet = parent::get($this->get_dbName(), 'check_admin_exists', $spParms);
-            if ($resultSet->rowCount() > 0) { // admin with same name & email already exists
+            if ($resultSet->rowCount() > 0) { // admin with same name & email found
                 $duplicate_admin = $resultSet->fetch();
                 if (($method == "Create") || //create: if admin with same name & email already exist then error
                     //update: if admin with same name & email already exist then error only if admin_id different - otherwise referring to existing admin
                     ($method == "Update" && $duplicate_admin["id"] != $admin->getAdministratorID())) { 
-                         $applicationError =  "administrator with same name & email already exists - admin id #" . $duplicate_admin["id"];
+                         $applicationError =  "administrator with same name & email found - admin id #" . $duplicate_admin["id"];
                     return;
                 }
             }

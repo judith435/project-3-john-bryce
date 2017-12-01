@@ -11,7 +11,7 @@ var studentSave = (function() {
         validationMessages.student_phone = "Valid phone required";
         validationMessages.student_email = "Valid email required";
         validationMessages.student_image = "Valid extensions: jpg, jpeg, png or gif";
-        validationMessages.duplicate_student = "Student with same name, phone & email already exists";
+        validationMessages.duplicate_student = "Student with same name, phone & email found";
     }        
     
     function displayAfterSave(serverResponse, action){

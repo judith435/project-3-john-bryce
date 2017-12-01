@@ -15,19 +15,21 @@
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
 
-        public function __construct($database) {
-            $this->setDB($database);
-            $this->dsn = "mysql:host=$this->host;dbname=" . $this->getDB() . ";charset=$this->charset";
+        public function __construct($data_base) {
+            $this->setDB($data_base);
+            $this->dsn = "mysql:host=" . $this->host . 
+                         ";dbname=" . $this->getDB() .
+                         ";charset=" .$this->charset."";
         }
 
         //function should be private so that outside hackers cannot get datatbase info
         private function getDB(){
-            return $this->db;
+            return $this->database;
         }
 
         //function should be private so that outside hackers cannot change datatbase access
-        private function setDB($database){
-            $this->db = $database;
+        private function setDB($data_base){
+            $this->database = $data_base;
         }
 
         //generic function to execute any mysql statement
@@ -51,7 +53,6 @@
             $stmt = $pdo->prepare($sql);
             foreach ($parms as  $parm) { 
                 $stmt->bindValue(':' . $parm->getID() , $parm->getValue(), $parm->getType());
-               // $stmt->bind_param(':' . $parm->getID() , $parm->getValue(), $parm->getType());
             }
             $stmt->execute();
             return $stmt;

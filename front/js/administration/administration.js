@@ -17,11 +17,11 @@ var administration = (function() {
         var roles = JSON.parse(data);
 
         $("#RoleDDL").empty();
+        //in case of create Administrator put empty option "Please Select Role" as top element of combo
         if (action.chosen === "Add"){
             $("#RoleDDL").append("<option value=''>Please Select Role</option>");
         }
 
-        //in case of create Administrator put empty option "Please Select Role" as top element of combo
         for(let i=0; i < roles.length; i++) {
                 $("#RoleDDL").append(new Option(roles[i].role_name, roles[i].role_id));
         }
@@ -53,7 +53,7 @@ var administration = (function() {
         validationMessages.admin_password = "Password required";
         validationMessages.role_id = "Please select role";
         validationMessages.admin_image = "Valid extensions: jpg, jpeg, png or gif";
-        validationMessages.duplicate_admin = "Administrator with same name and email already exists";
+        validationMessages.duplicate_admin = "Administrator with same name and email found";
     }  
 
     function buildAdminTable(serverData){
