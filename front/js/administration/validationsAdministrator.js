@@ -47,6 +47,9 @@ var validationsAdministrator = (function() {
             }
         });
 
+        //duplicate_admin handling
+        var response;
+
         function checkAdminUpdate(adminName, adminEmail) {
 
             var adminPhone = $("#adminPhone").val().trim();
@@ -98,8 +101,7 @@ var validationsAdministrator = (function() {
                         }
                     }
                     //-1 means student with same student name was not found
-                    return ( admin.id == -1 ) ?  true : false;
-                    
+                    response = ( admin.id == -1 ) ?  true : false;
                     // if(app.debugMode){
                     //     console.log("check admin name & phone does not already exist" + data);
                     // }
@@ -108,6 +110,8 @@ var validationsAdministrator = (function() {
                     // console.log(".fail >>>  data  " + data);
                     return true;
                 });
+
+                return response;
         }  
 
         $.validator.addMethod(
@@ -127,16 +131,14 @@ var validationsAdministrator = (function() {
                     //     console.log("adminAlreadyExists() adminName from update: " + administration.adminHandled.admin_name);
                     // }
                     var result = checkAdminUpdate(adminName, adminEmail);
-                    switch (result) {
-                        case "No change in data - No update":
-                            return false;
-                        case "no change in admin key":
-                            return true;
-                        case "check duplicate admin":
-                            ;  //empty statement
+                    if (result === "No change in data - No update") {
+                        return false;
+                    }
+                    if (result === "no change in admin key") {//don't check duplicate admin if key data has not been changed
+                        return true;
                     }
                 }
-                return checkDuplicateAdminOnServer(adminName, adminEmail);  
+                checkDuplicateAdminOnServer(adminName, adminEmail);  
             });
     }
 

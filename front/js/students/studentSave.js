@@ -16,14 +16,14 @@ var studentSave = (function() {
     
     function displayAfterSave(serverResponse, action){
         let studentTemp = action === "Create" ? serverResponse.new_studentID  : students.studentHandled.details.student_id; 
-        let student_to_display = $.grep(students.studentArray, function(e)
+        let studentToDisplay = $.grep(students.studentArray, function(e)
                                              { return e.student_id ==  studentTemp; });
         var so = studentObject();
-        students.studentHandled.details = new so.Student(student_to_display[0].student_id, 
-                                                        student_to_display[0].student_name, 
-                                                        student_to_display[0].student_phone, 
-                                                        student_to_display[0].student_email, 
-                                                        student_to_display[0].student_courses);
+        students.studentHandled.details = new so.Student(studentToDisplay[0].student_id, 
+                                                        studentToDisplay[0].student_name, 
+                                                        studentToDisplay[0].student_phone, 
+                                                        studentToDisplay[0].student_email, 
+                                                        studentToDisplay[0].student_courses);
         students.loadStudentView();
     }
 

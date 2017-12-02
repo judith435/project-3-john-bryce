@@ -55,8 +55,8 @@ var serverRequest = (function() {
             }
 
             if($("#" + fuImage).val()){ //image was selected
-                var file_data = $("#" + fuImage).prop("files")[0]; 
-                ajaxData.append(imageName, file_data);
+                var fileData = $("#" + fuImage).prop("files")[0]; 
+                ajaxData.append(imageName, fileData);
             } 
         }
         else { //select -GET , delete - DELETE  & update - PUT without image 
