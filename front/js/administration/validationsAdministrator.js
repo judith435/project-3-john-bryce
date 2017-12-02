@@ -130,15 +130,13 @@ var validationsAdministrator = (function() {
                     switch (result) {
                         case "No change in data - No update":
                             return false;
-                            break;
                         case "no change in admin key":
                             return true;
-                            break;
                         case "check duplicate admin":
                             ;  //empty statement
                     }
-                    return checkDuplicateAdminOnServer(adminName, adminEmail);  
                 }
+                return checkDuplicateAdminOnServer(adminName, adminEmail);  
             });
     }
 
