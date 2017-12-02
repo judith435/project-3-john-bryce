@@ -121,9 +121,9 @@ var validationsAdministrator = (function() {
                 var adminName = $("#adminName").val().trim();
                 var adminEmail = $("#adminEmail").val().trim();
 
-                if (adminName === "" && adminEmail === "") {
-                    return true; //if courseName name  missing no point in checking
-                }
+                // if (adminName === "" && adminEmail === "") {
+                //     return true; //if courseName name  missing no point in checking
+                // }
 
                 //update administrator : no change made to data retrieved from db return relevant message to user
                 if (administration.action.chosen === "Update") {
