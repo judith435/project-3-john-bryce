@@ -71,7 +71,7 @@ var validationsStudent = (function() {
                     studentPhone === studentsModule.studentHandled.details.student_phone &&
                     studentEmail === studentsModule.studentHandled.details.student_email &&
                     selectedInPanel + "" == studentsModule.studentHandled.details.student_courses &&
-                    studentImage == "" && !studentImgDeleteChecked) { 
+                    studentImage === "" && !studentImgDeleteChecked) { 
                          formValidated.validator.settings.messages.duplicate_student = "No change in data - No update";
                          return false; 
                 }

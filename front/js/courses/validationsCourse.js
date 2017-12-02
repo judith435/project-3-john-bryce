@@ -51,9 +51,9 @@ var validationsCourse = (function() {
                     var courseImage = $("#courseImage").val().trim(); 
                     var courseImgDeleteChecked = ($("#deleteImage").is(":checked"));
 
-                    if (courseName == courses.courseHandled.details.course_name &&
+                    if (courseName === courses.courseHandled.details.course_name &&
                         courseDescription === courses.courseHandled.details.course_description &&
-                        courseImage == "" && !courseImgDeleteChecked) { 
+                        courseImage === "" && !courseImgDeleteChecked) { 
                             formValidated.validator.settings.messages.duplicate_course = "No change in data - No update";
                             return false; 
                     }
@@ -62,7 +62,7 @@ var validationsCourse = (function() {
                     }
 
                     //check course name has been changed - if NOT prevent running duplicate_course test ==> it always going to exist
-                    if (courseName == courses.courseHandled.details.course_name) {
+                    if (courseName === courses.courseHandled.details.course_name) {
                         return true; 
                     }  
                 }

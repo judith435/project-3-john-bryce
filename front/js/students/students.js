@@ -90,7 +90,7 @@ var students = (function() {
                 $("#studentEmail").val(studentHandled.details.student_email); 
 
                 //check course checkbox if student registered for specific course
-                if (studentHandled.details.student_courses != "") {
+                if (studentHandled.details.student_courses !== "") {
                     var courses = studentHandled.details.student_courses.split(",");
                     for (let i = 0; i < courses.length; i++) {
                         document.getElementById(courses[i]).checked = true;

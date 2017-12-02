@@ -15,7 +15,7 @@ var studentSave = (function() {
     }        
     
     function displayAfterSave(serverResponse, action){
-        let studentTemp = action == "Create" ? serverResponse.new_studentID  : students.studentHandled.details.student_id; 
+        let studentTemp = action === "Create" ? serverResponse.new_studentID  : students.studentHandled.details.student_id; 
         let student_to_display = $.grep(students.studentArray, function(e)
                                              { return e.student_id ==  studentTemp; });
         var so = studentObject();
@@ -32,11 +32,11 @@ var studentSave = (function() {
             alert("Following error(s) occured in " + serverResponse.action + ":\n" + serverResponse.message);
             return;
         }
-        if (serverResponse.message.search("following errors") != -1) { //display msg about failed image upload
+        if (serverResponse.message.search("following errors") !== -1) { //display msg about failed image upload
             alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
         }
         var action = serverResponse.action.split(" ", 1)[0]; //first word of serverResponse.action contains action performed
-        if (action == "Delete") {
+        if (action === "Delete") {
             school.loadSchoolMain();
             return;
         }

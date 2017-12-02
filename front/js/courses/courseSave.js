@@ -31,11 +31,11 @@ var courseSave = (function() {
             alert("Following error(s) occured in " + serverResponse.action + ":\n" + serverResponse.message);
             return;
         }
-        if (serverResponse.message.search("following errors") != -1) { //display msg about failed image upload
+        if (serverResponse.message.search("following errors") !== -1) { //display msg about failed image upload
             alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
         }
         var action = serverResponse.action.split(" ", 1)[0]; //first word of serverResponse.action contains action performed
-        if (action == "Delete") {
+        if (action === "Delete") {
             school.loadSchoolMain();
             return;
         }

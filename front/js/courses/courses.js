@@ -108,7 +108,7 @@ var courses = (function() {
             $("#courseName").html(courseText);
             $("#CourseDescription").html(courseHandled.details.course_description); 
 
-            if (courseHandled.details.student_ids != "") {// student_ids == "" - no students found for course being handled
+            if (courseHandled.details.student_ids !== "") {// student_ids == "" - no students found for course being handled
                 var studentHtml = "";
                 var studentIDs = courseHandled.details.student_ids.split(",");
                 for (let i = 0; i < studentIDs.length; i++) {

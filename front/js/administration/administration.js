@@ -129,27 +129,31 @@ var administration = (function() {
         loadAdminMain();
     }  
 
+    function deleteAdmin(ajaxData) {
+        var confirmation = confirm("Are you sure you want to delete administrator number " + adminHandled.details.admin_id + "?");
+        if (confirmation === true) {
+            // don't perform validations in case of delete
+            serverRequestModule.sendServerRequest("Delete", ajaxData, afterSave, "adminImage", "admin_image");  
+            return false;
+        }
+    }
+
     function btnSaveHandler() {
         
         $(".btnSave").off().click(function() {
             var verb;
             var ajaxData = $("#frmCUD").serialize();
 
-            if(this.id === "btnDelete"){ // don't perform validations in case of delete
-                var confirmation = confirm("Are you sure you want to delete administrator number " + adminHandled.details.admin_id + "?");
-                if (confirmation === true) {
-                    verb = "Delete";
-                    serverRequestModule.sendServerRequest(verb, ajaxData, afterSave, "adminImage", "admin_image");  
-                    return false;
-                }
-            }   
-            else { //update or insert
-                verb =  action.chosen === "Add" ? "Add" : "Update"; 
-                if (validationsAdministratorModule.formValidated.contents.valid()){
-                    serverRequestModule.sendServerRequest
-                            (verb, ajaxData, afterSave, "adminImage", "admin_image");  
-                    return false;
-                }
+            if(this.id === "btnDelete"){ 
+                deleteAdmin(ajaxData);
+                return;
+            } 
+
+            verb =  action.chosen === "Add" ? "Add" : "Update"; 
+            if (validationsAdministratorModule.formValidated.contents.valid()){
+                serverRequestModule.sendServerRequest
+                        (verb, ajaxData, afterSave, "adminImage", "admin_image");  
+                return false;
             }
         });
     }
@@ -215,8 +219,7 @@ var administration = (function() {
         });
     }
 
-    function adminSelected(row)
-    {
+    function adminSelected(row) {
         var adminID = row.find("#admin-id").text();
         var adminName = row.find("#admin-name").text(); 
         var adminRoleID = row.find("#admin-role-id").text();
@@ -248,7 +251,7 @@ var administration = (function() {
             });
             loadAdminMain();
         });
-    }
+    };
 
     return {
         loadAdminAside: loadAdminAside, //function: used by login.js
