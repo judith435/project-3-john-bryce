@@ -63,9 +63,9 @@ var validationsAdministrator = (function() {
                 
                 //update administrator : no change made to data retrieved from db return relevant message to user
                 if (administrationModule.action.chosen === "Update") {
-                    if (app.debugMode){
-                        console.log("adminAlreadyExists() adminName from update: " + administrationModule.adminHandled.admin_name);
-                    }
+                    // if (app.debugMode){
+                    //     console.log("adminAlreadyExists() adminName from update: " + administrationModule.adminHandled.admin_name);
+                    // }
                     var adminPhone = $("#adminPhone").val().trim();
                     var adminRole = $("#RoleDDL").val().trim();  
                     var adminImage = $("#adminImage").val().trim(); 
@@ -95,10 +95,10 @@ var validationsAdministrator = (function() {
                     admin_email: adminEmail
                   }; 
         
-                if (app.debugMode){
-                    console.log("validations >>>  ajaxData.administrator_name  " + ajaxData.admin_name);
-                    console.log("validations >>>  ajaxData.administrator_phone  " + ajaxData.admin_email);
-                  }  
+                // if (app.debugMode){
+                //     console.log("validations >>>  ajaxData.administrator_name  " + ajaxData.admin_name);
+                //     console.log("validations >>>  ajaxData.administrator_phone  " + ajaxData.admin_email);
+                //   }  
                 $.ajax({
                           type: "GET",
                           url: app.schoolApi,
@@ -116,12 +116,12 @@ var validationsAdministrator = (function() {
                         }
                         //-1 means student with same student name was not found
                         response = ( admin.id == -1 ) ?  true : false;
-                        if(app.debugMode){
-                            console.log("check admin name & phone does not already exist" + data);
-                        }
+                        // if(app.debugMode){
+                        //     console.log("check admin name & phone does not already exist" + data);
+                        // }
                     })
                     .fail(function(data){
-                        console.log(".fail >>>  data  " + data);
+                        // console.log(".fail >>>  data  " + data);
                         response = true;
                     });
                     return response;

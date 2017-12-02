@@ -55,9 +55,9 @@ var validationsStudent = (function() {
               
             //update student: no change made to data retrieved from db return relevant message to user
             if (studentSave.studentAction.chosen === "Update") {
-                if (app.debugMode){
-                    console.log("studentAlreadyExists(): " + studentsModule.studentHandled.details.student_name + "  " + studentsModule.studentHandled.details.student_phone + "  " + studentsModule.studentHandled.details.student_email + "  ");
-                }
+                // if (app.debugMode){
+                //     console.log("studentAlreadyExists(): " + studentsModule.studentHandled.details.student_name + "  " + studentsModule.studentHandled.details.student_phone + "  " + studentsModule.studentHandled.details.student_email + "  ");
+                // }
                 var studentImage = $("#studentImage").val().trim(); 
                 var studentImgDeleteChecked = ($("#deleteImage").is(":checked"));
 
@@ -94,9 +94,9 @@ var validationsStudent = (function() {
                     student_email: studentEmail
                 }; 
         
-                if (app.debugMode){
-                    console.log("validations >>>  " + ajaxData.student_name + "  " + ajaxData.student_phone  + "    " + ajaxData.student_email );
-                }  
+                // if (app.debugMode){
+                //     console.log("validations >>>  " + ajaxData.student_name + "  " + ajaxData.student_phone  + "    " + ajaxData.student_email );
+                // }  
 
                 $.ajax({
                             type: "GET",
@@ -114,12 +114,12 @@ var validationsStudent = (function() {
                             }
                             //-1 means student with same student name, phone $ email was not found
                             response = ( serverResponse.status == -1 ) ?  true : false;
-                            if(app.debugMode){
-                                console.log("check student name does not already exist" + data);
-                            }
+                            // if(app.debugMode){
+                            //     console.log("check student name does not already exist" + data);
+                            // }
                         })
                         .fail(function(data){
-                            console.log(".fail >>>  data  " + data);
+                            // console.log(".fail >>>  data  " + data);
                             response = false;
                         });
                         return response;

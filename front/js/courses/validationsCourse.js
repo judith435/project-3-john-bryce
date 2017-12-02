@@ -44,9 +44,9 @@ var validationsCourse = (function() {
 
                 //update course: no change made to data retrieved from db return relevant message to user
                 if (courseSave.courseAction.chosen === "Update") {
-                    if (app.debugMode){
-                        console.log("courseAlreadyExists() courseName from update: " + courses.courseHandled.details.course_name);
-                    }
+                    // if (app.debugMode){
+                    //     console.log("courseAlreadyExists() courseName from update: " + courses.courseHandled.details.course_name);
+                    // }
                     var courseDescription = $("#courseDescription").val().trim();
                     var courseImage = $("#courseImage").val().trim(); 
                     var courseImgDeleteChecked = ($("#deleteImage").is(":checked"));
@@ -72,9 +72,9 @@ var validationsCourse = (function() {
                   course_name: courseName
               }; 
       
-              if (app.debugMode){
-                  console.log("validations >>>  ajaxData.course_name  " + ajaxData.courseName);
-              }  
+            //   if (app.debugMode){
+            //       console.log("validations >>>  ajaxData.course_name  " + ajaxData.courseName);
+            //   }  
               
               $.ajax({
                         type: "GET",
@@ -87,12 +87,12 @@ var validationsCourse = (function() {
                         var course = JSON.parse(data);
                         //-1 means course with same course name was not found
                         response = ( course.id == -1 ) ?  true : false;
-                        if(app.debugMode){
-                          console.log("check course name does not already exist" + data);
-                        }
+                        // if(app.debugMode){
+                        //   console.log("check course name does not already exist" + data);
+                        // }
                       })
                     .fail(function(data){
-                      console.log(".fail >>>  data  " + data);
+                    //   console.log(".fail >>>  data  " + data);
                       response = true;
                     });
                     return response;

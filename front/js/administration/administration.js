@@ -26,16 +26,17 @@ var administration = (function() {
                 $("#RoleDDL").append(new Option(roles[i].role_name, roles[i].role_id));
         }
 
-        if (action.chosen === "Update"){
-            $("#RoleDDL").val(adminHandled.details.role_id);
+        //disable owner => no new owner may be created or updated to
+        var role_owner = $.grep(roles, function(e){ return e.role_name ===  "owner";}); //must retrive id of owner to be able to disable it
+        $("option[value='" + role_owner[0].role_id + "']").attr("disabled", "disabled").siblings().removeAttr("disabled");
 
+        if (action.chosen === "Update"){
+           // setRolesDdlForUpdate(roles);
+            $("#RoleDDL").val(adminHandled.details.role_id);
+            
             //manager/owner may not change his own role
             if(adminLoggedIn.admin_id == adminHandled.details.admin_id) {  
                 $("#RoleDDL").prop("disabled", true);
-            }
-            else { //or change  another managers role to owner - make owner unselectable in RoleDDL
-                var role_owner = $.grep(roles, function(e){ return e.role_name ===  "owner";}); //must retrive id of owner to be able to disable it
-                $("option[value='" + role_owner[0].role_id + "']").attr("disabled", "disabled").siblings().removeAttr("disabled");
             }
         }
 
@@ -44,6 +45,15 @@ var administration = (function() {
         });
     }
     
+    // function setRolesDdlForUpdate(roles) {
+    //     $("#RoleDDL").val(adminHandled.details.role_id);
+        
+    //     //manager/owner may not change his own role
+    //     if(adminLoggedIn.admin_id == adminHandled.details.admin_id) {  
+    //         $("#RoleDDL").prop("disabled", true);
+    //     }
+    // }
+
     function initValidations() {//used for jquery validation plugin
         validationsAdministratorModule.initValidator();
         var validationMessages = validationsAdministratorModule.formValidated.validator.settings.messages;
@@ -128,25 +138,30 @@ var administration = (function() {
         
         $(".btnSave").off().click(function() {
             var verb;
-            //update:  check role combo value was changed - action that could be illegal
-            //if not initialize roleName (hidden field for use on server) to prevent faulty validations on server 
-            if (action.chosen === "Update") {
-                if (adminHandled.details.role_id == $("#RoleDDL").val().trim()) {
-                    $("#roleName").val($("").text());
-                }
-            }
-            var ajaxData = $("#frmCUD").serialize();
+            // if (action.chosen === "Update") {
+            //     if (adminHandled.details.role_id == $("#RoleDDL").val().trim()) {
+            //         $("#roleName").val($("").text());
+            //     }
+            // }
+            //var ajaxData = $("#frmCUD").serialize();
 
             if(this.id === "btnDelete"){ // don't perform validations in case of delete
                 var confirmation = confirm("Are you sure you want to delete administrator number " + adminHandled.details.admin_id + "?");
                 if (confirmation == true) {
                     verb = "Delete";
+                    var ajaxData = $("#frmCUD").serialize();
                     serverRequestModule.sendServerRequest(verb, ajaxData, afterSave, "adminImage", "admin_image");  
                     return false;
                 }
             }   
             else {
+                //update:  check role combo value was changed - action that could be illegal
+                //if not initialize roleName (hidden field for use on server) to prevent faulty validations on server 
+                if (adminHandled.details.role_id == $("#RoleDDL").val().trim()) {
+                    $("#roleName").val($("").text());
+                }
                 verb =  action.chosen === "Add" ? "Add" : "Update"; 
+                var ajaxData = $("#frmCUD").serialize();
                 if (validationsAdministratorModule.formValidated.contents.valid()){
                     serverRequestModule.sendServerRequest
                             (verb, ajaxData, afterSave, "adminImage", "admin_image");  

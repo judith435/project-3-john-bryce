@@ -42,9 +42,9 @@ var serverRequest = (function() {
             
             for (var key in inputDataPairs) {
                 if (inputDataPairs.hasOwnProperty(key)) {
-                    if (app.debugMode) {
-                        console.log("sendServerRequest parms from form data serialize  key: " + key + " -> value: " + inputDataPairs[key]);
-                    }
+                    // if (app.debugMode) {
+                    //     console.log("sendServerRequest parms from form data serialize  key: " + key + " -> value: " + inputDataPairs[key]);
+                    // }
                     ajaxData.append(key, inputDataPairs[key]);
                 }
             }
@@ -63,10 +63,10 @@ var serverRequest = (function() {
                 ajaxData = inputData;
         }
 
-        if (app.debugMode) {
-            console.log("sendServerRequest before call to server");
-            console.log("ajaxData: " + JSON.stringify( ajaxData) + " verb: " + verb);
-        }
+        // if (app.debugMode) {
+        //     console.log("sendServerRequest before call to server");
+        //     console.log("ajaxData: " + JSON.stringify( ajaxData) + " verb: " + verb);
+        // }
 
         $.ajax({
             type: verb,
@@ -77,10 +77,10 @@ var serverRequest = (function() {
         })
         .done(function(data)
         {
-            if (app.debugMode) {
-                console.log("sendServerRequest response from server");
-                console.log(data);
-            }
+            // if (app.debugMode) {
+            //     console.log("sendServerRequest response from server");
+            //     console.log(data);
+            // }
 
             var serverResponse = JSON.parse(data);
 
@@ -98,9 +98,7 @@ var serverRequest = (function() {
             callBackFunction(serverResponse); 
         })
         .fail(function(data){
-                console.log("error in sendServerRequest");
-                console.log(data);
-                alert("problem in ajax : " + data);
+                alert("problem in sendServerRequest : " + data);
         });
         return false;
     }
