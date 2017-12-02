@@ -9,6 +9,15 @@ var administration = (function() {
     var commonModule  = common; //refernce common.js file and all its exposed functions
     var validationsAdministratorModule  = validationsAdministrator; //refernce validationsAdministrator.js file and all its exposed functions
     
+    
+    function setRolesDdlForUpdate(roles) {
+        $("#RoleDDL").val(adminHandled.details.role_id);
+        
+        //manager/owner may not change his own role
+        if(adminLoggedIn.admin_id == adminHandled.details.admin_id) {  
+            $("#RoleDDL").prop("disabled", true);
+        }
+    }
 
     //fill role combo in input fields with roles retrieved from db in function LoadRoles()
     function buildRolesDDL()   
@@ -31,28 +40,13 @@ var administration = (function() {
         $("option[value='" + role_owner[0].role_id + "']").attr("disabled", "disabled").siblings().removeAttr("disabled");
 
         if (action.chosen === "Update"){
-           // setRolesDdlForUpdate(roles);
-            $("#RoleDDL").val(adminHandled.details.role_id);
-            
-            //manager/owner may not change his own role
-            if(adminLoggedIn.admin_id == adminHandled.details.admin_id) {  
-                $("#RoleDDL").prop("disabled", true);
-            }
+            setRolesDdlForUpdate(roles);
         }
 
         $("#RoleDDL").off().on("change", function() { //save role name selected in hidden input so it can be sent to server
             $("#roleName").val($("#RoleDDL option:selected" ).text());
         });
     }
-    
-    // function setRolesDdlForUpdate(roles) {
-    //     $("#RoleDDL").val(adminHandled.details.role_id);
-        
-    //     //manager/owner may not change his own role
-    //     if(adminLoggedIn.admin_id == adminHandled.details.admin_id) {  
-    //         $("#RoleDDL").prop("disabled", true);
-    //     }
-    // }
 
     function initValidations() {//used for jquery validation plugin
         validationsAdministratorModule.initValidator();
@@ -138,30 +132,25 @@ var administration = (function() {
         
         $(".btnSave").off().click(function() {
             var verb;
+            //update:  check role combo value was changed - action that could be illegal
+            //if not initialize roleName (hidden field for use on server) to prevent faulty validations on server 
             // if (action.chosen === "Update") {
             //     if (adminHandled.details.role_id == $("#RoleDDL").val().trim()) {
             //         $("#roleName").val($("").text());
             //     }
             // }
-            //var ajaxData = $("#frmCUD").serialize();
+            var ajaxData = $("#frmCUD").serialize();
 
             if(this.id === "btnDelete"){ // don't perform validations in case of delete
                 var confirmation = confirm("Are you sure you want to delete administrator number " + adminHandled.details.admin_id + "?");
                 if (confirmation == true) {
                     verb = "Delete";
-                    var ajaxData = $("#frmCUD").serialize();
                     serverRequestModule.sendServerRequest(verb, ajaxData, afterSave, "adminImage", "admin_image");  
                     return false;
                 }
             }   
-            else {
-                //update:  check role combo value was changed - action that could be illegal
-                //if not initialize roleName (hidden field for use on server) to prevent faulty validations on server 
-                if (adminHandled.details.role_id == $("#RoleDDL").val().trim()) {
-                    $("#roleName").val($("").text());
-                }
+            else { //update or insert
                 verb =  action.chosen === "Add" ? "Add" : "Update"; 
-                var ajaxData = $("#frmCUD").serialize();
                 if (validationsAdministratorModule.formValidated.contents.valid()){
                     serverRequestModule.sendServerRequest
                             (verb, ajaxData, afterSave, "adminImage", "admin_image");  

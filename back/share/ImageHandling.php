@@ -41,7 +41,8 @@
                     $moved = move_uploaded_file($_FILES[$imageName]["tmp_name"], $target_file);
                     if (!$moved){
                         $ImageUploadError = "\n error uploading image - contanct support center"; //client gets general message  
-                        ErrorHandling::LogApplicationError($_FILES[$imageName]["error"]); //write exact error to error log - But don't send it to client 
+                        $error_handling = new ErrorHandling();
+                        $error_handling->LogApplicationError($_FILES[$imageName]["error"]); //write exact error to error log - But don't send it to client 
                     }
                 }
             }
@@ -70,7 +71,8 @@
             if (!empty($image)) {
                 $unlink_successful =  unlink($image[0]); //delete image
                 if (!$unlink_successful) { //if deleteing image failed write to error log BUT don't return error to client
-                    ErrorHandling::LogApplicationError
+                    $error_handling = new ErrorHandling();
+                    $error_handling->LogApplicationError
                     ("unlink of " . $entity . " for " . $entity ."_id " . $identity . " failed"); 
                 }
             }

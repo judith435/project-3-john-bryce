@@ -29,14 +29,16 @@
         }
 
         public function setCourseName($crs_name, &$errorInInput){
-            if (!Validations::nameOK($crs_name)){
+            $validations = new Validations();
+            if (!$validations->nameOK($crs_name)){
                 $errorInInput .= " Course Name must contain at least one letter\n";
             }
             $this->course_name = rawurldecode($crs_name);
         }
 
         public function setCourseDescription($crs_description, &$errorInInput){
-            if (!Validations::nameOK($crs_description)){
+            $validations = new Validations();
+            if (!$validations->nameOK($crs_description)){
                 $errorInInput .= " Course Description must contain at least one letter\n";
             }
             $this->course_description = rawurldecode($crs_description);

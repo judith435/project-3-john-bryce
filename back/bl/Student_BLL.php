@@ -31,7 +31,8 @@
             $studentID = $result->fetch();
             if ($studentID['new_student_id'] == -1){ //new_student_id = -1 sp insert_student failed
                 $applicationError =  "adding new student failed - please contact support center"; 
-                ErrorHandling::LogApplicationError("error in sp insert_student:  sp parameter used: " . 
+                $error_handling = new ErrorHandling();
+                $error_handling->LogApplicationError("error in sp insert_student:  sp parameter used: " . 
                 implode(";  ", array_map(function ($parm) { return $parm->getID() . "  " . $parm->getValue() . "  " . $parm->getType(); }, $spParms))); 
             }
             return $studentID;
@@ -57,7 +58,8 @@
             $studentID = $result->fetch();
             if ($studentID['student_id'] == -1){ //student_id = -1 sp update failed
                 $applicationError =  "updating student failed - please contact support center"; 
-                ErrorHandling::LogApplicationError("error in sp update_student:  sp parameter used: " . 
+                $error_handling = new ErrorHandling();
+                $error_handling->LogApplicationError("error in sp update_student:  sp parameter used: " . 
                 implode(";  ", array_map(function ($parm) { return $parm->getID() . "  " . $parm->getValue() . "  " . $parm->getType(); }, $spParms))); 
             }
             return $studentID;

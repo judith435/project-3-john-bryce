@@ -28,14 +28,16 @@
         }
 
         public function setAdministratorName($admr_name, &$errorInInput){
-            if (!Validations::nameOK($admr_name)){
+            $validations = new Validations();
+            if (!$validations->nameOK($admr_name)){
                 $errorInInput .= " Administrator Name must contain at least one letter\n";
             }
             $this->admin_name = rawurldecode($admr_name);
         }
 
         public function setRoleID($role_id, &$errorInInput){
-            if (!Validations::optionSelected($role_id)){
+            $validations = new Validations();
+            if (!$validations->optionSelected($role_id)){
                 $errorInInput .= " Please select role\n";
             }
             $this->role_id = $role_id;
@@ -46,15 +48,17 @@
         }
 
         public function setAdministratorPhone($admr_ph, &$errorInInput){
-            if (!Validations::phoneOK($admr_ph)){
+            $validations = new Validations();
+            if (!$validations->phoneOK($admr_ph)){
                 $errorInInput .= " Administrator Phone not a valid phone number\n";
             }
             $this->admin_phone = rawurldecode($admr_ph);
         }
 
         public function setAdministratorEmail($admr_e, &$errorInInput){
+            $validations = new Validations();
             $email = rawurldecode($admr_e);
-            if (!Validations::emailOK($email)){
+            if (!$validations->emailOK($email)){
                 $errorInInput .= " Administrator Email not a valid email\n";
             }
             $this->admin_email = $email;

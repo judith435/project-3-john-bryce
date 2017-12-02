@@ -35,22 +35,25 @@
         }
 
         public function setStudentName($stdnt_name, &$errorInInput){
-            if (!Validations::nameOK($stdnt_name)){
+            $validations = new Validations();
+            if (!$validations->nameOK($stdnt_name)){
                 $errorInInput .= " Student Name must contain at least one letter\n";
             }
             $this->student_name = rawurldecode($stdnt_name);
         }
 
         public function setStudentPhone($stdnt_phone, &$errorInInput){
-            if (!Validations::phoneOK($stdnt_phone)){
+            $validations = new Validations();
+            if (!$validations->phoneOK($stdnt_phone)){
                 $errorInInput .= " Student Phone not a valid phone number\n";
             }
             $this->student_phone = rawurldecode($stdnt_phone);
         }
 
         public function setStudentEmail($stdnt_email,  &$errorInInput){
+            $validations = new Validations();
             $email = rawurldecode($stdnt_email);
-            if (!Validations::emailOK($email)){
+            if (!$validations->emailOK($email)){
                 $errorInInput .= " Student Email not a valid email\n";
             }
             $this->student_email = $email;

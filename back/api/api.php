@@ -13,7 +13,8 @@
     //define error handling for site
     set_exception_handler('exception_handler');
     function exception_handler($exception) {
-        ErrorHandling::HandleError($exception); 
+        $error_handling = new ErrorHandling();
+        $error_handling->HandleError($exception); 
     }
 
     //define root folder for php back - presently only used in connection with  image handling but could be used in other contexts later 
