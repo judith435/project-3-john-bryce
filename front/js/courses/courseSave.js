@@ -26,33 +26,33 @@ var courseSave = (function() {
         courses.loadCourseView();
     }
 
-    function afterSave(serverResponse) {
-        if (serverResponse.status === "error") {
-            alert("Following error(s) occured in " + serverResponse.action + ":\n" + serverResponse.message);
-            return;
-        }
-        if (serverResponse.message.search("following errors") !== -1) { //display msg about failed image upload
-            alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
-        }
-        var action = serverResponse.action.split(" ", 1)[0]; //first word of serverResponse.action contains action performed
-        if (action === "Delete") {
-            school.loadSchoolMain();
-            return;
-        }
+    // function afterSave(serverResponse) {
+    //     if (serverResponse.status === "error") {
+    //         alert("Following error(s) occured in " + serverResponse.action + ":\n" + serverResponse.message);
+    //         return;
+    //     }
+    //     if (serverResponse.message.search("following errors") !== -1) { //display msg about failed image upload
+    //         alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
+    //     }
+    //     var action = serverResponse.action.split(" ", 1)[0]; //first word of serverResponse.action contains action performed
+    //     if (action === "Delete") {
+    //         school.loadSchoolMain();
+    //         return;
+    //     }
 
-        //after each update must update both course and student date (student data also uses course data)
-        courses.showCourses();
-        students.showStudents();
-        //displayAfterSave must only run after both course and student has been retrieved 
-        var getCourseStudentData;
-        function testCompletion() {
-            if (courses.coursesRetrieved.status && students.studentsRetrieved.status) {
-                displayAfterSave(serverResponse, action);
-                clearInterval(getCourseStudentData);
-            }
-        }
-        getCourseStudentData = setInterval(testCompletion, 500);
-    }
+    //     //after each update must update both course and student date (student data also uses course data)
+    //     courses.showCourses();
+    //     students.showStudents();
+    //     //displayAfterSave must only run after both course and student has been retrieved 
+    //     var getCourseStudentData;
+    //     function testCompletion() {
+    //         if (courses.coursesRetrieved.status && students.studentsRetrieved.status) {
+    //             displayAfterSave(serverResponse, action);
+    //             clearInterval(getCourseStudentData);
+    //         }
+    //     }
+    //     getCourseStudentData = setInterval(testCompletion, 500);
+    // }
 
     function btnSaveHandler(action) {
         
@@ -64,7 +64,7 @@ var courseSave = (function() {
                 var confirmation = confirm("Are you sure you want to delete course number " + courses.courseHandled.details.course_id + "?");
                 if (confirmation === true) {
                     verb = "Delete";
-                    serverRequest.sendServerRequest(verb, ajaxData, afterSave);  
+                    serverRequest.sendServerRequest(verb, ajaxData, common.afterCourseStudentSave);  
                     return false;
                 }
             }   
@@ -72,7 +72,8 @@ var courseSave = (function() {
                 courseAction.chosen = action;
                 verb =  action === "Add" ? "Add" : "Update"; 
                 if (validationsCourse.formValidated.contents.valid()){
-                    serverRequest.sendServerRequest(verb, ajaxData, afterSave, "courseImage", "course_image");  
+                    serverRequest.sendServerRequest(
+                        verb, ajaxData, common.afterCourseStudentSave, "courseImage", "course_image");  
                     return false;
                 }
             }
