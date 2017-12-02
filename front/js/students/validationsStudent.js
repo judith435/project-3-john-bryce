@@ -49,7 +49,7 @@ var validationsStudent = (function() {
                 var studentPhone = $("#studentPhone").val().trim();
                 var studentEmail = $("#studentEmail").val().trim();
   
-                if (studentName == "" || studentPhone == "" || studentEmail == "" ) {
+                if (studentName === "" || studentPhone === "" || studentEmail === "" ) {
                     return true; //if student name phone and email missing no point in checking
                 }
               

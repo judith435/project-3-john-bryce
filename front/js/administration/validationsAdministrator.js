@@ -48,44 +48,58 @@ var validationsAdministrator = (function() {
         });
 
         var response;
+
+        function checkAdminUpdate(adminName, adminEmail) {
+
+            var adminPhone = $("#adminPhone").val().trim();
+            var adminRole = $("#RoleDDL option").eq($("#RoleDDL").prop("selectedIndex")).val(); 
+            var adminImage = $("#adminImage").val().trim(); 
+            var adminImgDeleteChecked = ($("#deleteImage").is(":checked"));
+
+            if (adminName === administration.adminHandled.details.admin_name &&
+                adminEmail === administration.adminHandled.details.admin_email &&
+                adminPhone === administration.adminHandled.details.admin_phone &&
+                adminRole == administration.adminHandled.details.role_id &&
+                adminImage === "" && !adminImgDeleteChecked) { 
+                     formValidated.validator.settings.messages.duplicate_admin = "No change in data - No update";
+                     return "No change in data - No update"; 
+            }
+            formValidated.validator.settings.messages.duplicate_admin = "Administrator with same name and email found";
+            //check administrator name & email changed - if NOT don't run duplicate admin test ==> it always going to exist (refering to itself)
+            if (adminName === administration.adminHandled.details.admin_name && 
+                adminEmail === administration.adminHandled.details.admin_email) {
+                return "no change in admin key"; 
+            }  
+            return "check duplicate admin";
+        }
+
         $.validator.addMethod(
             "adminAlreadyExists", 
             function() {
 
-                var administrationModule = administration; //administrationModule contains all data exposed from js file administration.js
-                
                 var adminName = $("#adminName").val().trim();
                 var adminEmail = $("#adminEmail").val().trim();
 
-                if (adminName == "" || adminEmail == "") {
-                    return true; //if admin name or phone  missing no point in checking
+                if (adminName === "" && adminEmail === "") {
+                    return true; //if courseName name  missing no point in checking
                 }
-                
-                //update administrator : no change made to data retrieved from db return relevant message to user
-                if (administrationModule.action.chosen === "Update") {
-                    // if (app.debugMode){
-                    //     console.log("adminAlreadyExists() adminName from update: " + administrationModule.adminHandled.admin_name);
-                    // }
-                    var adminPhone = $("#adminPhone").val().trim();
-                    var adminRole = $("#RoleDDL option").eq($("#RoleDDL").prop("selectedIndex")).val(); 
-                    var adminImage = $("#adminImage").val().trim(); 
-                    var adminImgDeleteChecked = ($("#deleteImage").is(":checked"));
-    
-                    if (adminName === administrationModule.adminHandled.details.admin_name &&
-                        adminEmail === administrationModule.adminHandled.details.admin_email &&
-                        adminPhone === administrationModule.adminHandled.details.admin_phone &&
-                        adminRole == administrationModule.adminHandled.details.role_id &&
-                        adminImage == "" && !adminImgDeleteChecked) { 
-                             formValidated.validator.settings.messages.duplicate_admin = "No change in data - No update";
-                             return false; 
-                    }
-                    formValidated.validator.settings.messages.duplicate_admin = "Administrator with same name and email found";
 
-                    //check administrator name & email changed - if NOT don't run duplicate admin test ==> it always going to exist (refering to itself)
-                    if (adminName === administrationModule.adminHandled.details.admin_name && 
-                        adminEmail === administrationModule.adminHandled.details.admin_email) {
-                        return true; 
-                    }  
+                //update administrator : no change made to data retrieved from db return relevant message to user
+                if (administration.action.chosen === "Update") {
+                    // if (app.debugMode){
+                    //     console.log("adminAlreadyExists() adminName from update: " + administration.adminHandled.admin_name);
+                    // }
+                    var result = checkAdminUpdate(adminName, adminEmail);
+                    switch (result) {
+                        case "No change in data - No update":
+                            return false;
+                            break;
+                        case "no change in admin key":
+                            return true;
+                            break;
+                        case "check duplicate admin":
+                            ; //empty statement continue checking
+                    }
                 }
         
                 var ajaxData = {

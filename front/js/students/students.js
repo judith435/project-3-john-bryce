@@ -122,7 +122,7 @@ var students = (function() {
             $("#studentName").html(studentHandled.details.student_name);
             $("#studentPhone").html(studentHandled.details.student_phone); 
             $("#studentEmail").html(studentHandled.details.student_email); 
-            if (studentHandled.details.student_courses != "") {// student_courses == "" - no courses found for student being handled
+            if (studentHandled.details.student_courses !== "") {// student_courses == "" - no courses found for student being handled
                 var container = $("#courseList");
                 var courseHtml = "";
                 var studentCourses = studentHandled.details.student_courses.split(",");

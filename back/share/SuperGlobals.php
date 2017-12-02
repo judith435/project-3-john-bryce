@@ -17,6 +17,8 @@ class SuperGlobals
 
 }
 
-
-// $session = new SessionObject();
-// $session->vars['value'] = "newValue";
+// class Foo {
+//     public function bar() {
+//         $name = $_POST['foo'];
+//     }
+// }

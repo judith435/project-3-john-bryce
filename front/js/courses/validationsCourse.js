@@ -38,7 +38,7 @@ var validationsCourse = (function() {
                 
                 var courseName = $("#courseName").val().trim();
                 
-                if (courseName == "") {
+                if (courseName === "") {
                     return true; //if courseName name  missing no point in checking
                 }
 
