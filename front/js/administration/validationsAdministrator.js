@@ -47,8 +47,6 @@ var validationsAdministrator = (function() {
             }
         });
 
-        var response;
-
         function checkAdminUpdate(adminName, adminEmail) {
 
             var adminPhone = $("#adminPhone").val().trim();
@@ -72,6 +70,45 @@ var validationsAdministrator = (function() {
             }  
             return "check duplicate admin";
         }
+
+        function checkDuplicateAdminOnServer(adminName, adminEmail) {
+            var ajaxData = {
+                ctrl: "administrator",
+                admin_name: adminName,
+                admin_email: adminEmail
+              }; 
+    
+            // if (app.debugMode){
+            //     console.log("validations >>>  ajaxData.administrator_name  " + ajaxData.admin_name);
+            //     console.log("validations >>>  ajaxData.administrator_phone  " + ajaxData.admin_email);
+            //   }  
+            $.ajax({
+                      type: "GET",
+                      url: app.schoolApi,
+                      async: false,
+                      data: ajaxData
+                })
+                .done(function(data)
+                {
+                    var admin = JSON.parse(data);
+                    if ($.inArray(status, admin)) {//call to server revealed admin sales accessing admin menu
+                        if (admin.status === "error") {
+                            alert("Following error(s) occured in " + admin.action + ":\n" + admin.message);
+                            return true;
+                        }
+                    }
+                    //-1 means student with same student name was not found
+                    return ( admin.id == -1 ) ?  true : false;
+                    
+                    // if(app.debugMode){
+                    //     console.log("check admin name & phone does not already exist" + data);
+                    // }
+                })
+                .fail(function(data){
+                    // console.log(".fail >>>  data  " + data);
+                    return true;
+                });
+        }  
 
         $.validator.addMethod(
             "adminAlreadyExists", 
@@ -98,47 +135,11 @@ var validationsAdministrator = (function() {
                             return true;
                             break;
                         case "check duplicate admin":
-                            ; //empty statement continue checking
+                            ;  //empty statement
                     }
+                    return checkDuplicateAdminOnServer(adminName, adminEmail);  
                 }
-        
-                var ajaxData = {
-                    ctrl: "administrator",
-                    admin_name: adminName,
-                    admin_email: adminEmail
-                  }; 
-        
-                // if (app.debugMode){
-                //     console.log("validations >>>  ajaxData.administrator_name  " + ajaxData.admin_name);
-                //     console.log("validations >>>  ajaxData.administrator_phone  " + ajaxData.admin_email);
-                //   }  
-                $.ajax({
-                          type: "GET",
-                          url: app.schoolApi,
-                          async: false,
-                          data: ajaxData
-                    })
-                    .done(function(data)
-                    {
-                        var admin = JSON.parse(data);
-                        if ($.inArray(status, admin)) {//call to server revealed admin sales accessing admin menu
-                            if (admin.status === "error") {
-                                alert("Following error(s) occured in " + admin.action + ":\n" + admin.message);
-                                return true;
-                            }
-                        }
-                        //-1 means student with same student name was not found
-                        response = ( admin.id == -1 ) ?  true : false;
-                        // if(app.debugMode){
-                        //     console.log("check admin name & phone does not already exist" + data);
-                        // }
-                    })
-                    .fail(function(data){
-                        // console.log(".fail >>>  data  " + data);
-                        response = true;
-                    });
-                    return response;
-                });
+            });
     }
 
     return {

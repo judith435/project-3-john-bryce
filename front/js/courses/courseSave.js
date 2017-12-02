@@ -44,14 +44,14 @@ var courseSave = (function() {
         courses.showCourses();
         students.showStudents();
         //displayAfterSave must only run after both course and student has been retrieved 
-        var get_course_student_data;
+        var getCourseStudentData;
         function testCompletion() {
             if (courses.coursesRetrieved.status && students.studentsRetrieved.status) {
                 displayAfterSave(serverResponse, action);
-                clearInterval(get_course_student_data);
+                clearInterval(getCourseStudentData);
             }
         }
-        get_course_student_data = setInterval(testCompletion, 500);
+        getCourseStudentData = setInterval(testCompletion, 500);
     }
 
     function btnSaveHandler(action) {
