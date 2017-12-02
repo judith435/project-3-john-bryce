@@ -2,7 +2,8 @@
     require_once '../bl/Administrator_BLL.php';
     require_once '../models/AdministratorModel.php';
     require_once '../models/LoginModel.php';
-
+    require_once '../share/SuperGlobals.php';
+    
     class LoginController {
 
         function checkUserLoggedIn() {
@@ -30,8 +31,9 @@
                                                          "admin_phone" => $row['admin_phone'],
                                                          "admin_email" => $row['admin_email']],
                                                           $errorInInput);
-
-                $_SESSION["user_logged_in"] =  $administrator; 
+                $super_global = new SuperGlobals();                                          
+                $super_global->setAdminSession($administrator);
+               // $_SESSION["user_logged_in"] =  $administrator; 
                 return $administrator;  
             }
             
@@ -39,7 +41,9 @@
         }
 
         function endLogin() {
-            unset($_SESSION['user_logged_in']);
+            $super_global = new SuperGlobals();                                          
+            $super_global->deleteAdminSession();
+            //unset($_SESSION['user_logged_in']);
             return "no";
         }
     }

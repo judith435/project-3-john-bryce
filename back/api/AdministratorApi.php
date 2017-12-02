@@ -1,6 +1,7 @@
 <?php
     require_once 'abstract-api.php';
     require_once '../controllers/AdministratorController.php';
+    require_once '../share/SuperGlobals.php';
 
     class AdministratorApi extends Api{
 
@@ -30,7 +31,8 @@
         function Update($params) {
             //check if administrator is trying to change his role / or create new owner /or change other admins role to owner 
             //if yes stop update and returne error message
-            $admin = $_SESSION["user_logged_in"];
+            $super_global = new SuperGlobals();                                          
+            $admin = $super_global->getAdminSession();//$_SESSION["user_logged_in"];
             if (($admin->getRoleID() !=   $params["role_id"] && 
                  $admin->getAdministratorID() ==  $params["admin_id"]) ||
                 ($params["role_name"] == "owner" ))
@@ -47,7 +49,8 @@
 
         function Delete($params) {
             //check if administrator is trying to delete himself - if yes stop delete and return error message
-            $admin = $_SESSION["user_logged_in"];
+            $super_global = new SuperGlobals();                                          
+            $admin = $super_global->getAdminSession();//$_SESSION["user_logged_in"];
             if ($admin->getAdministratorID() ==   $params["admin_id"] ){
                 $response_array['status'] = 'error'; 
                 $response_array['action'] = 'Delete administrator';

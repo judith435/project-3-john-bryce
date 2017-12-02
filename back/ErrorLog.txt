@@ -10,3 +10,11 @@ file: C:\xampp\htdocs\project-3-john-bryce\back\api\abstract-api.php => line: 18
 file: C:\xampp\htdocs\project-3-john-bryce\back\api\api.php => line: 79 => function: gateway => class: Api => type: ->
 Message: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away
 Code: HY000
+******************************************************************************************************************************
+Error occured at 2017-12-02 20:55:45
+Trace:
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\LoginApi.php => line: 13 => function: getAdministratorByLogin => class: LoginController => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\abstract-api.php => line: 14 => function: Read => class: LoginApi => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\api.php => line: 70 => function: gateway => class: Api => type: ->
+Message: Class 'SessionObject' not found
+Code: 0
