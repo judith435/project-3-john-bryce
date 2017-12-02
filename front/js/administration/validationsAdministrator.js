@@ -67,7 +67,7 @@ var validationsAdministrator = (function() {
                     //     console.log("adminAlreadyExists() adminName from update: " + administrationModule.adminHandled.admin_name);
                     // }
                     var adminPhone = $("#adminPhone").val().trim();
-                    var adminRole = $("#RoleDDL").val().trim();  
+                    var adminRole = $("#RoleDDL option").eq($("#RoleDDL").prop("selectedIndex")).val(); 
                     var adminImage = $("#adminImage").val().trim(); 
                     var adminImgDeleteChecked = ($("#deleteImage").is(":checked"));
     
@@ -79,12 +79,11 @@ var validationsAdministrator = (function() {
                              formValidated.validator.settings.messages.duplicate_admin = "No change in data - No update";
                              return false; 
                     }
-                    else {
-                        formValidated.validator.settings.messages.duplicate_admin = "Administrator with same name and email found";
-                    }
+                    formValidated.validator.settings.messages.duplicate_admin = "Administrator with same name and email found";
 
                     //check administrator name & email changed - if NOT don't run duplicate admin test ==> it always going to exist (refering to itself)
-                    if (adminName == administrationModule.adminHandled.details.admin_name && adminEmail == administrationModule.adminHandled.details.admin_email) {
+                    if (adminName === administrationModule.adminHandled.details.admin_name && 
+                        adminEmail === administrationModule.adminHandled.details.admin_email) {
                         return true; 
                     }  
                 }

@@ -12,10 +12,9 @@ var administration = (function() {
     
     function setRolesDdlForUpdate(roles) {
         $("#RoleDDL").val(adminHandled.details.role_id);
-        
         //manager/owner may not change his own role
         if(adminLoggedIn.admin_id == adminHandled.details.admin_id) {  
-            $("#RoleDDL").prop("disabled", true);
+           $("#RoleDDL").prop("disabled", true);
         }
     }
 
@@ -44,7 +43,9 @@ var administration = (function() {
         }
 
         $("#RoleDDL").off().on("change", function() { //save role name selected in hidden input so it can be sent to server
-            $("#roleName").val($("#RoleDDL option:selected" ).text());
+            if (adminHandled.details.role_id != $("#RoleDDL").val().trim()) {
+                $("#roleName").val($("#RoleDDL option:selected" ).text());
+            }
         });
     }
 
@@ -132,18 +133,11 @@ var administration = (function() {
         
         $(".btnSave").off().click(function() {
             var verb;
-            //update:  check role combo value was changed - action that could be illegal
-            //if not initialize roleName (hidden field for use on server) to prevent faulty validations on server 
-            // if (action.chosen === "Update") {
-            //     if (adminHandled.details.role_id == $("#RoleDDL").val().trim()) {
-            //         $("#roleName").val($("").text());
-            //     }
-            // }
             var ajaxData = $("#frmCUD").serialize();
 
             if(this.id === "btnDelete"){ // don't perform validations in case of delete
                 var confirmation = confirm("Are you sure you want to delete administrator number " + adminHandled.details.admin_id + "?");
-                if (confirmation == true) {
+                if (confirmation === true) {
                     verb = "Delete";
                     serverRequestModule.sendServerRequest(verb, ajaxData, afterSave, "adminImage", "admin_image");  
                     return false;

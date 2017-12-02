@@ -64,7 +64,7 @@ var studentSave = (function() {
 
             if(this.id === "btnDelete"){ // don't perform validations in case of delete
                 var confirmation = confirm("Are you sure you want to delete student number " + students.studentHandled.details.student_id + "?");
-                if (confirmation == true) {
+                if (confirmation === true) {
                     verb = "Delete";
                     serverRequest.sendServerRequest(verb, ajaxData, afterSave);  
                     return false;

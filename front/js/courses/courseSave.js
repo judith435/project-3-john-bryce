@@ -14,7 +14,7 @@ var courseSave = (function() {
     }        
 
     function displayAfterSave(serverResponse, action){
-        let courseTemp = action == "Create" ? serverResponse.new_courseID  : courses.courseHandled.details.course_id; 
+        let courseTemp = action === "Create" ? serverResponse.new_courseID  : courses.courseHandled.details.course_id; 
         let courseToDisplay = $.grep(courses.courseArray, function(e){ return e.course_id ==  courseTemp;});
         let co = courseObject();
         //update courseHandled with updated course data
@@ -62,7 +62,7 @@ var courseSave = (function() {
 
             if(this.id === "btnDelete"){ // don't perform validations in case of delete
                 var confirmation = confirm("Are you sure you want to delete course number " + courses.courseHandled.details.course_id + "?");
-                if (confirmation == true) {
+                if (confirmation === true) {
                     verb = "Delete";
                     serverRequest.sendServerRequest(verb, ajaxData, afterSave);  
                     return false;
