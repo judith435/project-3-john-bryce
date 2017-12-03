@@ -48,7 +48,7 @@ var validationsAdministrator = (function() {
         });
 
         //duplicate_admin handling
-        var response;
+        var adminKeyNotExists = true;
 
         function checkAdminUpdate(adminName, adminEmail) {
 
@@ -97,21 +97,19 @@ var validationsAdministrator = (function() {
                     if ($.inArray(status, admin)) {//call to server revealed admin sales accessing admin menu
                         if (admin.status === "error") {
                             alert("Following error(s) occured in " + admin.action + ":\n" + admin.message);
-                            return true;
+                            adminKeyNotExists = true; //error occured - cancel validation
                         }
                     }
                     //-1 means student with same student name was not found
-                    response = ( admin.id == -1 ) ?  true : false;
+                    adminKeyNotExists = ( admin.id == -1 ) ?  true : false;
                     // if(app.debugMode){
                     //     console.log("check admin name & phone does not already exist" + data);
                     // }
                 })
                 .fail(function(data){
                     // console.log(".fail >>>  data  " + data);
-                    return true;
+                    adminKeyNotExists = true; //error occured - cancel validation
                 });
-
-                return response;
         }  
 
         $.validator.addMethod(
@@ -139,6 +137,8 @@ var validationsAdministrator = (function() {
                     }
                 }
                 checkDuplicateAdminOnServer(adminName, adminEmail);  
+                return adminKeyNotExists;
+
             });
     }
 
