@@ -3,98 +3,86 @@
 -- email => judithguttmann@gmail.com password wedding5771  encrypted as "d32b080cc61f1d5"
 -- reason system requires login of any admin and without admin already  in db no way to start application
 
--- MySQL Workbench Forward Engineering
-
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema school
--- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema school
--- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `school` DEFAULT CHARACTER SET utf8 ;
 USE `school` ;
 
 -- -----------------------------------------------------
 -- Table `school`.`roles`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `school`.`roles` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
+CREATE  TABLE IF NOT EXISTS `school`.`roles` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`id`) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
 -- Table `school`.`administrator`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `school`.`administrator` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `role` INT(11) NOT NULL,
-  `phone` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(15) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_administrator_role_idx` (`role` ASC),
+CREATE  TABLE IF NOT EXISTS `school`.`administrator` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  `role` INT(11) NOT NULL ,
+  `phone` VARCHAR(45) NOT NULL ,
+  `email` VARCHAR(45) NOT NULL ,
+  `password` VARCHAR(15) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_administrator_role_idx` (`role` ASC) ,
   CONSTRAINT `fk_administrator_role `
-    FOREIGN KEY (`role`)
-    REFERENCES `school`.`roles` (`id`))
+    FOREIGN KEY (`role` )
+    REFERENCES `school`.`roles` (`id` ))
 ENGINE = InnoDB
-AUTO_INCREMENT = 9
+AUTO_INCREMENT = 11
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
 -- Table `school`.`courses`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `school`.`courses` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`id`))
+CREATE  TABLE IF NOT EXISTS `school`.`courses` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  `description` VARCHAR(255) NOT NULL ,
+  PRIMARY KEY (`id`) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 19
+AUTO_INCREMENT = 79
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
 -- Table `school`.`students`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `school`.`students` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `phone` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
+CREATE  TABLE IF NOT EXISTS `school`.`students` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  `phone` VARCHAR(45) NOT NULL ,
+  `email` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`id`) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 17
+AUTO_INCREMENT = 39
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
 -- Table `school`.`courses_students`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `school`.`courses_students` (
-  `crs_id` INT(11) NOT NULL,
-  `stdnt_id` INT(11) NOT NULL,
-  PRIMARY KEY (`crs_id`, `stdnt_id`),
-  INDEX `fk_cs_students_idx` (`stdnt_id` ASC),
+CREATE  TABLE IF NOT EXISTS `school`.`courses_students` (
+  `crs_id` INT(11) NOT NULL ,
+  `stdnt_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`crs_id`, `stdnt_id`) ,
+  INDEX `fk_cs_students_idx` (`stdnt_id` ASC) ,
   CONSTRAINT `fk_cs_courses`
-    FOREIGN KEY (`crs_id`)
-    REFERENCES `school`.`courses` (`id`),
+    FOREIGN KEY (`crs_id` )
+    REFERENCES `school`.`courses` (`id` ),
   CONSTRAINT `fk_cs_students`
-    FOREIGN KEY (`stdnt_id`)
-    REFERENCES `school`.`students` (`id`))
+    FOREIGN KEY (`stdnt_id` )
+    REFERENCES `school`.`students` (`id` ))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -128,7 +116,7 @@ BEGIN
 
 	select id FROM administrator
     where BINARY name = admin_name
-    and BINARY email = admin_email;
+    and email = admin_email;
     
 END$$
 
@@ -143,8 +131,7 @@ USE `school`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `check_course_exists`(IN course_name VARCHAR(45))
 BEGIN
 
-	SELECT id FROM courses 
-    WHERE BINARY name = course_name;
+	SELECT id FROM courses WHERE BINARY name = course_name;
     
 END$$
 
@@ -176,10 +163,10 @@ DELIMITER ;
 
 DELIMITER $$
 USE `school`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_administrator`(IN admin_id int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_administrator`(IN adminID int)
 BEGIN
 
-	delete from  `school`.`administrator` where id = admin_id;
+	delete from  `school`.`administrator` where id = adminID;
         
 END$$
 
@@ -225,7 +212,7 @@ USE `school`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_administrator_by_login`(IN email VARCHAR(45),  in password  VARCHAR(15))
 BEGIN
 
-	SELECT   administrator.id as admin_id,
+	SELECT   administrator.id as adminID,
 			 administrator.name as admin_name,
 			 administrator.role as role_id,
              roles.name as role_name,
@@ -252,7 +239,7 @@ USE `school`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_administrators`()
 BEGIN
 
-	SELECT   administrator.id as admin_id,
+	SELECT   administrator.id as adminID,
 			 administrator.name as admin_name,
 			 administrator.role as role_id,
              roles.name as role_name,
@@ -480,7 +467,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `school`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_administrator`(IN admin_id Int, 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_administrator`(IN adminID Int, 
 																   IN admin_name VARCHAR(45),
 																   IN admin_email VARCHAR(45),	
 																   IN role_id Int,
@@ -492,7 +479,7 @@ BEGIN
 		role = role_id,
 		phone = admin_phone,
 		email = admin_email
-	where id = admin_id;   
+	where id = adminID;   
     
 END$$
 
@@ -580,9 +567,11 @@ END$$
 
 DELIMITER ;
 
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 
 
 INSERT INTO `school`.`roles` (`name`) VALUES ('owner');

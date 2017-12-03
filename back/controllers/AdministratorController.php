@@ -20,7 +20,7 @@
                     continue;
                 } 
                 array_push($allAdministrators, new AdministratorModel
-                    (["admin_id" => $row['admin_id'], 
+                    (["adminID" => $row['adminID'], 
                     "admin_name" => $row['admin_name'],
                     "role_id" => $row['role_id'],
                     "role_name" => $row['role_name'],
@@ -55,7 +55,7 @@
                 $imgHandling->delete_image($admin->getAdministratorID(), "admin");
                 return $new_adminID;
             }
-            //if new admin send new admin id returned from mysql if update send admin_id of updated admin ; errors
+            //if new admin send new admin id returned from mysql if update send adminID of updated admin ; errors
             //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
             $imgHandling->save_uploaded_image(
                 $method == "Create" ? $new_adminID : $admin->getAdministratorID(), 
@@ -66,11 +66,11 @@
         //used for js remote validation validationsAdministrator.js  method: adminAlreadyExists
         function getAdministratorByNameEmail($params) { 
             $admin_bll = new Administrator_BLL();
-            $admin_id = $admin_bll->check_admin_exists($params);
-            if ($admin_id == false){ //no admin found with given admin name & email
-                $admin_id = ["id" => -1];
+            $adminID = $admin_bll->check_admin_exists($params);
+            if ($adminID == false){ //no admin found with given admin name & email
+                $adminID = ["id" => -1];
             }
-            return $admin_id;
+            return $adminID;
         }
 
         function delete_Admin($params) {
@@ -78,7 +78,7 @@
             $admin_bll->delete_admin($params);
             //delete admin image stored in images folder
             $imgHandling = new ImageHandling();
-            $imgHandling->delete_image($params["admin_id"], "admin");
+            $imgHandling->delete_image($params["adminID"], "admin");
         }
     }
 ?>

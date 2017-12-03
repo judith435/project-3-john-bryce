@@ -24,7 +24,7 @@
                 //$errorInInput will contain any problems found in data retrieved from db () creating Administrator
                 //object automatically validates the data - at this stage no further processing occurs with any faulty db data
                 $errorInInput = ""; 
-                $administrator = new AdministratorModel(["admin_id" => $row["admin_id"], 
+                $administrator = new AdministratorModel(["adminID" => $row["adminID"], 
                                                          "admin_name" => $row['admin_name'],
                                                          "role_id" => $row['role_id'],
                                                          "role_name" => $row['role_name'],

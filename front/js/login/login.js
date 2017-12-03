@@ -24,7 +24,7 @@ var login = (function() {
         }    
         $("#admr-image").removeClass("hide");
         var dtForceReload = new Date();//way to force browser to reload picture after update of picture
-        $("#admr-image").attr("src", app.adminImagePath + admin.admin_id + ".jpg?" + dtForceReload.getTime());
+        $("#admr-image").attr("src", app.adminImagePath + admin.adminID + ".jpg?" + dtForceReload.getTime());
         $( "#school-link" ).off().click(function(event) {
             event.preventDefault();
             school.loadSchoolAside();
@@ -46,7 +46,7 @@ var login = (function() {
         else { 
             var ao = new AdministratorObject();
             var admin  = new ao.Administrator(
-                                                serverData.admin_id, 
+                                                serverData.adminID, 
                                                 serverData.admin_name,
                                                 serverData.role_id, 
                                                 serverData.role_name, 

@@ -13,7 +13,7 @@ var administration = (function() {
     function setRolesDdlForUpdate(roles) {
         $("#RoleDDL").val(adminHandled.details.role_id);
         //manager/owner may not change his own role
-        if(adminLoggedIn.admin_id == adminHandled.details.admin_id) {  
+        if(adminLoggedIn.adminID == adminHandled.details.adminID) {  
            $("#RoleDDL").prop("disabled", true);
         }
     }
@@ -70,7 +70,7 @@ var administration = (function() {
         var ao = new AdministratorObject();
         var administratorsArray = [];
         for (let i = 0; i < serverData.length; i++) {
-            administratorsArray.push(new ao.Administrator(serverData[i].admin_id, 
+            administratorsArray.push(new ao.Administrator(serverData[i].adminID, 
                                                           serverData[i].admin_name,
                                                           serverData[i].role_id, 
                                                           serverData[i].role_name, 
@@ -85,13 +85,13 @@ var administration = (function() {
             for(let i=0; i < administratorsArray.length; i++) {
                 let template = data;
                 //admin data displayed in admin aside
-                template = template.replace("{{admin_id}}", administratorsArray[i].admin_id);
+                template = template.replace("{{adminID}}", administratorsArray[i].adminID);
                 template = template.replace("{{admin_name}}", administratorsArray[i].admin_name);
                 template = template.replace("{{role_name}}", administratorsArray[i].role_name);
                 template = template.replace("{{admin_phone}}", administratorsArray[i].admin_phone);
                 template = template.replace("{{admin_email}}", administratorsArray[i].admin_email);
                 //admin data used to create admin object
-                template = template.replace("{{admin-id}}", administratorsArray[i].admin_id);
+                template = template.replace("{{admin-id}}", administratorsArray[i].adminID);
                 template = template.replace("{{admin-name}}", administratorsArray[i].admin_name);
                 template = template.replace("{{role-id}}", administratorsArray[i].role_id);
                 template = template.replace("{{role-name}}", administratorsArray[i].role_name);
@@ -130,7 +130,7 @@ var administration = (function() {
     }  
 
     function deleteAdmin(ajaxData) {
-        var confirmation = confirm("Are you sure you want to delete administrator number " + adminHandled.details.admin_id + "?");
+        var confirmation = confirm("Are you sure you want to delete administrator number " + adminHandled.details.adminID + "?");
         if (confirmation === true) {
             // don't perform validations in case of delete
             serverRequestModule.sendServerRequest("Delete", ajaxData, afterSave, "adminImage", "admin_image");  
@@ -182,8 +182,8 @@ var administration = (function() {
             btnSaveHandler();
             if(action.chosen === "Update"){
                 //place details of administrator being updated in input fields
-                $("#cud-admin-title").html( "Update Administrator Number: " + adminHandled.details.admin_id);
-                $("#adminID").val(adminHandled.details.admin_id);//set admin_id in hidden field for update/delete
+                $("#cud-admin-title").html( "Update Administrator Number: " + adminHandled.details.adminID);
+                $("#adminID").val(adminHandled.details.adminID);//set adminID in hidden field for update/delete
                 $("#adminName").val(adminHandled.details.admin_name);
                 $("#adminPhone").val(adminHandled.details.admin_phone); 
                 $("#adminEmail").val(adminHandled.details.admin_email); 
@@ -194,10 +194,10 @@ var administration = (function() {
                 $("#roleID").val(adminHandled.details.role_id);
 
                 var dtForceReload = new Date();//way to force browser to reload picture after update of picture
-                var imgPath = app.adminImagePath + adminHandled.details.admin_id + ".jpg?" + dtForceReload.getTime();
+                var imgPath = app.adminImagePath + adminHandled.details.adminID + ".jpg?" + dtForceReload.getTime();
                 commonModule.setCanvas($("#canvasAdmin")[0], imgPath, "regular");
 
-                if(adminLoggedIn.admin_id == adminHandled.details.admin_id) { //administrator cannot delete himself
+                if(adminLoggedIn.adminID == adminHandled.details.adminID) { //administrator cannot delete himself
                   $("#btnDelete").hide(); 
                 }
             }

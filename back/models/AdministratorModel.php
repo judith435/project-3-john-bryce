@@ -5,7 +5,7 @@
     
     class AdministratorModel implements JsonSerializable {
 
-        private $admin_id;
+        private $adminID;
         private $admin_name;
         private $role_id;
         private $role_name;
@@ -14,7 +14,7 @@
         
         function __construct($params, &$errorInInput) {
             $this->setAdministratorID
-                (array_key_exists("admin_id", $params) ? $params["admin_id"] : 0); 
+                (array_key_exists("adminID", $params) ? $params["adminID"] : 0); 
             $this->setAdministratorName($params["admin_name"], $errorInInput);
             $this->setRoleID($params["role_id"], $errorInInput); 
             $this->setRoleName
@@ -24,7 +24,7 @@
         }  
 
         public function setAdministratorID($admr_id){
-            $this->admin_id = $admr_id;
+            $this->adminID = $admr_id;
         }
 
         public function setAdministratorName($admr_name, &$errorInInput){
@@ -65,7 +65,7 @@
         }
 
         public function getAdministratorID(){
-            return $this->admin_id;
+            return $this->adminID;
         }
 
         public function getAdministratorName(){
@@ -88,7 +88,7 @@
 
         public function jsonSerialize() {
             return  [
-                        'admin_id' => $this->getAdministratorID(),
+                        'adminID' => $this->getAdministratorID(),
                         'admin_name' => $this->getAdministratorName(),
                         'role_id' => $this->getRoleID(),
                         'role_name' => $this->getRoleName(),

@@ -34,7 +34,7 @@
             $super_global = new SuperGlobals();                                          
             $admin = $super_global->getAdminSession();//$_SESSION["user_logged_in"];
             if (($admin->getRoleID() !=   $params["role_id"] && 
-                 $admin->getAdministratorID() ==  $params["admin_id"]) ||
+                 $admin->getAdministratorID() ==  $params["adminID"]) ||
                 ($params["role_name"] == "owner" ))
             {
                 $response_array['status'] = 'error'; 
@@ -51,7 +51,7 @@
             //check if administrator is trying to delete himself - if yes stop delete and return error message
             $super_global = new SuperGlobals();                                          
             $admin = $super_global->getAdminSession();//$_SESSION["user_logged_in"];
-            if ($admin->getAdministratorID() ==   $params["admin_id"] ){
+            if ($admin->getAdministratorID() ==   $params["adminID"] ){
                 $response_array['status'] = 'error'; 
                 $response_array['action'] = 'Delete administrator';
                 $response_array['message'] = 'administrator tried to delete himself'; 

@@ -42,7 +42,7 @@
             if ($resultSet->rowCount() > 0) { // admin with same name & email found
                 $duplicate_admin = $resultSet->fetch();
                 if (($method == "Create") || //create: if admin with same name & email already exist then error
-                    //update: if admin with same name & email already exist then error only if admin_id different - otherwise referring to existing admin
+                    //update: if admin with same name & email already exist then error only if adminID different - otherwise referring to existing admin
                     ($method == "Update" && $duplicate_admin["id"] != $admin->getAdministratorID())) { 
                          $applicationError =  "administrator with same name & email found - admin id #" . $duplicate_admin["id"];
                     return;
@@ -52,8 +52,8 @@
             array_push($spParms, new PDO_Parm("role_id", $admin->getRoleID(), 'integer')); 
             array_push($spParms, new PDO_Parm("admin_phone", $admin->getAdministratorPhone(), 'string')); 
             
-            if ($method == "Update") {  //for update must add admin_id as first parameter
-                array_unshift($spParms, new PDO_Parm("admin_id", $admin->getAdministratorID(), 'integer'));
+            if ($method == "Update") {  //for update must add adminID as first parameter
+                array_unshift($spParms, new PDO_Parm("adminID", $admin->getAdministratorID(), 'integer'));
             }
 
             if ($method == "Create") { //for insert add password => irrelevant for update password cannot be updated
@@ -68,7 +68,7 @@
 
         public function delete_admin($params) {
             $spParms =  array(); //contains stored procedure input parms 
-            array_push($spParms, new PDO_Parm("admin_id", $params["admin_id"], 'integer'));
+            array_push($spParms, new PDO_Parm("adminID", $params["adminID"], 'integer'));
             return parent::get($this->get_dbName(), 'delete_administrator', $spParms);
         }
     }
