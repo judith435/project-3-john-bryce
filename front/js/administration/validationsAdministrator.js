@@ -63,15 +63,17 @@ var validationsAdministrator = (function() {
                 adminRole == administration.adminHandled.details.role_id &&
                 adminImage === "" && !adminImgDeleteChecked) { 
                      formValidated.validator.settings.messages.duplicate_admin = "No change in data - No update";
-                     return "No change in data - No update"; 
+                     adminKeyNotExists = false;
+                     return "end validations";//"No change in data - No update"; 
             }
             formValidated.validator.settings.messages.duplicate_admin = "Administrator with same name and email found";
             //check administrator name & email changed - if NOT don't run duplicate admin test ==> it always going to exist (refering to itself)
             if (adminName === administration.adminHandled.details.admin_name && 
                 adminEmail === administration.adminHandled.details.admin_email) {
-                return "no change in admin key"; 
+                adminKeyNotExists = true;
+                return "end validations";//"no change in admin key"; 
             }  
-            return "check duplicate admin";
+            return "continue validations";//"check duplicate admin";
         }
 
         function checkDuplicateAdminOnServer(adminName, adminEmail) {
@@ -119,9 +121,9 @@ var validationsAdministrator = (function() {
                 var adminName = $("#adminName").val().trim();
                 var adminEmail = $("#adminEmail").val().trim();
 
-                // if (adminName === "" && adminEmail === "") {
-                //     return true; //if courseName name  missing no point in checking
-                // }
+                if (adminName === "" && adminEmail === "") {
+                    return true; //if courseName name  missing no point in checking
+                }
 
                 //update administrator : no change made to data retrieved from db return relevant message to user
                 if (administration.action.chosen === "Update") {
@@ -129,12 +131,15 @@ var validationsAdministrator = (function() {
                     //     console.log("adminAlreadyExists() adminName from update: " + administration.adminHandled.admin_name);
                     // }
                     var result = checkAdminUpdate(adminName, adminEmail);
-                    if (result === "No change in data - No update") {
-                        return false;
+                    if (result === "end validations"){
+                        return adminKeyNotExists;
                     }
-                    if (result === "no change in admin key") {//don't check duplicate admin if key data has not been changed
-                        return true;
-                    }
+                    // if (result === "No change in data - No update") {
+                    //     return false;
+                    // }
+                    // if (result === "no change in admin key") {//don't check duplicate admin if key data has not been changed
+                    //     return true;
+                    // }
                 }
                 checkDuplicateAdminOnServer(adminName, adminEmail);  
                 return adminKeyNotExists;
