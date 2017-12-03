@@ -4,7 +4,7 @@
 
     class StudentApi extends Api{
 
-        function Read($params) {
+        function Read($params = null) {
             $studentCtrl = new StudentController;
 
             if (array_key_exists("student_name", $params) && array_key_exists("student_phone", $params) && array_key_exists("student_email", $params)) {
@@ -14,15 +14,15 @@
             return $studentCtrl->getAll_Students();
         }
 
-        function Create($params) {
+        function Create($params = null) {
             return $this->create_update($params, "Create");  
         }
 
-        function Update($params) {
+        function Update($params = null) {
             return $this->create_update($params, "Update");  
         }
 
-         function Delete($params) {
+         function Delete($params = null) {
 
             $studentCtrl = new StudentController;
             $studentCtrl->delete_Student($params);

@@ -4,7 +4,7 @@
 
     class CourseApi extends Api{
 
-        function Read($params) {
+        function Read($params = null) {
             $courseCtrl = new CourseController;
            
             if (array_key_exists("course_name", $params)) { 
@@ -14,15 +14,15 @@
             return $courseCtrl->getAll_Courses();
         }
 
-        function Create($params) {
+        function Create($params = null) {
             return $this->create_update($params, "Create");  
         }
 
-        function Update($params) {
+        function Update($params = null) {
             return $this->create_update($params, "Update");  
         }
 
-         function Delete($params) {
+         function Delete($params = null) {
 
             $courseCtrl = new CourseController;
             $courseCtrl->delete_Course($params);

@@ -1,10 +1,10 @@
 <?php
     abstract class Api {
-
-        abstract function Create($params);
-        abstract function Read($params);
-        abstract function Update($params);
-        abstract function Delete($params);
+       // function foo(&$a = NULL) {
+        abstract function Create($params = null);
+        abstract function Read($params = null);
+        abstract function Update($params  = null);
+        abstract function Delete($params  = null);
 
         public function gateway($method, $params) {
             switch ($method) {

@@ -4,7 +4,7 @@
 
     class LoginApi extends Api{
 
-        function Read($params) {
+        function Read($params = null) {
 
             $loginCtrl = new LoginController;
             
@@ -17,11 +17,11 @@
             return  $loginCtrl->checkUserLoggedIn(); 
         }
 
-        function Create($params) {}
+        function Create($params = null) {}
 
-        function Update($params) {}
+        function Update($params = null) {}
 
-        function Delete($params) { //user clicked logout link
+        function Delete($params = null) { //user clicked logout link
 
             $loginCtrl = new LoginController;
             return  $loginCtrl->endLogin();

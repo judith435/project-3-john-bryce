@@ -5,7 +5,7 @@
 
     class AdministratorApi extends Api{
 
-        function Read($params) {
+        function Read($params = null) {
 
             $adminCtrl = new AdministratorController;
             //used to check if admin by same name & phone found: js remote validation validationsAdministrator.js  method: adminAlreadyExists
@@ -17,7 +17,7 @@
             return  $adminCtrl->getAll_Administrators();
         }
 
-        function Create($params) {
+        function Create($params = null) {
             if ($params["role_name"] == "owner")
             {
                 $response_array['status'] = 'error'; 
@@ -28,7 +28,7 @@
             return $this->create_update($params, "Create");  
         }
 
-        function Update($params) {
+        function Update($params = null) {
             //check if administrator is trying to change his role / or create new owner /or change other admins role to owner 
             //if yes stop update and returne error message
             $super_global = new SuperGlobals();                                          
@@ -47,7 +47,7 @@
             return $this->create_update($params, "Update");  
         }
 
-        function Delete($params) {
+        function Delete($params = null) {
             //check if administrator is trying to delete himself - if yes stop delete and return error message
             $super_global = new SuperGlobals();                                          
             $admin = $super_global->getAdminSession();//$_SESSION["user_logged_in"];
