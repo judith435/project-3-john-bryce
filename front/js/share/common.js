@@ -57,7 +57,9 @@ var common = (function() {
             if (serverResponse.message.search("following errors") !== -1) { //display msg about failed image upload
                 alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
             }
-            var action = serverResponse.action.split(" ", 1)[0]; //first word of serverResponse.action contains action performed
+            var action = serverResponse.action.split(" "); 
+            var actionVerb = action[0]; //first word of serverResponse.action contains action performed
+            var actionEntity = action[1]; //second word of serverResponse.action contains entity: course/student
             if (action === "Delete") {
                 school.loadSchoolMain();
                 return;
@@ -69,10 +71,15 @@ var common = (function() {
             //displayAfterSave must only run after both course and student has been retrieved 
             var getCourseStudentData;
             function testCompletion() {
-                if (courses.coursesRetrieved.status && students.studentsRetrieved.status) {
-                    displayAfterSave(serverResponse, action);
-                    clearInterval(getCourseStudentData);
-                }
+                  if (courses.coursesRetrieved.status && students.studentsRetrieved.status) {
+                        if (actionEntity === "course"){
+                              courseSave.displayAfterSave(serverResponse, action);
+                        } 
+                        else {
+                              studentSave.displayAfterSave(serverResponse, action);
+                        } 
+                        clearInterval(getCourseStudentData);
+                  }
             }
             getCourseStudentData = setInterval(testCompletion, 500);
         }
