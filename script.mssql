@@ -38,7 +38,7 @@ CREATE  TABLE IF NOT EXISTS `school`.`administrator` (
     FOREIGN KEY (`role` )
     REFERENCES `school`.`roles` (`id` ))
 ENGINE = InnoDB
-AUTO_INCREMENT = 11
+AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -216,7 +216,7 @@ BEGIN
 			 administrator.name as admin_name,
 			 administrator.role as role_id,
              roles.name as role_name,
-             administrator.phone as admin_phone,
+             administrator.phone as adminPhone,
              administrator.email as admin_email,
              administrator.password as admin_password             
 	FROM administrator
@@ -243,7 +243,7 @@ BEGIN
 			 administrator.name as admin_name,
 			 administrator.role as role_id,
              roles.name as role_name,
-             administrator.phone as admin_phone,
+             administrator.phone as adminPhone,
              administrator.email as admin_email
 	FROM administrator
 	inner join roles
@@ -343,7 +343,7 @@ USE `school`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_administrator`(IN admin_name VARCHAR(45),
 																   IN admin_email VARCHAR(45),
 																   IN role_id int,
-																   IN admin_phone VARCHAR(45),
+																   IN adminPhone VARCHAR(45),
 																   IN admin_password VARCHAR(15))
 BEGIN
 
@@ -358,7 +358,7 @@ BEGIN
 	VALUES
 	(admin_name,
 	 role_id,
-	 admin_phone,
+	 adminPhone,
 	 admin_email,
 	 admin_password); 
     
@@ -471,13 +471,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `update_administrator`(IN adminID In
 																   IN admin_name VARCHAR(45),
 																   IN admin_email VARCHAR(45),	
 																   IN role_id Int,
-																   IN admin_phone VARCHAR(45))
+																   IN adminPhone VARCHAR(45))
 BEGIN
 
     update school.administrator
 	set name = admin_name,
 		role = role_id,
-		phone = admin_phone,
+		phone = adminPhone,
 		email = admin_email
 	where id = adminID;   
     

@@ -9,7 +9,7 @@
         private $admin_name;
         private $role_id;
         private $role_name;
-        private $admin_phone;
+        private $adminPhone;
         private $admin_email;
         
         function __construct($params, &$errorInInput) {
@@ -19,7 +19,7 @@
             $this->setRoleID($params["role_id"], $errorInInput); 
             $this->setRoleName
                 (array_key_exists("role_name", $params) ? $params["role_name"] : ""); 
-            $this->setAdministratorPhone($params["admin_phone"], $errorInInput);
+            $this->setAdministratorPhone($params["adminPhone"], $errorInInput);
             $this->setAdministratorEmail($params["admin_email"], $errorInInput);
         }  
 
@@ -52,7 +52,7 @@
             if (!$validations->phoneOK($admr_ph)){
                 $errorInInput .= " Administrator Phone not a valid phone number\n";
             }
-            $this->admin_phone = rawurldecode($admr_ph);
+            $this->adminPhone = rawurldecode($admr_ph);
         }
 
         public function setAdministratorEmail($admr_e, &$errorInInput){
@@ -80,7 +80,7 @@
             return $this->role_name;
         }
         public function getAdministratorPhone(){
-            return $this->admin_phone;
+            return $this->adminPhone;
         }
         public function getAdministratorEmail(){
             return $this->admin_email;
@@ -92,7 +92,7 @@
                         'admin_name' => $this->getAdministratorName(),
                         'role_id' => $this->getRoleID(),
                         'role_name' => $this->getRoleName(),
-                        'admin_phone' => $this->getAdministratorPhone(),
+                        'adminPhone' => $this->getAdministratorPhone(),
                         'admin_email' => $this->getAdministratorEmail() 
                     ];
         }

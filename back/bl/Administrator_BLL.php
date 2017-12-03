@@ -50,7 +50,7 @@
             }
 
             array_push($spParms, new PDO_Parm("role_id", $admin->getRoleID(), 'integer')); 
-            array_push($spParms, new PDO_Parm("admin_phone", $admin->getAdministratorPhone(), 'string')); 
+            array_push($spParms, new PDO_Parm("adminPhone", $admin->getAdministratorPhone(), 'string')); 
             
             if ($method == "Update") {  //for update must add adminID as first parameter
                 array_unshift($spParms, new PDO_Parm("adminID", $admin->getAdministratorID(), 'integer'));

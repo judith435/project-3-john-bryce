@@ -43,6 +43,7 @@ var administration = (function() {
         }
 
         $("#RoleDDL").off().on("change", function() { //save role name selected in hidden input so it can be sent to server
+            alert("in  $(#RoleDDL).off().on(change, function()");
             if (adminHandled.details.role_id != $("#RoleDDL").val().trim()) {
                 $("#roleName").val($("#RoleDDL option:selected" ).text());
             }
@@ -53,7 +54,7 @@ var administration = (function() {
         validationsAdministratorModule.initValidator();
         var validationMessages = validationsAdministratorModule.formValidated.validator.settings.messages;
         validationMessages.admin_name = "Administrator name required";
-        validationMessages.admin_phone = "Valid phone required";
+        validationMessages.adminPhone = "Valid phone required";
         validationMessages.admin_email = "Valid email required";
         validationMessages.admin_password = "Password required";
         validationMessages.role_id = "Please select role";
@@ -74,7 +75,7 @@ var administration = (function() {
                                                           serverData[i].admin_name,
                                                           serverData[i].role_id, 
                                                           serverData[i].role_name, 
-                                                          serverData[i].admin_phone,
+                                                          serverData[i].adminPhone,
                                                           serverData[i].admin_email
                                         ));
         }     
@@ -88,14 +89,14 @@ var administration = (function() {
                 template = template.replace("{{adminID}}", administratorsArray[i].adminID);
                 template = template.replace("{{admin_name}}", administratorsArray[i].admin_name);
                 template = template.replace("{{role_name}}", administratorsArray[i].role_name);
-                template = template.replace("{{admin_phone}}", administratorsArray[i].admin_phone);
+                template = template.replace("{{adminPhone}}", administratorsArray[i].adminPhone);
                 template = template.replace("{{admin_email}}", administratorsArray[i].admin_email);
                 //admin data used to create admin object
                 template = template.replace("{{admin-id}}", administratorsArray[i].adminID);
                 template = template.replace("{{admin-name}}", administratorsArray[i].admin_name);
                 template = template.replace("{{role-id}}", administratorsArray[i].role_id);
                 template = template.replace("{{role-name}}", administratorsArray[i].role_name);
-                template = template.replace("{{admin-phone}}", administratorsArray[i].admin_phone);
+                template = template.replace("{{admin-phone}}", administratorsArray[i].adminPhone);
                 template = template.replace("{{admin-email}}", administratorsArray[i].admin_email);
 
                 $("#administrators").append(template);
@@ -185,7 +186,7 @@ var administration = (function() {
                 $("#cud-admin-title").html( "Update Administrator Number: " + adminHandled.details.adminID);
                 $("#adminID").val(adminHandled.details.adminID);//set adminID in hidden field for update/delete
                 $("#adminName").val(adminHandled.details.admin_name);
-                $("#adminPhone").val(adminHandled.details.admin_phone); 
+                $("#adminPhone").val(adminHandled.details.adminPhone); 
                 $("#adminEmail").val(adminHandled.details.admin_email); 
                 //password cannot be updated - it is also not retrived from db to be displayed
                 $("#adminPassword").val("***************"); 

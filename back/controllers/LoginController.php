@@ -28,7 +28,7 @@
                                                          "admin_name" => $row['admin_name'],
                                                          "role_id" => $row['role_id'],
                                                          "role_name" => $row['role_name'],
-                                                         "admin_phone" => $row['admin_phone'],
+                                                         "adminPhone" => $row['adminPhone'],
                                                          "admin_email" => $row['admin_email']],
                                                           $errorInInput);
                 $super_global = new SuperGlobals();                                          

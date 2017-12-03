@@ -16,7 +16,7 @@ var validationsAdministrator = (function() {
                         return $.trim(value);
                     } 
                 }, 
-                admin_phone: {
+                adminPhone: {
                     required: true,
                     normalizer: function(value) {
                         return $.trim(value);
@@ -59,7 +59,7 @@ var validationsAdministrator = (function() {
 
             if (adminName === administration.adminHandled.details.admin_name &&
                 adminEmail === administration.adminHandled.details.admin_email &&
-                adminPhone === administration.adminHandled.details.admin_phone &&
+                adminPhone === administration.adminHandled.details.adminPhone &&
                 adminRole == administration.adminHandled.details.role_id &&
                 adminImage === "" && !adminImgDeleteChecked) { 
                      formValidated.validator.settings.messages.duplicate_admin = "No change in data - No update";

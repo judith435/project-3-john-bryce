@@ -50,7 +50,7 @@ var login = (function() {
                                                 serverData.admin_name,
                                                 serverData.role_id, 
                                                 serverData.role_name, 
-                                                serverData.admin_phone,
+                                                serverData.adminPhone,
                                                 serverData.admin_email);
             sessionStorage.setItem("administrator", JSON.stringify(admin));   
             setNavigationBarLoggedIn(admin); 
