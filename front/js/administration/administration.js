@@ -35,8 +35,8 @@ var administration = (function() {
         }
 
         //disable owner => no new owner may be created or updated to
-        var role_owner = $.grep(roles, function(e){ return e.role_name ===  "owner";}); //must retrive id of owner to be able to disable it
-        $("option[value='" + role_owner[0].role_id + "']").attr("disabled", "disabled").siblings().removeAttr("disabled");
+        var roleOwner = $.grep(roles, function(e){ return e.role_name ===  "owner";}); //must retrive id of owner to be able to disable it
+        $("option[value='" + roleOwner[0].role_id + "']").attr("disabled", "disabled").siblings().removeAttr("disabled");
 
         if (action.chosen === "Update"){
             setRolesDdlForUpdate(roles);
