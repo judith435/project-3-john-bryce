@@ -1,5 +1,22 @@
 {
   "globals": {
-    "document": false
+    "app": true,
+    "administration": true,
+    "AdministratorObject": true,
+    "validationsAdministrator": true,
+    "courseObject": true,
+    "courses": true,
+    "courseSave": true,
+    "validationsCourse": true,
+    "login": true,
+    "loginHandling": true,
+    "logout": true,
+    "school": true,
+    "common": true,
+    "serverRequest": true,
+    "studentObject": true,
+    "students": true,
+    "studentSave": true,
+    "validationsStudent": true 
   }
 }
