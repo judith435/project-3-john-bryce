@@ -98,6 +98,23 @@ var courses = (function() {
         });
     }
 
+    function buildStudentList() {
+        var studentHtml = "";
+        var studentIDs = courseHandled.details.student_ids.split(",");
+        for (let i = 0; i < studentIDs.length; i++) {
+                let student = $.grep(students.studentArray, function(e){ return e.student_id ==  studentIDs[i];});
+                studentHtml += "<div class='info-row-minor'>";
+                studentHtml += "<canvas  data-canvas-id='" + studentIDs[i] + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
+                studentHtml += "<div class='info-container'>";
+                studentHtml += "<label class='text-left'>" + student[0].student_name + "</label>";
+                studentHtml += "</div>";
+                studentHtml += "</div>";
+        }
+        $("#studentList").append(studentHtml);
+        //load images for all canvas elements created
+        commonModule.loadCanvasList($("#studentList canvas"), app.studentImagePath, "small");
+    }
+
     function loadCourseView() {
         
         $.ajax("templates/school/courses/view-course.html").done(function(data) {
@@ -109,20 +126,7 @@ var courses = (function() {
             $("#CourseDescription").html(courseHandled.details.course_description); 
 
             if (courseHandled.details.student_ids !== "") {// student_ids == "" - no students found for course being handled
-                var studentHtml = "";
-                var studentIDs = courseHandled.details.student_ids.split(",");
-                for (let i = 0; i < studentIDs.length; i++) {
-                        let student = $.grep(students.studentArray, function(e){ return e.student_id ==  studentIDs[i];});
-                        studentHtml += "<div class='info-row-minor'>";
-                        studentHtml += "<canvas  data-canvas-id='" + studentIDs[i] + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
-                        studentHtml += "<div class='info-container'>";
-                        studentHtml += "<label class='text-left'>" + student[0].student_name + "</label>";
-                        studentHtml += "</div>";
-                        studentHtml += "</div>";
-                }
-                $("#studentList").append(studentHtml);
-                //load images for all canvas elements created
-                commonModule.loadCanvasList($("#studentList canvas"), app.studentImagePath, "small");
+                buildStudentList();
             }
 
             //get admin data to check if admin role is sales => may not update course data
@@ -135,7 +139,7 @@ var courses = (function() {
             if (admin.role_name === "sales") { //administrator type sales is not entitled to update course => hide edit button 
                 $("#btnEdit").hide();
             }
-             displayCourseImage();
+            displayCourseImage();
             $("#btnEdit").off().click(function() {
                 loadCourseCUD("Update"); 
             });
