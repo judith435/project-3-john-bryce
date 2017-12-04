@@ -31,7 +31,62 @@ var validationsCourse = (function() {
             }
         });
 
-        var response;
+        //duplicate_course handling
+        var courseKeyNotExists = true;
+
+        function checkCourseUpdate(courseName) {
+            var courseDescription = $("#courseDescription").val().trim();
+            var courseImage = $("#courseImage").val().trim(); 
+            var courseImgDeleteChecked = ($("#deleteImage").is(":checked"));
+
+            if (courseName === courses.courseHandled.details.course_name &&
+                courseDescription === courses.courseHandled.details.course_description &&
+                courseImage === "" && !courseImgDeleteChecked) { 
+                    formValidated.validator.settings.messages.duplicate_course = "No change in data - No update";
+                    courseKeyNotExists = false;
+                    return "end validations";// error found: "No change in data - No update"; 
+            }
+            formValidated.validator.settings.messages.duplicate_course = "Course with same name found";
+
+            //check course name has been changed - if NOT prevent running duplicate_course test ==> it always going to exist
+            if (courseName === courses.courseHandled.details.course_name) {
+                courseKeyNotExists = true;
+                return "end validations"; //no error "no change in admin key" end validations with true; 
+            }  
+            return "continue validations";//need to continue validations with "check duplicate course";
+        }
+        
+        function checkDuplicateCourseOnServer(courseName) {
+            var ajaxData = {
+                ctrl: "course",
+                course_name: courseName
+            }; 
+    
+          //   if (app.debugMode){
+          //       console.log("validations >>>  ajaxData.course_name  " + ajaxData.courseName);
+          //   }  
+            
+            $.ajax  ({
+                      type: "GET",
+                      url: app.schoolApi,
+                      async: false,
+                      data: ajaxData
+                    })
+                    .done(function(data)
+                    {
+                      var course = JSON.parse(data);
+                      //-1 means course with same course name was not found
+                      courseKeyNotExists = ( course.id === -1 ) ?  true : false;
+                      // if(app.debugMode){
+                      //   console.log("check course name does not already exist" + data);
+                      // }
+                    })
+                    .fail(function(data){
+                    //   console.log(".fail >>>  data  " + data);
+                        courseKeyNotExists = true;
+                    });
+        }
+
         $.validator.addMethod(
             "courseAlreadyExists", 
             function() {
@@ -47,55 +102,15 @@ var validationsCourse = (function() {
                     // if (app.debugMode){
                     //     console.log("courseAlreadyExists() courseName from update: " + courses.courseHandled.details.course_name);
                     // }
-                    var courseDescription = $("#courseDescription").val().trim();
-                    var courseImage = $("#courseImage").val().trim(); 
-                    var courseImgDeleteChecked = ($("#deleteImage").is(":checked"));
-
-                    if (courseName === courses.courseHandled.details.course_name &&
-                        courseDescription === courses.courseHandled.details.course_description &&
-                        courseImage === "" && !courseImgDeleteChecked) { 
-                            formValidated.validator.settings.messages.duplicate_course = "No change in data - No update";
-                            return false; 
+                    var result = checkCourseUpdate(courseName);
+                    if (result === "end validations"){
+                        return courseKeyNotExists;
                     }
-                    else {
-                        formValidated.validator.settings.messages.duplicate_course = "Course with same name found";
-                    }
-
-                    //check course name has been changed - if NOT prevent running duplicate_course test ==> it always going to exist
-                    if (courseName === courses.courseHandled.details.course_name) {
-                        return true; 
-                    }  
                 }
 
-              var ajaxData = {
-                  ctrl: "course",
-                  course_name: courseName
-              }; 
-      
-            //   if (app.debugMode){
-            //       console.log("validations >>>  ajaxData.course_name  " + ajaxData.courseName);
-            //   }  
-              
-              $.ajax({
-                        type: "GET",
-                        url: app.schoolApi,
-                        async: false,
-                        data: ajaxData
-                    })
-                    .done(function(data)
-                      {
-                        var course = JSON.parse(data);
-                        //-1 means course with same course name was not found
-                        response = ( course.id == -1 ) ?  true : false;
-                        // if(app.debugMode){
-                        //   console.log("check course name does not already exist" + data);
-                        // }
-                      })
-                    .fail(function(data){
-                    //   console.log(".fail >>>  data  " + data);
-                      response = true;
-                    });
-                    return response;
+                checkDuplicateCourseOnServer(courseName);  
+                return courseKeyNotExists;
+
               });
       
 

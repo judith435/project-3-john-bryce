@@ -53,14 +53,14 @@ var validationsAdministrator = (function() {
         function checkAdminUpdate(adminName, adminEmail) {
 
             var adminPhone = $("#adminPhone").val().trim();
-            var adminRole = $("#RoleDDL option").eq($("#RoleDDL").prop("selectedIndex")).val(); 
+            var adminRole = parseInt($("#RoleDDL option").eq($("#RoleDDL").prop("selectedIndex")).val()); 
             var adminImage = $("#adminImage").val().trim(); 
             var adminImgDeleteChecked = ($("#deleteImage").is(":checked"));
 
             if (adminName === administration.adminHandled.details.admin_name &&
                 adminEmail === administration.adminHandled.details.admin_email &&
                 adminPhone === administration.adminHandled.details.adminPhone &&
-                adminRole == administration.adminHandled.details.role_id &&
+                adminRole === administration.adminHandled.details.role_id &&
                 adminImage === "" && !adminImgDeleteChecked) { 
                      formValidated.validator.settings.messages.duplicate_admin = "No change in data - No update";
                      adminKeyNotExists = false;
@@ -103,7 +103,7 @@ var validationsAdministrator = (function() {
                         }
                     }
                     //-1 means student with same student name was not found
-                    adminKeyNotExists = ( admin.id == -1 ) ?  true : false;
+                    adminKeyNotExists = ( admin.id === -1 ) ?  true : false;
                     // if(app.debugMode){
                     //     console.log("check admin name & phone does not already exist" + data);
                     // }
