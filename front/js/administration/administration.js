@@ -11,7 +11,7 @@ var administration = (function() {
     
     
     function setRolesDdlForUpdate(roles) {
-        $("#RoleDDL").val(adminHandled.details.role_name);
+        $("#RoleDDL").val(adminHandled.details.roleID);
         //manager/owner may not change his own role
         if(adminLoggedIn.adminID === adminHandled.details.adminID) {  
            $("#RoleDDL").prop("disabled", true);
@@ -192,8 +192,6 @@ var administration = (function() {
                 //password cannot be updated - it is also not retrived from db to be displayed
                 $("#adminPassword").val("***************"); 
                 $("#adminPassword").prop("disabled", true);
-                //set roleID in hidden field for update - used on server to check if manager is trying to change his own role
-                $("#roleID").val(adminHandled.details.roleID);
 
                 var dtForceReload = new Date();//way to force browser to reload picture after update of picture
                 var imgPath = app.adminImagePath + adminHandled.details.adminID + ".jpg?" + dtForceReload.getTime();
