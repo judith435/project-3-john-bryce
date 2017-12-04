@@ -17,7 +17,8 @@ var studentSave = (function() {
     function displayAfterSave(serverResponse, action){
         let studentTemp = action === "Create" ? serverResponse.new_studentID  : students.studentHandled.details.student_id; 
         let studentToDisplay = $.grep(students.studentArray, function(e)
-                                             { return e.student_id ==  studentTemp; });
+                                             { var tot = e;
+                                                 return e.student_id ===  studentTemp; });
         var so = studentObject();
         students.studentHandled.details = new so.Student(studentToDisplay[0].student_id, 
                                                         studentToDisplay[0].student_name, 

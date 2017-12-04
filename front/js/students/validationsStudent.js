@@ -116,6 +116,7 @@ var validationsStudent = (function() {
         $.validator.addMethod(
             "studentAlreadyExists", 
             function() {
+
                 var studentName = $("#studentName").val().trim();
                 var studentPhone = $("#studentPhone").val().trim();
                 var studentEmail = $("#studentEmail").val().trim();
@@ -124,18 +125,18 @@ var validationsStudent = (function() {
                     return true; //if student name phone and email missing no point in checking
                 }
               
-            //update student: no change made to data retrieved from db return relevant message to user
-            if (studentSave.studentAction.chosen === "Update") {
-                // if (app.debugMode){
-                //     console.log("studentAlreadyExists(): " + students.studentHandled.details.student_name + "  " + students.studentHandled.details.student_phone + "  " + students.studentHandled.details.student_email + "  ");
-                // }
-                var result = checkStudentUpdate(studentName, studentPhone, studentEmail);
-                if (result === "end validations"){
-                    return studentKeyNotExists;
+                //update student: no change made to data retrieved from db return relevant message to user
+                if (studentSave.studentAction.chosen === "Update") {
+                    // if (app.debugMode){
+                    //     console.log("studentAlreadyExists(): " + students.studentHandled.details.student_name + "  " + students.studentHandled.details.student_phone + "  " + students.studentHandled.details.student_email + "  ");
+                    // }
+                    var result = checkStudentUpdate(studentName, studentPhone, studentEmail);
+                    if (result === "end validations"){
+                        return studentKeyNotExists;
+                    }
                 }
-            }
-            checkDuplicateStudentOnServer(studentName, studentPhone, studentEmail);  
-            return studentKeyNotExists;
+                checkDuplicateStudentOnServer(studentName, studentPhone, studentEmail);  
+                return studentKeyNotExists;
         });
       
 

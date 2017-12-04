@@ -135,7 +135,7 @@ var courses = (function() {
         $.ajax("templates/school/courses/view-course.html").done(function(data) {
             $("#main-container").empty();
             $("#main-container").prepend(data);
-            var studentNumbers = courseHandled.details.number_of_students_for_course == 0 ? "no" :  courseHandled.details.number_of_students_for_course ;
+            var studentNumbers = courseHandled.details.number_of_students_for_course === 0 ? "no" :  courseHandled.details.number_of_students_for_course ;
             var courseText = courseHandled.details.course_name + ", " + studentNumbers + " students";
             $("#courseName").html(courseText);
             $("#CourseDescription").html(courseHandled.details.course_description); 

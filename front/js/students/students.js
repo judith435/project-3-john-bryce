@@ -127,10 +127,10 @@ var students = (function() {
                 var courseHtml = "";
                 var studentCourses = studentHandled.details.student_courses.split(",");
                 for (let i = 0; i < studentCourses.length; i++) {
-                    let course_id = studentCourses[i].replace("cbCourse","");
-                    let course = $.grep(courses.courseArray, function(e){ return e.course_id == course_id; });
+                    let courseID = parseInt(studentCourses[i].replace("cbCourse",""));
+                    let course = $.grep(courses.courseArray, function(e){ return e.course_id === courseID; });
                     courseHtml += "<div class='info-row-minor'>";
-                    courseHtml += "<canvas  data-canvas-id='" + course_id + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
+                    courseHtml += "<canvas  data-canvas-id='" + courseID + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
                     courseHtml += "<div class='info-container'>";
                     courseHtml += "<label class='text-left'>" + course[0].course_name + "</label>";
                     courseHtml += "</div>";
@@ -156,7 +156,11 @@ var students = (function() {
         var studentEmail = row.find("#student-email").text();
         var studentCourses = row.find("#student-courses").text();
         var so = studentObject();
-        studentHandled.details = new so.Student(studentID, studentName, studentPhone, studentEmail, studentCourses);
+        studentHandled.details = new so.Student(parseInt(studentID), 
+                                                studentName, 
+                                                studentPhone, 
+                                                studentEmail, 
+                                                studentCourses);
         loadStudentView();
     }
 
