@@ -18,3 +18,29 @@ file: C:\xampp\htdocs\project-3-john-bryce\back\api\abstract-api.php => line: 14
 file: C:\xampp\htdocs\project-3-john-bryce\back\api\api.php => line: 70 => function: gateway => class: Api => type: ->
 Message: Class 'SessionObject' not found
 Code: 0
+******************************************************************************************************************************
+Error occured at 2017-12-04 15:04:57
+Trace:
+file: C:\xampp\htdocs\project-3-john-bryce\back\dal\Connection.php => line: 57 => function: execute => class: PDOStatement => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\bl\BusinessLogicLayer.php => line: 30 => function: executeSP => class: Connection => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\bl\Administrator_BLL.php => line: 65 => function: get => class: BusinessLogicLayer => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\controllers\AdministratorController.php => line: 45 => function: insert_update_admin => class: Administrator_BLL => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\AdministratorApi.php => line: 78 => function: create_update_Admin => class: AdministratorController => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\AdministratorApi.php => line: 28 => function: create_update => class: AdministratorApi => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\abstract-api.php => line: 12 => function: Create => class: AdministratorApi => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\api.php => line: 85 => function: gateway => class: Api => type: ->
+Message: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`school`.`administrator`, CONSTRAINT `fk_administrator_role ` FOREIGN KEY (`role`) REFERENCES `roles` (`id`))
+Code: 23000
+******************************************************************************************************************************
+Error occured at 2017-12-04 15:06:41
+Trace:
+file: C:\xampp\htdocs\project-3-john-bryce\back\dal\Connection.php => line: 57 => function: execute => class: PDOStatement => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\bl\BusinessLogicLayer.php => line: 30 => function: executeSP => class: Connection => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\bl\Administrator_BLL.php => line: 65 => function: get => class: BusinessLogicLayer => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\controllers\AdministratorController.php => line: 45 => function: insert_update_admin => class: Administrator_BLL => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\AdministratorApi.php => line: 78 => function: create_update_Admin => class: AdministratorController => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\AdministratorApi.php => line: 28 => function: create_update => class: AdministratorApi => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\abstract-api.php => line: 12 => function: Create => class: AdministratorApi => type: ->
+file: C:\xampp\htdocs\project-3-john-bryce\back\api\api.php => line: 85 => function: gateway => class: Api => type: ->
+Message: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`school`.`administrator`, CONSTRAINT `fk_administrator_role ` FOREIGN KEY (`role`) REFERENCES `roles` (`id`))
+Code: 23000
