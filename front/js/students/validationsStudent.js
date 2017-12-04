@@ -137,7 +137,7 @@ var validationsStudent = (function() {
                 }
                 checkDuplicateStudentOnServer(studentName, studentPhone, studentEmail);  
                 return studentKeyNotExists;
-        });
+            });
       
 
     }
