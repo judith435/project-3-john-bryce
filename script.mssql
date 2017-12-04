@@ -3,6 +3,7 @@
 -- email => judithguttmann@gmail.com password wedding5771  encrypted as "d32b080cc61f1d5"
 -- reason system requires login of any admin and without admin already  in db no way to start application
 
+
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
@@ -38,7 +39,7 @@ CREATE  TABLE IF NOT EXISTS `school`.`administrator` (
     FOREIGN KEY (`role` )
     REFERENCES `school`.`roles` (`id` ))
 ENGINE = InnoDB
-AUTO_INCREMENT = 12
+AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -51,7 +52,7 @@ CREATE  TABLE IF NOT EXISTS `school`.`courses` (
   `description` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 79
+AUTO_INCREMENT = 97
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -65,7 +66,7 @@ CREATE  TABLE IF NOT EXISTS `school`.`students` (
   `email` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 39
+AUTO_INCREMENT = 42
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -214,11 +215,11 @@ BEGIN
 
 	SELECT   administrator.id as adminID,
 			 administrator.name as admin_name,
-			 administrator.role as role_id,
+			 administrator.role as roleID,
              roles.name as role_name,
              administrator.phone as adminPhone,
              administrator.email as admin_email,
-             administrator.password as admin_password             
+             administrator.password as adminPassword             
 	FROM administrator
 	inner join roles
 	on administrator.role = roles.id
@@ -241,7 +242,7 @@ BEGIN
 
 	SELECT   administrator.id as adminID,
 			 administrator.name as admin_name,
-			 administrator.role as role_id,
+			 administrator.role as roleID,
              roles.name as role_name,
              administrator.phone as adminPhone,
              administrator.email as admin_email
@@ -296,7 +297,7 @@ USE `school`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_roles`()
 BEGIN
 
-	SELECT   id as role_id,
+	SELECT   id as roleID,
 			 name as role_name
 	FROM roles
     order by  name;
@@ -342,9 +343,9 @@ DELIMITER $$
 USE `school`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_administrator`(IN admin_name VARCHAR(45),
 																   IN admin_email VARCHAR(45),
-																   IN role_id int,
+																   IN roleID int,
 																   IN adminPhone VARCHAR(45),
-																   IN admin_password VARCHAR(15))
+																   IN adminPassword VARCHAR(15))
 BEGIN
 
 	DECLARE new_admin_id int;
@@ -357,10 +358,10 @@ BEGIN
 	`password`)
 	VALUES
 	(admin_name,
-	 role_id,
+	 roleID,
 	 adminPhone,
 	 admin_email,
-	 admin_password); 
+	 adminPassword); 
     
     SELECT LAST_INSERT_ID()
     INTO new_admin_id;
@@ -470,13 +471,13 @@ USE `school`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_administrator`(IN adminID Int, 
 																   IN admin_name VARCHAR(45),
 																   IN admin_email VARCHAR(45),	
-																   IN role_id Int,
+																   IN roleID Int,
 																   IN adminPhone VARCHAR(45))
 BEGIN
 
     update school.administrator
 	set name = admin_name,
-		role = role_id,
+		role = roleID,
 		phone = adminPhone,
 		email = admin_email
 	where id = adminID;   
@@ -571,7 +572,6 @@ DELIMITER ;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
 
 
 INSERT INTO `school`.`roles` (`name`) VALUES ('owner');

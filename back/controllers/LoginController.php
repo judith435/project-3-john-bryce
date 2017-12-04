@@ -26,7 +26,7 @@
                 $errorInInput = ""; 
                 $administrator = new AdministratorModel(["adminID" => $row["adminID"], 
                                                          "admin_name" => $row['admin_name'],
-                                                         "role_id" => $row['role_id'],
+                                                         "roleID" => $row['roleID'],
                                                          "role_name" => $row['role_name'],
                                                          "adminPhone" => $row['adminPhone'],
                                                          "admin_email" => $row['admin_email']],

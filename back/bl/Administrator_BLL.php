@@ -49,7 +49,7 @@
                 }
             }
 
-            array_push($spParms, new PDO_Parm("role_id", $admin->getRoleID(), 'integer')); 
+            array_push($spParms, new PDO_Parm("roleID", $admin->getRoleID(), 'integer')); 
             array_push($spParms, new PDO_Parm("adminPhone", $admin->getAdministratorPhone(), 'string')); 
             
             if ($method == "Update") {  //for update must add adminID as first parameter
@@ -57,7 +57,7 @@
             }
 
             if ($method == "Create") { //for insert add password => irrelevant for update password cannot be updated
-                array_push($spParms, new PDO_Parm("admin_password", $login->getLoginPassword(), 'string')); 
+                array_push($spParms, new PDO_Parm("adminPassword", $login->getLoginPassword(), 'string')); 
             }
             
             $spName = $method == "Create" ? 'insert_administrator' : 'update_administrator';

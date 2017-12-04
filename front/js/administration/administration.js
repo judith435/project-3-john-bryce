@@ -11,7 +11,7 @@ var administration = (function() {
     
     
     function setRolesDdlForUpdate(roles) {
-        $("#RoleDDL").val(adminHandled.details.role_id);
+        $("#RoleDDL").val(adminHandled.details.roleID);
         //manager/owner may not change his own role
         if(adminLoggedIn.adminID === adminHandled.details.adminID) {  
            $("#RoleDDL").prop("disabled", true);
@@ -31,12 +31,12 @@ var administration = (function() {
         }
 
         for(let i=0; i < roles.length; i++) {
-                $("#RoleDDL").append(new Option(roles[i].role_name, roles[i].role_id));
+                $("#RoleDDL").append(new Option(roles[i].role_name, roles[i].roleID));
         }
 
         //disable owner => no new owner may be created or updated to
         var roleOwner = $.grep(roles, function(e){ return e.role_name ===  "owner";}); //must retrive id of owner to be able to disable it
-        $("option[value='" + roleOwner[0].role_id + "']").attr("disabled", "disabled").siblings().removeAttr("disabled");
+        $("option[value='" + roleOwner[0].roleID + "']").attr("disabled", "disabled").siblings().removeAttr("disabled");
 
         if (action.chosen === "Update"){
             setRolesDdlForUpdate(roles);
@@ -44,7 +44,7 @@ var administration = (function() {
 
         $("#RoleDDL").off().on("change", function() { //save role name selected in hidden input so it can be sent to server
             alert("in  $(#RoleDDL).off().on(change, function()");
-            if (adminHandled.details.role_id !== parseInt($("#RoleDDL").val())) {
+            if (adminHandled.details.roleID !== parseInt($("#RoleDDL").val())) {
                  alert (">>> saving role name for server <<<");
                 $("#roleName").val($("#RoleDDL option:selected" ).text());
             }
@@ -57,8 +57,8 @@ var administration = (function() {
         validationMessages.admin_name = "Administrator name required";
         validationMessages.adminPhone = "Valid phone required";
         validationMessages.admin_email = "Valid email required";
-        validationMessages.admin_password = "Password required";
-        validationMessages.role_id = "Please select role";
+        validationMessages.adminPassword = "Password required";
+        validationMessages.roleID = "Please select role";
         validationMessages.admin_image = "Valid extensions: jpg, jpeg, png or gif";
         validationMessages.duplicate_admin = "Administrator with same name and email found";
     }  
@@ -74,7 +74,7 @@ var administration = (function() {
         for (let i = 0; i < serverData.length; i++) {
             administratorsArray.push(new ao.Administrator(serverData[i].adminID, 
                                                           serverData[i].admin_name,
-                                                          serverData[i].role_id, 
+                                                          serverData[i].roleID, 
                                                           serverData[i].role_name, 
                                                           serverData[i].adminPhone,
                                                           serverData[i].admin_email
@@ -95,7 +95,7 @@ var administration = (function() {
                 //admin data used to create admin object
                 template = template.replace("{{admin-id}}", administratorsArray[i].adminID);
                 template = template.replace("{{admin-name}}", administratorsArray[i].admin_name);
-                template = template.replace("{{role-id}}", administratorsArray[i].role_id);
+                template = template.replace("{{role-id}}", administratorsArray[i].roleID);
                 template = template.replace("{{role-name}}", administratorsArray[i].role_name);
                 template = template.replace("{{admin-phone}}", administratorsArray[i].adminPhone);
                 template = template.replace("{{admin-email}}", administratorsArray[i].admin_email);
@@ -192,8 +192,8 @@ var administration = (function() {
                 //password cannot be updated - it is also not retrived from db to be displayed
                 $("#adminPassword").val("***************"); 
                 $("#adminPassword").prop("disabled", true);
-                //set role_id in hidden field for update - used on server to check if manager is trying to change his own role
-                $("#roleID").val(adminHandled.details.role_id);
+                //set roleID in hidden field for update - used on server to check if manager is trying to change his own role
+                $("#roleID").val(adminHandled.details.roleID);
 
                 var dtForceReload = new Date();//way to force browser to reload picture after update of picture
                 var imgPath = app.adminImagePath + adminHandled.details.adminID + ".jpg?" + dtForceReload.getTime();

@@ -29,13 +29,13 @@ var validationsAdministrator = (function() {
                         return $.trim(value);
                     } 
                 },
-                admin_password: {
+                adminPassword: {
                     required: true,
                     normalizer: function(value) {
                         return $.trim(value);
                     } 
                 },
-                role_id: {
+                roleID: {
                     required: true
                 },
                 admin_image: {
@@ -60,7 +60,7 @@ var validationsAdministrator = (function() {
             if (adminName === administration.adminHandled.details.admin_name &&
                 adminEmail === administration.adminHandled.details.admin_email &&
                 adminPhone === administration.adminHandled.details.adminPhone &&
-                adminRole === administration.adminHandled.details.role_id &&
+                adminRole === administration.adminHandled.details.roleID &&
                 adminImage === "" && !adminImgDeleteChecked) { 
                      formValidated.validator.settings.messages.duplicate_admin = "No change in data - No update";
                      adminKeyNotExists = false;

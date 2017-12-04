@@ -33,7 +33,7 @@
             //if yes stop update and returne error message
             $super_global = new SuperGlobals();                                          
             $admin = $super_global->getAdminSession();//$_SESSION["user_logged_in"];
-            if (($admin->getRoleID() !=   $params["role_id"] && 
+            if (($admin->getRoleID() !=   $params["roleID"] && 
                  $admin->getAdministratorID() ==  $params["adminID"]) ||
                 ($params["role_name"] == "owner" ))
             {

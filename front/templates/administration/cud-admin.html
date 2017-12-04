@@ -7,7 +7,7 @@
         <input  type="hidden"  name="ctrl" value="administrator" >
         <input  type="hidden" id="adminID" name="adminID" value="0">
         <!-- used to send admin role to server in case RoleDDL is disabled (form.serialize does not disables data) -->
-        <input  type="hidden" id="roleID" name="role_id" value="0"> 
+        <input  type="hidden" id="roleID" name="roleID" value="0"> 
         <input  type="hidden" id="roleName" name="role_name" value="">  
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-left">
             <span class="float-md-left">
@@ -42,13 +42,13 @@
     <div class="form-group row">
         <label for="adminPassword" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-form-label text-left">Password</label>
         <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11 text-left">
-            <input type="text" id="adminPassword"  class="form-control" name="admin_password" maxlength="15" placeholder="Enter new Administrator password">
+            <input type="text" id="adminPassword"  class="form-control" name="adminPassword" maxlength="15" placeholder="Enter new Administrator password">
         </div>
     </div>
     <div class="form-group row">
         <label for="RoleDDL" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-form-label text-left">Role</label>
         <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11 text-left">
-            <select id="RoleDDL"  class="form-control" name="role_id"></select>
+            <select id="RoleDDL"  class="form-control" name="roleID"></select>
         </div>
     </div>
     <div class="form-group row">

@@ -121,9 +121,9 @@ var validationsStudent = (function() {
                 var studentPhone = $("#studentPhone").val().trim();
                 var studentEmail = $("#studentEmail").val().trim();
   
-                if (studentName === "" || studentPhone === "" || studentEmail === "" ) {
-                    return true; //if student name phone and email missing no point in checking
-                }
+                // if (studentName === "" || studentPhone === "" || studentEmail === "" ) {
+                //     return true; //if student name phone and email missing no point in checking
+                // }
               
                 //update student: no change made to data retrieved from db return relevant message to user
                 if (studentSave.studentAction.chosen === "Update") {

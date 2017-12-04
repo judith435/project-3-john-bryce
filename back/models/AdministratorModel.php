@@ -7,7 +7,7 @@
 
         private $adminID;
         private $admin_name;
-        private $role_id;
+        private $roleID;
         private $role_name;
         private $adminPhone;
         private $admin_email;
@@ -16,7 +16,7 @@
             $this->setAdministratorID
                 (array_key_exists("adminID", $params) ? $params["adminID"] : 0); 
             $this->setAdministratorName($params["admin_name"], $errorInInput);
-            $this->setRoleID($params["role_id"], $errorInInput); 
+            $this->setRoleID($params["roleID"], $errorInInput); 
             $this->setRoleName
                 (array_key_exists("role_name", $params) ? $params["role_name"] : ""); 
             $this->setAdministratorPhone($params["adminPhone"], $errorInInput);
@@ -40,7 +40,7 @@
             if (!$validations->optionSelected($role_id)){
                 $errorInInput .= " Please select role\n";
             }
-            $this->role_id = $role_id;
+            $this->roleID = $role_id;
         }
 
         public function setRoleName($role_name){
@@ -73,7 +73,7 @@
         }
 
         public function getRoleID(){
-            return $this->role_id;
+            return $this->roleID;
         }
 
         public function getRoleName(){
@@ -90,7 +90,7 @@
             return  [
                         'adminID' => $this->getAdministratorID(),
                         'admin_name' => $this->getAdministratorName(),
-                        'role_id' => $this->getRoleID(),
+                        'roleID' => $this->getRoleID(),
                         'role_name' => $this->getRoleName(),
                         'adminPhone' => $this->getAdministratorPhone(),
                         'admin_email' => $this->getAdministratorEmail() 

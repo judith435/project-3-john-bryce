@@ -48,7 +48,7 @@ var login = (function() {
             var admin  = new ao.Administrator(
                                                 serverData.adminID, 
                                                 serverData.admin_name,
-                                                serverData.role_id, 
+                                                serverData.roleID, 
                                                 serverData.role_name, 
                                                 serverData.adminPhone,
                                                 serverData.admin_email);
