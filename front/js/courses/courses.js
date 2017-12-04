@@ -115,6 +115,19 @@ var courses = (function() {
         commonModule.loadCanvasList($("#studentList canvas"), app.studentImagePath, "small");
     }
 
+    function handleAdminSales(){
+        //get admin data to check if admin role is sales => may not update course data
+        if (sessionStorage.getItem("administrator") === null) {//admin session object not found MUST immediately log in agaןn 
+            login.setUpLogin();
+            return;
+        }
+        var sessionAdmin = sessionStorage.getItem("administrator");
+        var admin = JSON.parse(sessionAdmin);
+        if (admin.role_name === "sales") { //administrator type sales is not entitled to update course => hide edit button 
+            $("#btnEdit").hide();
+        }
+    }
+
     function loadCourseView() {
         
         $.ajax("templates/school/courses/view-course.html").done(function(data) {
@@ -129,17 +142,9 @@ var courses = (function() {
                 buildStudentList();
             }
 
-            //get admin data to check if admin role is sales => may not update course data
-            if (sessionStorage.getItem("administrator") === null) {//admin session object not found MUST immediately log in agaןn 
-                login.setUpLogin();
-                return;
-            }
-            var sessionAdmin = sessionStorage.getItem("administrator");
-            var admin = JSON.parse(sessionAdmin);
-            if (admin.role_name === "sales") { //administrator type sales is not entitled to update course => hide edit button 
-                $("#btnEdit").hide();
-            }
+            handleAdminSales();
             displayCourseImage();
+
             $("#btnEdit").off().click(function() {
                 loadCourseCUD("Update"); 
             });

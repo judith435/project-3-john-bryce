@@ -13,7 +13,7 @@ var administration = (function() {
     function setRolesDdlForUpdate(roles) {
         $("#RoleDDL").val(adminHandled.details.role_id);
         //manager/owner may not change his own role
-        if(adminLoggedIn.adminID == adminHandled.details.adminID) {  
+        if(adminLoggedIn.adminID === adminHandled.details.adminID) {  
            $("#RoleDDL").prop("disabled", true);
         }
     }
@@ -44,7 +44,8 @@ var administration = (function() {
 
         $("#RoleDDL").off().on("change", function() { //save role name selected in hidden input so it can be sent to server
             alert("in  $(#RoleDDL).off().on(change, function()");
-            if (adminHandled.details.role_id != $("#RoleDDL").val().trim()) {
+            if (adminHandled.details.role_id !== parseInt($("#RoleDDL").val())) {
+                 alert (">>> saving role name for server <<<");
                 $("#roleName").val($("#RoleDDL option:selected" ).text());
             }
         });
@@ -198,7 +199,7 @@ var administration = (function() {
                 var imgPath = app.adminImagePath + adminHandled.details.adminID + ".jpg?" + dtForceReload.getTime();
                 commonModule.setCanvas($("#canvasAdmin")[0], imgPath, "regular");
 
-                if(adminLoggedIn.adminID == adminHandled.details.adminID) { //administrator cannot delete himself
+                if(adminLoggedIn.adminID === adminHandled.details.adminID) { //administrator cannot delete himself
                   $("#btnDelete").hide(); 
                 }
             }
@@ -228,7 +229,12 @@ var administration = (function() {
         var adminPhone = row.find("#admin-phone").text();
         var adminEmail = row.find("#admin-email").text();
         var ao = new AdministratorObject();
-        adminHandled.details = new ao.Administrator(adminID, adminName, adminRoleID, adminRoleName, adminPhone, adminEmail);
+        adminHandled.details = new ao.Administrator(parseInt(adminID), 
+                                                    adminName, 
+                                                    parseInt(adminRoleID), 
+                                                    adminRoleName, 
+                                                    adminPhone, 
+                                                    adminEmail);
         loadAdminCUD("Update"); 
     }
 
