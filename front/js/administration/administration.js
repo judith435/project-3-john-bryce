@@ -11,7 +11,7 @@ var administration = (function() {
     
     
     function setRolesDdlForUpdate(roles) {
-        $("#RoleDDL").val(adminHandled.details.roleID);
+        $("#RoleDDL").val(adminHandled.details.role_name);
         //manager/owner may not change his own role
         if(adminLoggedIn.adminID === adminHandled.details.adminID) {  
            $("#RoleDDL").prop("disabled", true);
