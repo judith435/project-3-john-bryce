@@ -137,7 +137,6 @@ var validationsAdministrator = (function() {
                 }
                 checkDuplicateAdminOnServer(adminName, adminEmail);  
                 return adminKeyNotExists;
-
             });
     }
 
