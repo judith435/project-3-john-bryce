@@ -57,9 +57,9 @@ var common = (function() {
             if (serverResponse.message.search("following errors") !== -1) { //display msg about failed image upload
                 alert("Following message for " + serverResponse.action + ":\n" + serverResponse.message);
             }
-            var action = serverResponse.action.split(" "); 
-            var actionVerb = action[0]; //first word of serverResponse.action contains action performed
-            var actionEntity = action[1]; //second word of serverResponse.action contains entity: course/student
+            var response = serverResponse.action.split(" "); 
+            var action = response[0]; //first word of serverResponse.action contains action performed
+            var entity = response[1]; //second word of serverResponse.action contains entity: course/student
             if (action === "Delete") {
                 school.loadSchoolMain();
                 return;
@@ -72,7 +72,7 @@ var common = (function() {
             var getCourseStudentData;
             function testCompletion() {
                   if (courses.coursesRetrieved.status && students.studentsRetrieved.status) {
-                        if (actionEntity === "course"){
+                        if (entity === "course"){
                               courseSave.displayAfterSave(serverResponse, action);
                         } 
                         else {

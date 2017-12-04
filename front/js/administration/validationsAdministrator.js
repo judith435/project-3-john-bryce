@@ -64,16 +64,16 @@ var validationsAdministrator = (function() {
                 adminImage === "" && !adminImgDeleteChecked) { 
                      formValidated.validator.settings.messages.duplicate_admin = "No change in data - No update";
                      adminKeyNotExists = false;
-                     return "end validations";//"No change in data - No update"; 
+                     return "end validations";// error found: "No change in data - No update"; 
             }
             formValidated.validator.settings.messages.duplicate_admin = "Administrator with same name and email found";
             //check administrator name & email changed - if NOT don't run duplicate admin test ==> it always going to exist (refering to itself)
             if (adminName === administration.adminHandled.details.admin_name && 
                 adminEmail === administration.adminHandled.details.admin_email) {
                 adminKeyNotExists = true;
-                return "end validations";//"no change in admin key"; 
+                return "end validations"; //no error "no change in admin key" end validations with true; 
             }  
-            return "continue validations";//"check duplicate admin";
+            return "continue validations";//need to continue validations with "check duplicate admin";
         }
 
         function checkDuplicateAdminOnServer(adminName, adminEmail) {
@@ -134,12 +134,6 @@ var validationsAdministrator = (function() {
                     if (result === "end validations"){
                         return adminKeyNotExists;
                     }
-                    // if (result === "No change in data - No update") {
-                    //     return false;
-                    // }
-                    // if (result === "no change in admin key") {//don't check duplicate admin if key data has not been changed
-                    //     return true;
-                    // }
                 }
                 checkDuplicateAdminOnServer(adminName, adminEmail);  
                 return adminKeyNotExists;

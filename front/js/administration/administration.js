@@ -134,7 +134,7 @@ var administration = (function() {
         var confirmation = confirm("Are you sure you want to delete administrator number " + adminHandled.details.adminID + "?");
         if (confirmation === true) {
             // don't perform validations in case of delete
-            serverRequestModule.sendServerRequest("Delete", ajaxData, afterSave, "adminImage", "admin_image");  
+            serverRequestModule.sendServerRequest("Delete", ajaxData, afterSave);  
             return false;
         }
     }

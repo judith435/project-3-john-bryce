@@ -26,28 +26,32 @@ var courseSave = (function() {
         courses.loadCourseView();
     }
 
+    function deleteCourse(ajaxData) {
+        var confirmation = confirm("Are you sure you want to delete course number " + courses.courseHandled.details.course_id + "?");
+        if (confirmation === true) {
+            // don't perform validations in case of delete
+            serverRequest.sendServerRequest("Delete", ajaxData, common.afterCourseStudentSave);  
+            return false;
+        }
+    }
+
     function btnSaveHandler(action) {
         
         $(".btnSave").off().click(function() {
             var verb;
             var ajaxData = $("#frmCUD").serialize();
 
-            if(this.id === "btnDelete"){ // don't perform validations in case of delete
-                var confirmation = confirm("Are you sure you want to delete course number " + courses.courseHandled.details.course_id + "?");
-                if (confirmation === true) {
-                    verb = "Delete";
-                    serverRequest.sendServerRequest(verb, ajaxData, common.afterCourseStudentSave);  
-                    return false;
-                }
-            }   
-            else {
-                courseAction.chosen = action;
-                verb =  action === "Add" ? "Add" : "Update"; 
-                if (validationsCourse.formValidated.contents.valid()){
-                    serverRequest.sendServerRequest(
-                        verb, ajaxData, common.afterCourseStudentSave, "courseImage", "course_image");  
-                    return false;
-                }
+            if(this.id === "btnDelete"){ 
+                deleteCourse(ajaxData);
+                return false;
+            }
+
+            courseAction.chosen = action;
+            verb =  action === "Add" ? "Add" : "Update"; 
+            if (validationsCourse.formValidated.contents.valid()){
+                serverRequest.sendServerRequest(
+                    verb, ajaxData, common.afterCourseStudentSave, "courseImage", "course_image");  
+                return false;
             }
         });
     }  
