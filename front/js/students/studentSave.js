@@ -26,6 +26,15 @@ var studentSave = (function() {
                                                         studentToDisplay[0].student_courses);
         students.loadStudentView();
     }
+    
+    function deleteStudent(ajaxData) {
+        var confirmation = confirm("Are you sure you want to delete student number " + students.studentHandled.details.student_id + "?");
+        if (confirmation === true) {
+            // don't perform validations in case of delete
+            serverRequest.sendServerRequest("Delete", ajaxData, common.afterCourseStudentSave);  
+            return false;
+        }
+    }
 
     function btnSaveHandler(action) {
         
@@ -33,22 +42,17 @@ var studentSave = (function() {
             var verb;
             var ajaxData = $("#frmCUD").serialize();
 
-            if(this.id === "btnDelete"){ // don't perform validations in case of delete
-                var confirmation = confirm("Are you sure you want to delete student number " + students.studentHandled.details.student_id + "?");
-                if (confirmation === true) {
-                    verb = "Delete";
-                    serverRequest.sendServerRequest(verb, ajaxData, common.afterCourseStudentSave);  
-                    return false;
-                }
-            }   
-            else {
-                studentAction.chosen = action;
-                verb =  action === "Add" ? "Add" : "Update"; 
-                if (validationsStudent.formValidated.contents.valid()){
-                    serverRequest.sendServerRequest
-                        (verb, ajaxData, common.afterCourseStudentSave, "studentImage", "student_image");  
-                    return false;
-                }
+            if (this.id === "btnDelete") { 
+                deleteStudent(ajaxData);
+                return false;
+            }
+
+            studentAction.chosen = action;
+            verb =  action === "Add" ? "Add" : "Update"; 
+            if (validationsStudent.formValidated.contents.valid()){
+                serverRequest.sendServerRequest
+                    (verb, ajaxData, common.afterCourseStudentSave, "studentImage", "student_image");  
+                return false;
             }
         });
     }  

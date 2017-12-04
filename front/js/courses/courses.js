@@ -102,7 +102,9 @@ var courses = (function() {
         var studentHtml = "";
         var studentIDs = courseHandled.details.student_ids.split(",");
         for (let i = 0; i < studentIDs.length; i++) {
-                let student = $.grep(students.studentArray, function(e){ return e.student_id ==  studentIDs[i];});
+                let student = $.grep(students.studentArray, function(e){ 
+                    return e.student_id ===  parseInt(studentIDs[i]); 
+                });
                 studentHtml += "<div class='info-row-minor'>";
                 studentHtml += "<canvas  data-canvas-id='" + studentIDs[i] + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
                 studentHtml += "<div class='info-container'>";
@@ -159,7 +161,11 @@ var courses = (function() {
         var studentCourse = row.find("#number-of-students-for-course").text();
         var studentIDs = row.find("#student-ids").text();
         var co = courseObject();
-        courseHandled.details = new co.Course(courseID, courseName, courseDescr, studentCourse, studentIDs);
+        courseHandled.details = new co.Course(  parseInt(courseID), 
+                                                courseName, 
+                                                courseDescr, 
+                                                parseInt(studentCourse), 
+                                                studentIDs);
         loadCourseView();
     }
 
