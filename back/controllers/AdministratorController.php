@@ -16,14 +16,14 @@
             $admin = $_SESSION["user_logged_in"];
             while ($row = $resultSet->fetch())
             {   //if admin not owner skip owner admin data => admin manager may not see admin owner data        
-                if ($admin->getRoleName() != "owner" && $row['role_name'] == "owner" ){  
+                if ($admin->getRoleName() != "owner" && $row['roleName'] == "owner" ){  
                     continue;
                 } 
                 array_push($allAdministrators, new AdministratorModel
                     (["adminID" => $row['adminID'], 
-                    "admin_name" => $row['admin_name'],
+                    "adminName" => $row['adminName'],
                     "roleID" => $row['roleID'],
-                    "role_name" => $row['role_name'],
+                    "roleName" => $row['roleName'],
                     "adminPhone" => $row['adminPhone'],
                     "adminEmail" => $row['adminEmail']],$errorInInput, "select"));
             }

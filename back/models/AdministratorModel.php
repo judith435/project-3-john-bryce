@@ -6,19 +6,19 @@
     class AdministratorModel implements JsonSerializable {
 
         private $adminID;
-        private $admin_name;
+        private $adminName;
         private $roleID;
-        private $role_name;
+        private $roleName;
         private $adminPhone;
         private $adminEmail;
         
         function __construct($params, &$errorInInput) {
             $this->setAdministratorID
                 (array_key_exists("adminID", $params) ? $params["adminID"] : 0); 
-            $this->setAdministratorName($params["admin_name"], $errorInInput);
+            $this->setAdministratorName($params["adminName"], $errorInInput);
             $this->setRoleID($params["roleID"], $errorInInput); 
             $this->setRoleName
-                (array_key_exists("role_name", $params) ? $params["role_name"] : ""); 
+                (array_key_exists("roleName", $params) ? $params["roleName"] : ""); 
             $this->setAdministratorPhone($params["adminPhone"], $errorInInput);
             $this->setAdministratorEmail($params["adminEmail"], $errorInInput);
         }  
@@ -32,7 +32,7 @@
             if (!$validations->nameOK($admr_name)){
                 $errorInInput .= " Administrator Name must contain at least one letter\n";
             }
-            $this->admin_name = rawurldecode($admr_name);
+            $this->adminName = rawurldecode($admr_name);
         }
 
         public function setRoleID($role_id, &$errorInInput){
@@ -44,7 +44,7 @@
         }
 
         public function setRoleName($role_name){
-            $this->role_name = $role_name;
+            $this->roleName = $role_name;
         }
 
         public function setAdministratorPhone($admr_ph, &$errorInInput){
@@ -69,7 +69,7 @@
         }
 
         public function getAdministratorName(){
-            return $this->admin_name;
+            return $this->adminName;
         }
 
         public function getRoleID(){
@@ -77,7 +77,7 @@
         }
 
         public function getRoleName(){
-            return $this->role_name;
+            return $this->roleName;
         }
         public function getAdministratorPhone(){
             return $this->adminPhone;
@@ -89,9 +89,9 @@
         public function jsonSerialize() {
             return  [
                         'adminID' => $this->getAdministratorID(),
-                        'admin_name' => $this->getAdministratorName(),
+                        'adminName' => $this->getAdministratorName(),
                         'roleID' => $this->getRoleID(),
-                        'role_name' => $this->getRoleName(),
+                        'roleName' => $this->getRoleName(),
                         'adminPhone' => $this->getAdministratorPhone(),
                         'adminEmail' => $this->getAdministratorEmail() 
                     ];

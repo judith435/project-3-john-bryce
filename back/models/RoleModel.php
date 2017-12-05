@@ -5,12 +5,12 @@
     class RoleModel implements JsonSerializable {
             
         private $roleID;
-        private $role_name;
+        private $roleName;
 
         function __construct($params) {
             $this->setRoleID
              (array_key_exists("roleID", $params) ? $params["roleID"] : 0); 
-            $this->setRoleName($params["role_name"]);
+            $this->setRoleName($params["roleName"]);
         }
 
         public function setRoleID($role_id){
@@ -18,7 +18,7 @@
         }
 
         public function setRoleName($role_name){
-            $this->role_name = $role_name;
+            $this->roleName = $role_name;
         }
 
         public function getRoleID(){
@@ -26,13 +26,13 @@
         }
 
         public function getRoleName(){
-            return $this->role_name;
+            return $this->roleName;
         }
 
         public function jsonSerialize() {
             return  [
                         'roleID' => $this->getRoleID(),
-                        'role_name' => $this->getRoleName()
+                        'roleName' => $this->getRoleName()
                     ];
         }
     }

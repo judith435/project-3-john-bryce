@@ -35,7 +35,7 @@ var school = (function() {
             }
             var sessionAdmin = sessionStorage.getItem("administrator");
             var admin = JSON.parse(sessionAdmin);
-            if (admin.role_name === "sales") { //administrator type sales is not entitled to update course => hide edit button 
+            if (admin.roleName === "sales") { //administrator type sales is not entitled to update course => hide edit button 
                 $("#btnAddCourse").hide();
             }
 

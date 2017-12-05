@@ -25,9 +25,9 @@
                 //object automatically validates the data - at this stage no further processing occurs with any faulty db data
                 $errorInInput = ""; 
                 $administrator = new AdministratorModel(["adminID" => $row["adminID"], 
-                                                         "admin_name" => $row['admin_name'],
+                                                         "adminName" => $row['adminName'],
                                                          "roleID" => $row['roleID'],
-                                                         "role_name" => $row['role_name'],
+                                                         "roleName" => $row['roleName'],
                                                          "adminPhone" => $row['adminPhone'],
                                                          "adminEmail" => $row['adminEmail']],
                                                           $errorInInput);

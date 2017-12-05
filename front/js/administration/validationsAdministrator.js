@@ -10,7 +10,7 @@ var validationsAdministrator = (function() {
             onkeyup: false,
             onfocusout: false,
             rules:  {
-                admin_name: {
+                adminName: {
                     required: true,
                     normalizer: function(value) {
                         return $.trim(value);
@@ -57,7 +57,7 @@ var validationsAdministrator = (function() {
             var adminImage = $("#adminImage").val().trim(); 
             var adminImgDeleteChecked = ($("#deleteImage").is(":checked"));
 
-            if (adminName === administration.adminHandled.details.admin_name &&
+            if (adminName === administration.adminHandled.details.adminName &&
                 adminEmail === administration.adminHandled.details.adminEmail &&
                 adminPhone === administration.adminHandled.details.adminPhone &&
                 adminRole === administration.adminHandled.details.roleID &&
@@ -68,7 +68,7 @@ var validationsAdministrator = (function() {
             }
             formValidated.validator.settings.messages.duplicateAdmin = "Administrator with same name and email found";
             //check administrator name & email changed - if NOT don't run duplicate admin test ==> it always going to exist (refering to itself)
-            if (adminName === administration.adminHandled.details.admin_name && 
+            if (adminName === administration.adminHandled.details.adminName && 
                 adminEmail === administration.adminHandled.details.adminEmail) {
                 adminKeyNotExists = true;
                 return "end validations"; //no error "no change in admin key" end validations with true; 
@@ -79,12 +79,12 @@ var validationsAdministrator = (function() {
         function checkDuplicateAdminOnServer(adminName, adminEmail) {
             var ajaxData = {
                 ctrl: "administrator",
-                admin_name: adminName,
+                adminName: adminName,
                 adminEmail: adminEmail
               }; 
     
             // if (app.debugMode){
-            //     console.log("validations >>>  ajaxData.administrator_name  " + ajaxData.admin_name);
+            //     console.log("validations >>>  ajaxData.administrator_name  " + ajaxData.adminName);
             //     console.log("validations >>>  ajaxData.administrator_phone  " + ajaxData.adminEmail);
             //   }  
             $.ajax({
@@ -128,7 +128,7 @@ var validationsAdministrator = (function() {
                 //update administrator : no change made to data retrieved from db return relevant message to user
                 if (administration.action.chosen === "Update") {
                     // if (app.debugMode){
-                    //     console.log("adminAlreadyExists() adminName from update: " + administration.adminHandled.admin_name);
+                    //     console.log("adminAlreadyExists() adminName from update: " + administration.adminHandled.adminName);
                     // }
                     var result = checkAdminUpdate(adminName, adminEmail);
                     if (result === "end validations"){

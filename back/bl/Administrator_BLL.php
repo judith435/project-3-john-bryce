@@ -26,7 +26,7 @@
         //used for js remote validation validationsAdministrator.js  method: adminAlreadyExists
         public function check_admin_exists($params) {
             $spParms =  array(); //contains stored procedure input parms 
-            array_push($spParms, new PDO_Parm("admin_name", $params["admin_name"], 'string')); 
+            array_push($spParms, new PDO_Parm("adminName", $params["adminName"], 'string')); 
             array_push($spParms, new PDO_Parm("adminEmail", $params["adminEmail"], 'string')); 
             $resultSet = parent::get($this->get_dbName(), 'check_admin_exists', $spParms);
             return $resultSet->fetch();
@@ -35,7 +35,7 @@
         public function insert_update_admin($admin, $login, $method, &$applicationError) {
 
             $spParms =  array(); //contains stored procedure input parms 
-            array_push($spParms, new PDO_Parm("admin_name", $admin->getAdministratorName(), 'string'));  
+            array_push($spParms, new PDO_Parm("adminName", $admin->getAdministratorName(), 'string'));  
             array_push($spParms, new PDO_Parm("adminEmail", $admin->getAdministratorEmail(), 'string'));  
 
             $resultSet = parent::get($this->get_dbName(), 'check_admin_exists', $spParms);

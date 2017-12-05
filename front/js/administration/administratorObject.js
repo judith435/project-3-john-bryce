@@ -2,9 +2,9 @@ var AdministratorObject = function() {
     
             function Administrator(admrID, admrName, roleID, roleName, admrPH, admrE) {
                 this.adminID = admrID;
-                this.admin_name = admrName;
+                this.adminName = admrName;
                 this.roleID = roleID;
-                this.role_name = roleName;
+                this.roleName = roleName;
                 this.adminPhone = admrPH;
                 this.adminEmail = admrE;
                 }

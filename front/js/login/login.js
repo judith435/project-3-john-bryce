@@ -11,11 +11,11 @@ var login = (function() {
     }        
 
     function setNavigationBarLoggedIn(admin) {
-        $("#admr-summary").html(admin.admin_name + ", " +  admin.role_name);
+        $("#admr-summary").html(admin.adminName + ", " +  admin.roleName);
         $("#login").hide();
         $("#logout-link").removeClass("hide");
         $("#school-link").removeClass("hide");
-        if (admin.role_name !== "sales") { //role sales in not permitted to access Administration menu
+        if (admin.roleName !== "sales") { //role sales in not permitted to access Administration menu
             $("#administration-link").removeClass("hide");
             $("#administration-link" ).off().click(function(event) {
                 event.preventDefault();
@@ -47,9 +47,9 @@ var login = (function() {
             var ao = new AdministratorObject();
             var admin  = new ao.Administrator(
                                                 serverData.adminID, 
-                                                serverData.admin_name,
+                                                serverData.adminName,
                                                 serverData.roleID, 
-                                                serverData.role_name, 
+                                                serverData.roleName, 
                                                 serverData.adminPhone,
                                                 serverData.adminEmail);
             sessionStorage.setItem("administrator", JSON.stringify(admin));   

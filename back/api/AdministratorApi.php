@@ -9,7 +9,7 @@
 
             $adminCtrl = new AdministratorController;
             //used to check if admin by same name & phone found: js remote validation validationsAdministrator.js  method: adminAlreadyExists
-            if (array_key_exists("admin_name", $params) && array_key_exists("adminEmail", $params)) {
+            if (array_key_exists("adminName", $params) && array_key_exists("adminEmail", $params)) {
                 return  $adminCtrl->getAdministratorByNameEmail($params);
             }
 
@@ -18,7 +18,7 @@
         }
 
         function Create($params = null) {
-            if ($params["role_name"] == "owner")
+            if ($params["roleName"] == "owner")
             {
                 $response_array['status'] = 'error'; 
                 $response_array['action'] = 'Create administrator';
@@ -35,7 +35,7 @@
             $admin = $super_global->getAdminSession();//$_SESSION["user_logged_in"];
             if (($admin->getRoleID() !=   $params["roleID"] && 
                  $admin->getAdministratorID() ==  $params["adminID"]) ||
-                ($params["role_name"] == "owner" ))
+                ($params["roleName"] == "owner" ))
             {
                 $response_array['status'] = 'error'; 
                 $response_array['action'] = 'Update administrator';

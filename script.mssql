@@ -3,7 +3,6 @@
 -- email => judithguttmann@gmail.com password wedding5771  encrypted as "d32b080cc61f1d5"
 -- reason system requires login of any admin and without admin already  in db no way to start application
 
-
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
@@ -39,7 +38,7 @@ CREATE  TABLE IF NOT EXISTS `school`.`administrator` (
     FOREIGN KEY (`role` )
     REFERENCES `school`.`roles` (`id` ))
 ENGINE = InnoDB
-AUTO_INCREMENT = 18
+AUTO_INCREMENT = 20
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -52,7 +51,7 @@ CREATE  TABLE IF NOT EXISTS `school`.`courses` (
   `description` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 98
+AUTO_INCREMENT = 100
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -111,12 +110,12 @@ DELIMITER ;
 
 DELIMITER $$
 USE `school`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `check_admin_exists`(IN admin_name VARCHAR(45),
+CREATE DEFINER=`root`@`localhost` PROCEDURE `check_admin_exists`(IN adminName VARCHAR(45),
 																 IN adminEmail VARCHAR(45))
 BEGIN
 
 	select id FROM administrator
-    where BINARY name = admin_name
+    where BINARY name = adminName
     and email = adminEmail;
     
 END$$
@@ -214,9 +213,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_administrator_by_login`(IN emai
 BEGIN
 
 	SELECT   administrator.id as adminID,
-			 administrator.name as admin_name,
+			 administrator.name as adminName,
 			 administrator.role as roleID,
-             roles.name as role_name,
+             roles.name as roleName,
              administrator.phone as adminPhone,
              administrator.email as adminEmail,
              administrator.password as adminPassword             
@@ -241,9 +240,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_administrators`()
 BEGIN
 
 	SELECT   administrator.id as adminID,
-			 administrator.name as admin_name,
+			 administrator.name as adminName,
 			 administrator.role as roleID,
-             roles.name as role_name,
+             roles.name as roleName,
              administrator.phone as adminPhone,
              administrator.email as adminEmail
 	FROM administrator
@@ -298,7 +297,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_roles`()
 BEGIN
 
 	SELECT   id as roleID,
-			 name as role_name
+			 name as roleName
 	FROM roles
     order by  name;
     
@@ -341,7 +340,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `school`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_administrator`(IN admin_name VARCHAR(45),
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_administrator`(IN adminName VARCHAR(45),
 																   IN adminEmail VARCHAR(45),
 																   IN roleID int,
 																   IN adminPhone VARCHAR(45),
@@ -357,7 +356,7 @@ BEGIN
 	`email`,
 	`password`)
 	VALUES
-	(admin_name,
+	(adminName,
 	 roleID,
 	 adminPhone,
 	 adminEmail,
@@ -469,14 +468,14 @@ DELIMITER ;
 DELIMITER $$
 USE `school`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_administrator`(IN adminID Int, 
-																   IN admin_name VARCHAR(45),
-																   IN admin_email VARCHAR(45),	
+																   IN adminName VARCHAR(45),
+																   IN adminEmail VARCHAR(45),	
 																   IN roleID Int,
 																   IN adminPhone VARCHAR(45))
 BEGIN
 
     update school.administrator
-	set name = admin_name,
+	set name = adminName,
 		role = roleID,
 		phone = adminPhone,
 		email = adminEmail

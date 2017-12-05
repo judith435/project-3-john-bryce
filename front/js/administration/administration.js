@@ -32,11 +32,13 @@ var administration = (function() {
         }
 
         for(let i=0; i < roles.length; i++) {
-                $("#RoleDDL").append(new Option(roles[i].role_name, roles[i].roleID));
+                $("#RoleDDL").append(new Option(roles[i].roleName, roles[i].roleID));
         }
 
         //disable owner => no new owner may be created or updated to
-        var roleOwner = $.grep(roles, function(e){ return e.role_name ===  "owner";}); //must retrive id of owner to be able to disable it
+        var roleOwner = $.grep(roles, function(e){ 
+            var lala = e;
+            return e.roleName ===  "owner";}); //must retrive id of owner to be able to disable it
         $("option[value='" + roleOwner[0].roleID + "']").attr("disabled", "disabled").siblings().removeAttr("disabled");
 
         if (action.chosen === "Update"){
@@ -55,7 +57,7 @@ var administration = (function() {
     function initValidations() {//used for jquery validation plugin
         validationsAdministratorModule.initValidator();
         var validationMessages = validationsAdministratorModule.formValidated.validator.settings.messages;
-        validationMessages.admin_name = "Administrator name required";
+        validationMessages.adminName = "Administrator name required";
         validationMessages.adminPhone = "Valid phone required";
         validationMessages.adminEmail = "Valid email required";
         validationMessages.adminPassword = "Password required";
@@ -74,9 +76,9 @@ var administration = (function() {
         var administratorsArray = [];
         for (let i = 0; i < serverData.length; i++) {
             administratorsArray.push(new ao.Administrator(serverData[i].adminID, 
-                                                          serverData[i].admin_name,
+                                                          serverData[i].adminName,
                                                           serverData[i].roleID, 
-                                                          serverData[i].role_name, 
+                                                          serverData[i].roleName, 
                                                           serverData[i].adminPhone,
                                                           serverData[i].adminEmail
                                         ));
@@ -89,15 +91,15 @@ var administration = (function() {
                 let template = data;
                 //admin data displayed in admin aside
                 template = template.replace("{{adminID}}", administratorsArray[i].adminID);
-                template = template.replace("{{admin_name}}", administratorsArray[i].admin_name);
-                template = template.replace("{{role_name}}", administratorsArray[i].role_name);
+                template = template.replace("{{adminName}}", administratorsArray[i].adminName);
+                template = template.replace("{{roleName}}", administratorsArray[i].roleName);
                 template = template.replace("{{adminPhone}}", administratorsArray[i].adminPhone);
                 template = template.replace("{{adminEmail}}", administratorsArray[i].adminEmail);
                 //admin data used to create admin object
                 template = template.replace("{{admin-id}}", administratorsArray[i].adminID);
-                template = template.replace("{{admin-name}}", administratorsArray[i].admin_name);
+                template = template.replace("{{admin-name}}", administratorsArray[i].adminName);
                 template = template.replace("{{role-id}}", administratorsArray[i].roleID);
-                template = template.replace("{{role-name}}", administratorsArray[i].role_name);
+                template = template.replace("{{role-name}}", administratorsArray[i].roleName);
                 template = template.replace("{{admin-phone}}", administratorsArray[i].adminPhone);
                 template = template.replace("{{admin-email}}", administratorsArray[i].adminEmail);
 
@@ -187,7 +189,7 @@ var administration = (function() {
                 //place details of administrator being updated in input fields
                 $("#cud-admin-title").html( "Update Administrator Number: " + adminHandled.details.adminID);
                 $("#adminID").val(adminHandled.details.adminID);//set adminID in hidden field for update/delete
-                $("#adminName").val(adminHandled.details.admin_name);
+                $("#adminName").val(adminHandled.details.adminName);
                 $("#adminPhone").val(adminHandled.details.adminPhone); 
                 $("#adminEmail").val(adminHandled.details.adminEmail); 
                 //password cannot be updated - it is also not retrived from db to be displayed

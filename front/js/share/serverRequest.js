@@ -2,6 +2,12 @@
 
 var serverRequest = (function() {
 
+    var actionTypes = {};
+    actionTypes["Select"] = "GET",
+    actionTypes["Add"] = "POST",
+    actionTypes["Update"] = "PUT",
+    actionTypes["Delete"] = "DELETE";
+
     function appendInputData(inputData, ajaxData) {
                 //because of  image upload new FormData() must be used to send data to server and thus it can no longer be sent simply as $("form").serialize() 
         //the  individual input fields must be appeded to FormData() as key value pairs => statement below creates object from $("form").serialize() containing
@@ -78,35 +84,14 @@ var serverRequest = (function() {
 
     }
 
-    function setVerb(action) {
-
-        var verb;
-
-        switch (action) {
-            case "Select":
-                verb = "GET";
-                break;
-            case "Add":
-                verb = "POST";
-                break;
-            case "Update":
-                verb = "PUT";
-                break;
-            case "Delete":
-                verb = "DELETE";
-                break;
-        }
-        return verb;
-    }
-
     function sendServerRequest( action, 
                                 inputData, 
                                 callBackFunction,
                                 fuImage, //name of input type file control
                                 imageName) //name of image in object model
     {
-        var verb = setVerb(action);
-
+        var verb = actionTypes[action];
+        
         var verbChanged = false;
         //image was selected and verb is PUT => must change to POST - images can only be transfered with post
         if($("#" + fuImage).val() && verb === "PUT"){ //image was selected and action = "update" (verb is PUT)

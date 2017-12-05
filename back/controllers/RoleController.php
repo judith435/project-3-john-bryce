@@ -13,7 +13,7 @@
             while ($row = $resultSet->fetch())
             {                           
                 array_push($allRoles, new RoleModel(["roleID" => $row['roleID'], 
-                                                     "role_name" => $row['role_name']]));
+                                                     "roleName" => $row['roleName']]));
             }
             return $allRoles;
         }
