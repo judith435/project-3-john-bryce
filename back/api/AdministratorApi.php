@@ -9,7 +9,7 @@
 
             $adminCtrl = new AdministratorController;
             //used to check if admin by same name & phone found: js remote validation validationsAdministrator.js  method: adminAlreadyExists
-            if (array_key_exists("admin_name", $params) && array_key_exists("admin_email", $params)) {
+            if (array_key_exists("admin_name", $params) && array_key_exists("adminEmail", $params)) {
                 return  $adminCtrl->getAdministratorByNameEmail($params);
             }
 

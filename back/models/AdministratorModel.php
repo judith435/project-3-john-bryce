@@ -10,7 +10,7 @@
         private $roleID;
         private $role_name;
         private $adminPhone;
-        private $admin_email;
+        private $adminEmail;
         
         function __construct($params, &$errorInInput) {
             $this->setAdministratorID
@@ -20,7 +20,7 @@
             $this->setRoleName
                 (array_key_exists("role_name", $params) ? $params["role_name"] : ""); 
             $this->setAdministratorPhone($params["adminPhone"], $errorInInput);
-            $this->setAdministratorEmail($params["admin_email"], $errorInInput);
+            $this->setAdministratorEmail($params["adminEmail"], $errorInInput);
         }  
 
         public function setAdministratorID($admr_id){
@@ -61,7 +61,7 @@
             if (!$validations->emailOK($email)){
                 $errorInInput .= " Administrator Email not a valid email\n";
             }
-            $this->admin_email = $email;
+            $this->adminEmail = $email;
         }
 
         public function getAdministratorID(){
@@ -83,7 +83,7 @@
             return $this->adminPhone;
         }
         public function getAdministratorEmail(){
-            return $this->admin_email;
+            return $this->adminEmail;
         }
 
         public function jsonSerialize() {
@@ -93,7 +93,7 @@
                         'roleID' => $this->getRoleID(),
                         'role_name' => $this->getRoleName(),
                         'adminPhone' => $this->getAdministratorPhone(),
-                        'admin_email' => $this->getAdministratorEmail() 
+                        'adminEmail' => $this->getAdministratorEmail() 
                     ];
         }
     }

@@ -25,13 +25,13 @@ var validationsCourse = (function() {
                 courseImage: {
                     extension: "jpg|jpeg|png|gif"
                 }, 
-                duplicate_course: {  
+                duplicateCourse: {  
                     courseAlreadyExists: true
                 } 
             }
         });
 
-        //duplicate_course handling
+        //duplicateCourse handling
         var courseKeyNotExists = true;
 
         function checkCourseUpdate(courseName) {
@@ -42,13 +42,13 @@ var validationsCourse = (function() {
             if (courseName === courses.courseHandled.details.course_name &&
                 courseDescription === courses.courseHandled.details.course_description &&
                 courseImage === "" && !courseImgDeleteChecked) { 
-                    formValidated.validator.settings.messages.duplicate_course = "No change in data - No update";
+                    formValidated.validator.settings.messages.duplicateCourse = "No change in data - No update";
                     courseKeyNotExists = false;
                     return "end validations";// error found: "No change in data - No update"; 
             }
-            formValidated.validator.settings.messages.duplicate_course = "Course with same name found";
+            formValidated.validator.settings.messages.duplicateCourse = "Course with same name found";
 
-            //check course name has been changed - if NOT prevent running duplicate_course test ==> it always going to exist
+            //check course name has been changed - if NOT prevent running duplicateCourse test ==> it always going to exist
             if (courseName === courses.courseHandled.details.course_name) {
                 courseKeyNotExists = true;
                 return "end validations"; //no error "no change in admin key" end validations with true; 

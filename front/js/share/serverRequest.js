@@ -2,24 +2,27 @@
 
 var serverRequest = (function() {
 
-    function postToServer(inputData, verbChanged, fuImage, imageName) {
-
-        var ajaxData = new FormData();    
-        //because of  image upload new FormData() must be used to send data to server and thus it can no longer be sent simply as $("form").serialize() 
+    function appendInputData(inputData, ajaxData) {
+                //because of  image upload new FormData() must be used to send data to server and thus it can no longer be sent simply as $("form").serialize() 
         //the  individual input fields must be appeded to FormData() as key value pairs => statement below creates object from $("form").serialize() containing
         //key value pairs of input data  
         var inputDataPairs = 
         JSON.parse('{"' + decodeURI(inputData.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}');
         
         for (var key in inputDataPairs) {
-            // if (inputDataPairs.hasOwnProperty(key)) {
+            if (inputDataPairs.hasOwnProperty(key)) {
                 // if (app.debugMode) {
                 //     console.log("sendServerRequest parms from form data serialize  key: " + key + " -> value: " + inputDataPairs[key]);
                 // }
                 ajaxData.append(key, inputDataPairs[key]);
-            // }
+            }
         }
+    }
 
+    function buildDataForPost(inputData, verbChanged, fuImage, imageName) {
+
+        var ajaxData = new FormData();  
+        appendInputData(inputData, ajaxData);
         //parm necessary to inform server of verb change to perform on server from POST to PUT 
         if (verbChanged) {
             ajaxData.append("verb_change", "update_with_image");
@@ -75,13 +78,10 @@ var serverRequest = (function() {
 
     }
 
-    function sendServerRequest( action, 
-                                inputData, 
-                                callBackFunction,
-                                fuImage, //name of input type file control
-                                imageName) //name of image in object model
-    {
+    function setVerb(action) {
+
         var verb;
+
         switch (action) {
             case "Select":
                 verb = "GET";
@@ -96,6 +96,16 @@ var serverRequest = (function() {
                 verb = "DELETE";
                 break;
         }
+        return verb;
+    }
+
+    function sendServerRequest( action, 
+                                inputData, 
+                                callBackFunction,
+                                fuImage, //name of input type file control
+                                imageName) //name of image in object model
+    {
+        var verb = setVerb(action);
 
         var verbChanged = false;
         //image was selected and verb is PUT => must change to POST - images can only be transfered with post
@@ -106,7 +116,7 @@ var serverRequest = (function() {
 
         var ajaxData = "";
         if (verb === "POST"){
-            ajaxData = postToServer(inputData, verbChanged, fuImage, imageName);
+            ajaxData = buildDataForPost(inputData, verbChanged, fuImage, imageName);
         }
         else { //select -GET , delete - DELETE  & update - PUT without image 
                 ajaxData = inputData;

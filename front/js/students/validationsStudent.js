@@ -32,13 +32,13 @@ var validationsStudent = (function() {
                 studentImage: {
                     extension: "jpg|jpeg|png|gif"
                   }, 
-                duplicate_student: {  
+                duplicateStudent: {  
                     studentAlreadyExists: true
                 } 
             }
         });
 
-        //duplicate_student handling
+        //duplicateStudent handling
         var studentKeyNotExists = true;
         
         function checkStudentUpdate(studentName, studentPhone, studentEmail) {
@@ -57,12 +57,12 @@ var validationsStudent = (function() {
                 studentEmail === students.studentHandled.details.student_email &&
                 selectedInPanel + "" === students.studentHandled.details.student_courses &&
                 studentImage === "" && !studentImgDeleteChecked) { 
-                     formValidated.validator.settings.messages.duplicate_student = "No change in data - No update";
+                     formValidated.validator.settings.messages.duplicateStudent = "No change in data - No update";
                      studentKeyNotExists = false;
                      return "end validations";// error found: "No change in data - No update"; 
             }
 
-            formValidated.validator.settings.messages.duplicate_student = "Student with same name, phone & email found";
+            formValidated.validator.settings.messages.duplicateStudent = "Student with same name, phone & email found";
             //check student name, phone & email has been changed - if NOT prevent running duplicate student test ==> it always going to exist
 
             if (studentName === students.studentHandled.details.student_name &&

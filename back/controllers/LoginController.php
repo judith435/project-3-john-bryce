@@ -29,7 +29,7 @@
                                                          "roleID" => $row['roleID'],
                                                          "role_name" => $row['role_name'],
                                                          "adminPhone" => $row['adminPhone'],
-                                                         "admin_email" => $row['admin_email']],
+                                                         "adminEmail" => $row['adminEmail']],
                                                           $errorInInput);
                 $super_global = new SuperGlobals();                                          
                 $super_global->setAdminSession($administrator);

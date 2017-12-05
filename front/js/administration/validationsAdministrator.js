@@ -22,7 +22,7 @@ var validationsAdministrator = (function() {
                         return $.trim(value);
                     } 
                 },
-                admin_email: {
+                adminEmail: {
                     required: true,
                     email: true,
                     normalizer: function(value) {
@@ -41,13 +41,13 @@ var validationsAdministrator = (function() {
                 adminImage: {
                     extension: "jpg|jpeg|png|gif"
                 }, 
-                duplicate_admin: {  
+                duplicateAdmin: {  
                     adminAlreadyExists: true
                 } 
             }
         });
 
-        //duplicate_admin handling
+        //duplicateAdmin handling
         var adminKeyNotExists = true;
 
         function checkAdminUpdate(adminName, adminEmail) {
@@ -58,18 +58,18 @@ var validationsAdministrator = (function() {
             var adminImgDeleteChecked = ($("#deleteImage").is(":checked"));
 
             if (adminName === administration.adminHandled.details.admin_name &&
-                adminEmail === administration.adminHandled.details.admin_email &&
+                adminEmail === administration.adminHandled.details.adminEmail &&
                 adminPhone === administration.adminHandled.details.adminPhone &&
                 adminRole === administration.adminHandled.details.roleID &&
                 adminImage === "" && !adminImgDeleteChecked) { 
-                     formValidated.validator.settings.messages.duplicate_admin = "No change in data - No update";
+                     formValidated.validator.settings.messages.duplicateAdmin = "No change in data - No update";
                      adminKeyNotExists = false;
                      return "end validations";// error found: "No change in data - No update"; 
             }
-            formValidated.validator.settings.messages.duplicate_admin = "Administrator with same name and email found";
+            formValidated.validator.settings.messages.duplicateAdmin = "Administrator with same name and email found";
             //check administrator name & email changed - if NOT don't run duplicate admin test ==> it always going to exist (refering to itself)
             if (adminName === administration.adminHandled.details.admin_name && 
-                adminEmail === administration.adminHandled.details.admin_email) {
+                adminEmail === administration.adminHandled.details.adminEmail) {
                 adminKeyNotExists = true;
                 return "end validations"; //no error "no change in admin key" end validations with true; 
             }  
@@ -80,12 +80,12 @@ var validationsAdministrator = (function() {
             var ajaxData = {
                 ctrl: "administrator",
                 admin_name: adminName,
-                admin_email: adminEmail
+                adminEmail: adminEmail
               }; 
     
             // if (app.debugMode){
             //     console.log("validations >>>  ajaxData.administrator_name  " + ajaxData.admin_name);
-            //     console.log("validations >>>  ajaxData.administrator_phone  " + ajaxData.admin_email);
+            //     console.log("validations >>>  ajaxData.administrator_phone  " + ajaxData.adminEmail);
             //   }  
             $.ajax({
                       type: "GET",

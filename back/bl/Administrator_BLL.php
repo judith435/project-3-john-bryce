@@ -27,7 +27,7 @@
         public function check_admin_exists($params) {
             $spParms =  array(); //contains stored procedure input parms 
             array_push($spParms, new PDO_Parm("admin_name", $params["admin_name"], 'string')); 
-            array_push($spParms, new PDO_Parm("admin_email", $params["admin_email"], 'string')); 
+            array_push($spParms, new PDO_Parm("adminEmail", $params["adminEmail"], 'string')); 
             $resultSet = parent::get($this->get_dbName(), 'check_admin_exists', $spParms);
             return $resultSet->fetch();
         }
@@ -36,7 +36,7 @@
 
             $spParms =  array(); //contains stored procedure input parms 
             array_push($spParms, new PDO_Parm("admin_name", $admin->getAdministratorName(), 'string'));  
-            array_push($spParms, new PDO_Parm("admin_email", $admin->getAdministratorEmail(), 'string'));  
+            array_push($spParms, new PDO_Parm("adminEmail", $admin->getAdministratorEmail(), 'string'));  
 
             $resultSet = parent::get($this->get_dbName(), 'check_admin_exists', $spParms);
             if ($resultSet->rowCount() > 0) { // admin with same name & email found

@@ -39,7 +39,7 @@ CREATE  TABLE IF NOT EXISTS `school`.`administrator` (
     FOREIGN KEY (`role` )
     REFERENCES `school`.`roles` (`id` ))
 ENGINE = InnoDB
-AUTO_INCREMENT = 14
+AUTO_INCREMENT = 18
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -52,7 +52,7 @@ CREATE  TABLE IF NOT EXISTS `school`.`courses` (
   `description` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 97
+AUTO_INCREMENT = 98
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -112,12 +112,12 @@ DELIMITER ;
 DELIMITER $$
 USE `school`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `check_admin_exists`(IN admin_name VARCHAR(45),
-																 IN admin_email VARCHAR(45))
+																 IN adminEmail VARCHAR(45))
 BEGIN
 
 	select id FROM administrator
     where BINARY name = admin_name
-    and email = admin_email;
+    and email = adminEmail;
     
 END$$
 
@@ -218,7 +218,7 @@ BEGIN
 			 administrator.role as roleID,
              roles.name as role_name,
              administrator.phone as adminPhone,
-             administrator.email as admin_email,
+             administrator.email as adminEmail,
              administrator.password as adminPassword             
 	FROM administrator
 	inner join roles
@@ -245,7 +245,7 @@ BEGIN
 			 administrator.role as roleID,
              roles.name as role_name,
              administrator.phone as adminPhone,
-             administrator.email as admin_email
+             administrator.email as adminEmail
 	FROM administrator
 	inner join roles
 	on administrator.role = roles.id;
@@ -342,7 +342,7 @@ DELIMITER ;
 DELIMITER $$
 USE `school`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_administrator`(IN admin_name VARCHAR(45),
-																   IN admin_email VARCHAR(45),
+																   IN adminEmail VARCHAR(45),
 																   IN roleID int,
 																   IN adminPhone VARCHAR(45),
 																   IN adminPassword VARCHAR(15))
@@ -360,7 +360,7 @@ BEGIN
 	(admin_name,
 	 roleID,
 	 adminPhone,
-	 admin_email,
+	 adminEmail,
 	 adminPassword); 
     
     SELECT LAST_INSERT_ID()
@@ -479,7 +479,7 @@ BEGIN
 	set name = admin_name,
 		role = roleID,
 		phone = adminPhone,
-		email = admin_email
+		email = adminEmail
 	where id = adminID;   
     
 END$$

@@ -57,11 +57,11 @@ var administration = (function() {
         var validationMessages = validationsAdministratorModule.formValidated.validator.settings.messages;
         validationMessages.admin_name = "Administrator name required";
         validationMessages.adminPhone = "Valid phone required";
-        validationMessages.admin_email = "Valid email required";
+        validationMessages.adminEmail = "Valid email required";
         validationMessages.adminPassword = "Password required";
         validationMessages.roleID = "Please select role";
         validationMessages.adminImage = "Valid extensions: jpg, jpeg, png or gif";
-        validationMessages.duplicate_admin = "Administrator with same name and email found";
+        validationMessages.duplicateAdmin = "Administrator with same name and email found";
     }  
 
     function buildAdminTable(serverData){
@@ -78,7 +78,7 @@ var administration = (function() {
                                                           serverData[i].roleID, 
                                                           serverData[i].role_name, 
                                                           serverData[i].adminPhone,
-                                                          serverData[i].admin_email
+                                                          serverData[i].adminEmail
                                         ));
         }     
         
@@ -92,14 +92,14 @@ var administration = (function() {
                 template = template.replace("{{admin_name}}", administratorsArray[i].admin_name);
                 template = template.replace("{{role_name}}", administratorsArray[i].role_name);
                 template = template.replace("{{adminPhone}}", administratorsArray[i].adminPhone);
-                template = template.replace("{{admin_email}}", administratorsArray[i].admin_email);
+                template = template.replace("{{adminEmail}}", administratorsArray[i].adminEmail);
                 //admin data used to create admin object
                 template = template.replace("{{admin-id}}", administratorsArray[i].adminID);
                 template = template.replace("{{admin-name}}", administratorsArray[i].admin_name);
                 template = template.replace("{{role-id}}", administratorsArray[i].roleID);
                 template = template.replace("{{role-name}}", administratorsArray[i].role_name);
                 template = template.replace("{{admin-phone}}", administratorsArray[i].adminPhone);
-                template = template.replace("{{admin-email}}", administratorsArray[i].admin_email);
+                template = template.replace("{{admin-email}}", administratorsArray[i].adminEmail);
 
                 $("#administrators").append(template);
             }
@@ -189,7 +189,7 @@ var administration = (function() {
                 $("#adminID").val(adminHandled.details.adminID);//set adminID in hidden field for update/delete
                 $("#adminName").val(adminHandled.details.admin_name);
                 $("#adminPhone").val(adminHandled.details.adminPhone); 
-                $("#adminEmail").val(adminHandled.details.admin_email); 
+                $("#adminEmail").val(adminHandled.details.adminEmail); 
                 //password cannot be updated - it is also not retrived from db to be displayed
                 $("#adminPassword").val("***************"); 
                 $("#adminPassword").prop("disabled", true);

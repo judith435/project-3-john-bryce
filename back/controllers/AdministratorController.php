@@ -25,7 +25,7 @@
                     "roleID" => $row['roleID'],
                     "role_name" => $row['role_name'],
                     "adminPhone" => $row['adminPhone'],
-                    "admin_email" => $row['admin_email']],$errorInInput, "select"));
+                    "adminEmail" => $row['adminEmail']],$errorInInput, "select"));
             }
             return $allAdministrators;
         }
@@ -34,7 +34,7 @@
             $admin = new AdministratorModel($params, $applicationError);
             $login = "";
             if ($method == "Create"){ // login data (password irrelevant for update - password cannot be updated)
-                $login = new LoginModel($params["admin_email"],$params["adminPassword"], $applicationError);
+                $login = new LoginModel($params["adminEmail"],$params["adminPassword"], $applicationError);
             }
             
             if ($applicationError != "") { //error found in data members of student object - faulty user input
