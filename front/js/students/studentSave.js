@@ -10,7 +10,7 @@ var studentSave = (function() {
         validationMessages.student_name = "Student name required";
         validationMessages.student_phone = "Valid phone required";
         validationMessages.student_email = "Valid email required";
-        validationMessages.student_image = "Valid extensions: jpg, jpeg, png or gif";
+        validationMessages.studentImage = "Valid extensions: jpg, jpeg, png or gif";
         validationMessages.duplicate_student = "Student with same name, phone & email found";
     }        
     
@@ -52,7 +52,7 @@ var studentSave = (function() {
             verb =  action === "Add" ? "Add" : "Update"; 
             if (validationsStudent.formValidated.contents.valid()){
                 serverRequest.sendServerRequest
-                    (verb, ajaxData, common.afterCourseStudentSave, "studentImage", "student_image");  
+                    (verb, ajaxData, common.afterCourseStudentSave, "studentImage", "studentImage");  
                 return false;
             }
         });

@@ -12,12 +12,12 @@ var serverRequest = (function() {
         JSON.parse('{"' + decodeURI(inputData.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}');
         
         for (var key in inputDataPairs) {
-            if (inputDataPairs.hasOwnProperty(key)) {
+            // if (inputDataPairs.hasOwnProperty(key)) {
                 // if (app.debugMode) {
                 //     console.log("sendServerRequest parms from form data serialize  key: " + key + " -> value: " + inputDataPairs[key]);
                 // }
                 ajaxData.append(key, inputDataPairs[key]);
-            }
+            // }
         }
 
         //parm necessary to inform server of verb change to perform on server from POST to PUT 

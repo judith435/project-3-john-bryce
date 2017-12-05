@@ -38,7 +38,7 @@ var validationsAdministrator = (function() {
                 roleID: {
                     required: true
                 },
-                admin_image: {
+                adminImage: {
                     extension: "jpg|jpeg|png|gif"
                 }, 
                 duplicate_admin: {  

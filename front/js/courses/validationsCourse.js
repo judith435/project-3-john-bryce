@@ -22,7 +22,7 @@ var validationsCourse = (function() {
                         return $.trim(value);
                     } 
                 },
-                course_image: {
+                courseImage: {
                     extension: "jpg|jpeg|png|gif"
                 }, 
                 duplicate_course: {  

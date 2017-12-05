@@ -9,7 +9,7 @@ var courseSave = (function() {
         var validationMessages = validationsCourse.formValidated.validator.settings.messages;
         validationMessages.course_name = "Course name required";
         validationMessages.course_description = "Course description required";
-        validationMessages.course_image = "Valid extensions: jpg, jpeg, png or gif";
+        validationMessages.courseImage = "Valid extensions: jpg, jpeg, png or gif";
         validationMessages.duplicate_course = "Course with same name found";
     }        
 
@@ -50,7 +50,7 @@ var courseSave = (function() {
             verb =  action === "Add" ? "Add" : "Update"; 
             if (validationsCourse.formValidated.contents.valid()){
                 serverRequest.sendServerRequest(
-                    verb, ajaxData, common.afterCourseStudentSave, "courseImage", "course_image");  
+                    verb, ajaxData, common.afterCourseStudentSave, "courseImage", "courseImage");  
                 return false;
             }
         });

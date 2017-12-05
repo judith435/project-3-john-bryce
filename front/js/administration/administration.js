@@ -15,6 +15,7 @@ var administration = (function() {
         //manager/owner may not change his own role
         if(adminLoggedIn.adminID === adminHandled.details.adminID) {  
            $("#RoleDDL").prop("disabled", true);
+           $("#role_id").val(adminHandled.details.roleID);//set role in hidden field for server validations
         }
     }
 
@@ -59,7 +60,7 @@ var administration = (function() {
         validationMessages.admin_email = "Valid email required";
         validationMessages.adminPassword = "Password required";
         validationMessages.roleID = "Please select role";
-        validationMessages.admin_image = "Valid extensions: jpg, jpeg, png or gif";
+        validationMessages.adminImage = "Valid extensions: jpg, jpeg, png or gif";
         validationMessages.duplicate_admin = "Administrator with same name and email found";
     }  
 
@@ -154,7 +155,7 @@ var administration = (function() {
             verb =  action.chosen === "Add" ? "Add" : "Update"; 
             if (validationsAdministratorModule.formValidated.contents.valid()){
                 serverRequestModule.sendServerRequest
-                        (verb, ajaxData, afterSave, "adminImage", "admin_image");  
+                        (verb, ajaxData, afterSave, "adminImage", "adminImage");  
                 return false;
             }
         });

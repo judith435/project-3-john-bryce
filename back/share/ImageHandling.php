@@ -9,7 +9,7 @@
 
         public function save_uploaded_image($identity, $entity, &$ImageUploadError) {   
 
-            $imageName =  $entity . "_image";
+            $imageName =  $entity . "Image";
 
             if (isset($_FILES[$imageName])) {
                 $this->check_image($ImageUploadError, $imageName);

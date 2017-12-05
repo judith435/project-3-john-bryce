@@ -6,7 +6,10 @@
     <div class="row button-row">
         <input  type="hidden"  name="ctrl" value="administrator" >
         <input  type="hidden" id="adminID" name="adminID" value="0">
-        <input  type="hidden" id="roleName" name="role_name" value="">  
+        <input  type="hidden" id="roleName" name="role_name" value=""> 
+        <!-- save role_id of admin updating data in hidden field => if ddlRoles disabled form.serialize will not send roleID to server
+        data required for server validation   -->
+        <input  type="hidden" id="role_id" name="roleID" > 
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-left">
             <span class="float-md-left">
                 <button class="btn btn-primary btnSave" id="btnUpdateInsert" type="button">Save</button>
@@ -58,7 +61,7 @@
     <div class="form-group row">
         <span class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-form-label text-left"></span>
         <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
-            <input type="file" class="btn btn-info pull-left" id="adminImage" name="admin_image">
+            <input type="file" class="btn btn-info pull-left" id="adminImage" name="adminImage">
             <button class="btn btn-default pull-left" id="btnCancel" type="button">Cancel</button>
         </div>
     </div>

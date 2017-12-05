@@ -29,7 +29,7 @@ var validationsStudent = (function() {
                         return $.trim(value);
                     } 
                 },
-                student_image: {
+                studentImage: {
                     extension: "jpg|jpeg|png|gif"
                   }, 
                 duplicate_student: {  
