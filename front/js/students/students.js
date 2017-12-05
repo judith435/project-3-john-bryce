@@ -10,7 +10,7 @@ var students = (function() {
 
     function displayStudentImage(){
         var dtForceReload = new Date();//way to force browser to reload picture after update of picture
-        var imgPath = app.studentImagePath + studentHandled.details.student_id + ".jpg?" + dtForceReload.getTime();
+        var imgPath = app.studentImagePath + studentHandled.details.studentID + ".jpg?" + dtForceReload.getTime();
         commonModule.setCanvas($("#canvasStudent")[0], imgPath, "regular");
     }
 
@@ -36,11 +36,11 @@ var students = (function() {
         var so = studentObject();
         studentArray.length = 0; //clear data from previous calls to buildStudentTable
         for (let i = 0; i < serverData.length; i++) {
-            studentArray.push(new so.Student(serverData[i].student_id, 
-                                              serverData[i].student_name,
-                                              serverData[i].student_phone, 
-                                              serverData[i].student_email,
-                                              serverData[i].student_courses 
+            studentArray.push(new so.Student(serverData[i].studentID, 
+                                              serverData[i].studentName,
+                                              serverData[i].studentPhone, 
+                                              serverData[i].studentEmail,
+                                              serverData[i].studentCourses 
                                             ));
         }  
         studentsRetrieved.status = true;
@@ -51,15 +51,15 @@ var students = (function() {
             for(let i=0; i < studentArray.length; i++) {
                 let template = data;
                 //student data displayed in school aside
-                template = template.replace("{{student_id}}", studentArray[i].student_id);
-                template = template.replace("{{student_name}}", studentArray[i].student_name);
-                template = template.replace("{{student_phone}}", studentArray[i].student_phone);
+                template = template.replace("{{studentID}}", studentArray[i].studentID);
+                template = template.replace("{{studentName}}", studentArray[i].studentName);
+                template = template.replace("{{studentPhone}}", studentArray[i].studentPhone);
                 //student data used to create student object
-                template = template.replace("{{student-id}}", studentArray[i].student_id);
-                template = template.replace("{{student-name}}", studentArray[i].student_name);
-                template = template.replace("{{student-phone}}", studentArray[i].student_phone);
-                template = template.replace("{{student-email}}", studentArray[i].student_email);
-                template = template.replace("{{student-courses}}", studentArray[i].student_courses);
+                template = template.replace("{{student-id}}", studentArray[i].studentID);
+                template = template.replace("{{student-name}}", studentArray[i].studentName);
+                template = template.replace("{{student-phone}}", studentArray[i].studentPhone);
+                template = template.replace("{{student-email}}", studentArray[i].studentEmail);
+                template = template.replace("{{student-courses}}", studentArray[i].studentCourses);
                 $("#students").append(template);
             }
             commonModule.loadCanvasList($("#students canvas"), app.studentImagePath, "schoolAside");
@@ -83,15 +83,15 @@ var students = (function() {
             buildCoursesCBL(); //build checkboxlist of all courses
             if(action === "Update"){
                 //place name and description of student being updated in input field
-                $("#cud-student-title").html( "Update Student Number: " + studentHandled.details.student_id);
-                $("#studentID").val(studentHandled.details.student_id);//set student_id in hidden field for update/delete
-                $("#studentName").val(studentHandled.details.student_name);
-                $("#studentPhone").val(studentHandled.details.student_phone); 
-                $("#studentEmail").val(studentHandled.details.student_email); 
+                $("#cud-student-title").html( "Update Student Number: " + studentHandled.details.studentID);
+                $("#studentID").val(studentHandled.details.studentID);//set studentID in hidden field for update/delete
+                $("#studentName").val(studentHandled.details.studentName);
+                $("#studentPhone").val(studentHandled.details.studentPhone); 
+                $("#studentEmail").val(studentHandled.details.studentEmail); 
 
                 //check course checkbox if student registered for specific course
-                if (studentHandled.details.student_courses !== "") {
-                    var courses = studentHandled.details.student_courses.split(",");
+                if (studentHandled.details.studentCourses !== "") {
+                    var courses = studentHandled.details.studentCourses.split(",");
                     for (let i = 0; i < courses.length; i++) {
                         document.getElementById(courses[i]).checked = true;
                     }
@@ -119,13 +119,13 @@ var students = (function() {
         $.ajax("templates/school/students/view-student.html").done(function(data) {
             $("#main-container").empty();
             $("#main-container").prepend(data);
-            $("#studentName").html(studentHandled.details.student_name);
-            $("#studentPhone").html(studentHandled.details.student_phone); 
-            $("#studentEmail").html(studentHandled.details.student_email); 
-            if (studentHandled.details.student_courses !== "") {// student_courses == "" - no courses found for student being handled
+            $("#studentName").html(studentHandled.details.studentName);
+            $("#studentPhone").html(studentHandled.details.studentPhone); 
+            $("#studentEmail").html(studentHandled.details.studentEmail); 
+            if (studentHandled.details.studentCourses !== "") {// studentCourses == "" - no courses found for student being handled
                 var container = $("#courseList");
                 var courseHtml = "";
-                var studentCourses = studentHandled.details.student_courses.split(",");
+                var studentCourses = studentHandled.details.studentCourses.split(",");
                 for (let i = 0; i < studentCourses.length; i++) {
                     let courseID = parseInt(studentCourses[i].replace("cbCourse",""));
                     let course = $.grep(courses.courseArray, function(e){ return e.courseID === courseID; });

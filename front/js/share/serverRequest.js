@@ -9,7 +9,7 @@ var serverRequest = (function() {
     actionTypes["Delete"] = "DELETE";
 
     function appendInputData(inputData, ajaxData) {
-                //because of  image upload new FormData() must be used to send data to server and thus it can no longer be sent simply as $("form").serialize() 
+        //because of  image upload new FormData() must be used to send data to server and thus it can no longer be sent simply as $("form").serialize() 
         //the  individual input fields must be appeded to FormData() as key value pairs => statement below creates object from $("form").serialize() containing
         //key value pairs of input data  
         var inputDataPairs = 
@@ -47,13 +47,12 @@ var serverRequest = (function() {
         //     console.log("sendServerRequest before call to server");
         //     console.log("ajaxData: " + JSON.stringify( ajaxData) + " verb: " + verb);
         // }
-        var undefinedType = undefined;
         $.ajax({
             type: verb,
             url: app.schoolApi,
             data: ajaxData,
-            contentType: verb === "POST" ? false : undefinedType,
-            processData: verb === "POST" ? false : undefinedType 
+            contentType: verb === "POST" ? false : undefined,
+            processData: verb === "POST" ? false : undefined 
         })
         .done(function(data)
         {

@@ -5,24 +5,24 @@
     
     class StudentModel implements JsonSerializable {
 
-        private $student_id;
-        private $student_name;
-        private $student_phone;
-        private $student_email;
-        private $student_courses = array();
+        private $studentID;
+        private $studentName;
+        private $studentPhone;
+        private $studentEmail;
+        private $studentCourses = array();
      
         function __construct($params, &$errorInInput, $action) {
             $this->setStudentID
-                (array_key_exists("student_id", $params) ? $params["student_id"] : 0); 
-            $this->setStudentName($params["student_name"], $errorInInput);
+                (array_key_exists("studentID", $params) ? $params["studentID"] : 0); 
+            $this->setStudentName($params["studentName"], $errorInInput);
             $this->setStudentPhone
-                (array_key_exists("student_phone", $params) ? $params["student_phone"] : "", $errorInInput); 
+                (array_key_exists("studentPhone", $params) ? $params["studentPhone"] : "", $errorInInput); 
             $this->setStudentEmail
-                (array_key_exists("student_email", $params) ? $params["student_email"] : "", $errorInInput); 
+                (array_key_exists("studentEmail", $params) ? $params["studentEmail"] : "", $errorInInput); 
             //different setters required update: data comes in form of cbCourse + courseID for every course selected from checkboxlist in html    
             //select data comes from sp in form of concatnated string containing all courses
             if ($action == "select") {    
-                $this->setStudentCourses_select($params["student_courses"]);
+                $this->setStudentCourses_select($params["studentCourses"]);
             } 
             
             if ($action == "update") { 
@@ -31,7 +31,7 @@
         }  
 
         public function setStudentID($stdnt_id){
-            $this->student_id = $stdnt_id;
+            $this->studentID = $stdnt_id;
         }
 
         public function setStudentName($stdnt_name, &$errorInInput){
@@ -39,7 +39,7 @@
             if (!$validations->nameOK($stdnt_name)){
                 $errorInInput .= " Student Name must contain at least one letter\n";
             }
-            $this->student_name = rawurldecode($stdnt_name);
+            $this->studentName = rawurldecode($stdnt_name);
         }
 
         public function setStudentPhone($stdnt_phone, &$errorInInput){
@@ -47,7 +47,7 @@
             if (!$validations->phoneOK($stdnt_phone)){
                 $errorInInput .= " Student Phone not a valid phone number\n";
             }
-            $this->student_phone = rawurldecode($stdnt_phone);
+            $this->studentPhone = rawurldecode($stdnt_phone);
         }
 
         public function setStudentEmail($stdnt_email,  &$errorInInput){
@@ -56,45 +56,45 @@
             if (!$validations->emailOK($email)){
                 $errorInInput .= " Student Email not a valid email\n";
             }
-            $this->student_email = $email;
+            $this->studentEmail = $email;
         }
 
         public function setStudentCourses_update($params){
             $courses = preg_grep('/^cbCourse/', array_keys($params));
-            $this->student_courses = $courses;
+            $this->studentCourses = $courses;
         }
 
         public function setStudentCourses_select($stdnt_crs){
-            $this->student_courses = $stdnt_crs;
+            $this->studentCourses = $stdnt_crs;
         }
         
         public function getStudentID(){
-            return $this->student_id;
+            return $this->studentID;
         }
 
         public function getStudentName(){
-            return $this->student_name;
+            return $this->studentName;
         }
 
         public function getStudentPhone(){
-            return $this->student_phone;
+            return $this->studentPhone;
         }
 
         public function getStudentEmail(){
-            return $this->student_email;
+            return $this->studentEmail;
         }
 
         public function getStudentCourses(){
-            return $this->student_courses;
+            return $this->studentCourses;
         }
 
         public function jsonSerialize() {
             return  [
-                        'student_id' => $this->getStudentID(),
-                        'student_name' => $this->getStudentName(),
-                        'student_phone' => $this->getStudentPhone(),
-                        'student_email' => $this->getStudentEmail(),
-                        'student_courses' => $this->getStudentCourses()
+                        'studentID' => $this->getStudentID(),
+                        'studentName' => $this->getStudentName(),
+                        'studentPhone' => $this->getStudentPhone(),
+                        'studentEmail' => $this->getStudentEmail(),
+                        'studentCourses' => $this->getStudentCourses()
                     ];
         }
     }

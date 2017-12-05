@@ -26,7 +26,7 @@
                 return;
             }
             $studentID = 0;
-            array_push($spParms, new PDO_Parm("student_courses", $this->build_student_courses_parm($student), 'string'));
+            array_push($spParms, new PDO_Parm("studentCourses", $this->build_student_courses_parm($student), 'string'));
             $result = parent::get($this->get_dbName(), 'insert_student', $spParms);
             $studentID = $result->fetch();
             if ($studentID['new_student_id'] == -1){ //new_student_id = -1 sp insert_student failed
@@ -53,7 +53,7 @@
             }
             $studentID = 0;
             array_unshift($spParms, new PDO_Parm("student_id", $student->getStudentID(), 'integer')); //must add student_id as first parameter
-            array_push($spParms, new PDO_Parm("student_courses", $this->build_student_courses_parm($student), 'string'));
+            array_push($spParms, new PDO_Parm("studentCourses", $this->build_student_courses_parm($student), 'string'));
             $result = parent::get($this->get_dbName(), 'update_student', $spParms);
             $studentID = $result->fetch();
             if ($studentID['student_id'] == -1){ //student_id = -1 sp update failed
@@ -80,20 +80,20 @@
         //used for js remote validation validationsStudent.js  method: studentAlreadyExists
         public function check_student_exists ($params) {
             $spParms =  array(); //contains stored procedure input parms 
-            $resultSet = $this->call_sp_check_student_exists($params["student_name"], $params["student_phone"], $params["student_email"], $spParms);
+            $resultSet = $this->call_sp_check_student_exists($params["studentName"], $params["studentPhone"], $params["studentEmail"], $spParms);
             return $resultSet->fetch();
         }
 
         public function call_sp_check_student_exists($student_name, $student_phone, $student_email, &$spParms) {
-            array_push($spParms, new PDO_Parm("student_name", $student_name, 'string')); 
-            array_push($spParms, new PDO_Parm("student_phone", $student_phone, 'string')); 
-            array_push($spParms, new PDO_Parm("student_email", $student_email, 'string')); 
+            array_push($spParms, new PDO_Parm("studentName", $student_name, 'string')); 
+            array_push($spParms, new PDO_Parm("studentPhone", $student_phone, 'string')); 
+            array_push($spParms, new PDO_Parm("studentEmail", $student_email, 'string')); 
             return parent::get($this->get_dbName(), 'check_student_exists', $spParms);
         }
 
         public function delete_student($params) {
             $spParms =  array(); //contains stored procedure input parms 
-            array_push($spParms, new PDO_Parm("student_id", $params["student_id"], 'integer'));
+            array_push($spParms, new PDO_Parm("studentID", $params["studentID"], 'integer'));
             return parent::get($this->get_dbName(), 'delete_student', $spParms);
         }
     }

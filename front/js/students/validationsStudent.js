@@ -10,19 +10,19 @@ var validationsStudent = (function() {
             onkeyup: false,
             onfocusout: false,
             rules:  {
-                student_name: {
+                studentName: {
                     required: true,
                     normalizer: function(value) {
                         return $.trim(value);
                     } 
                 }, 
-                student_phone: {
+                studentPhone: {
                     required: true,
                     normalizer: function(value) {
                         return $.trim(value);
                     } 
                 },
-                student_email: {
+                studentEmail: {
                     required: true,
                     email: true,
                     normalizer: function(value) {
@@ -52,10 +52,10 @@ var validationsStudent = (function() {
                 selectedInPanel.push($(this).attr("name"));
             });
 
-            if (studentName === students.studentHandled.details.student_name &&
-                studentPhone === students.studentHandled.details.student_phone &&
-                studentEmail === students.studentHandled.details.student_email &&
-                selectedInPanel + "" === students.studentHandled.details.student_courses &&
+            if (studentName === students.studentHandled.details.studentName &&
+                studentPhone === students.studentHandled.details.studentPhone &&
+                studentEmail === students.studentHandled.details.studentEmail &&
+                selectedInPanel + "" === students.studentHandled.details.studentCourses &&
                 studentImage === "" && !studentImgDeleteChecked) { 
                      formValidated.validator.settings.messages.duplicateStudent = "No change in data - No update";
                      studentKeyNotExists = false;
@@ -65,9 +65,9 @@ var validationsStudent = (function() {
             formValidated.validator.settings.messages.duplicateStudent = "Student with same name, phone & email found";
             //check student name, phone & email has been changed - if NOT prevent running duplicate student test ==> it always going to exist
 
-            if (studentName === students.studentHandled.details.student_name &&
-                studentPhone === students.studentHandled.details.student_phone &&
-                studentEmail === students.studentHandled.details.student_email) {
+            if (studentName === students.studentHandled.details.studentName &&
+                studentPhone === students.studentHandled.details.studentPhone &&
+                studentEmail === students.studentHandled.details.studentEmail) {
                     studentKeyNotExists = true;
                     return "end validations"; //no error "no change in student key" end validations with true; 
                 } 
@@ -78,13 +78,13 @@ var validationsStudent = (function() {
         function checkDuplicateStudentOnServer(studentName, studentPhone, studentEmail) {
             var ajaxData = {
                 ctrl: "student",
-                student_name: studentName,
-                student_phone: studentPhone,
-                student_email: studentEmail
+                studentName: studentName,
+                studentPhone: studentPhone,
+                studentEmail: studentEmail
             }; 
     
             // if (app.debugMode){
-            //     console.log("validations >>>  " + ajaxData.student_name + "  " + ajaxData.student_phone  + "    " + ajaxData.student_email );
+            //     console.log("validations >>>  " + ajaxData.studentName + "  " + ajaxData.studentPhone  + "    " + ajaxData.studentEmail );
             // }  
 
             $.ajax({
@@ -128,7 +128,7 @@ var validationsStudent = (function() {
                 //update student: no change made to data retrieved from db return relevant message to user
                 if (studentSave.studentAction.chosen === "Update") {
                     // if (app.debugMode){
-                    //     console.log("studentAlreadyExists(): " + students.studentHandled.details.student_name + "  " + students.studentHandled.details.student_phone + "  " + students.studentHandled.details.student_email + "  ");
+                    //     console.log("studentAlreadyExists(): " + students.studentHandled.details.studentName + "  " + students.studentHandled.details.studentPhone + "  " + students.studentHandled.details.studentEmail + "  ");
                     // }
                     var result = checkStudentUpdate(studentName, studentPhone, studentEmail);
                     if (result === "end validations"){

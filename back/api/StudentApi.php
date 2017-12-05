@@ -7,7 +7,7 @@
         function Read($params = null) {
             $studentCtrl = new StudentController;
 
-            if (array_key_exists("student_name", $params) && array_key_exists("student_phone", $params) && array_key_exists("student_email", $params)) {
+            if (array_key_exists("studentName", $params) && array_key_exists("studentPhone", $params) && array_key_exists("studentEmail", $params)) {
                 //used to check if student by same name, phone & email found: js remote validation validationsStudent.js  method: studentAlreadyExists
                 return  $studentCtrl->get_student_by_details($params); 
             }

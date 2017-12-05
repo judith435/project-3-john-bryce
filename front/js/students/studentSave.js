@@ -7,29 +7,29 @@ var studentSave = (function() {
     function initValidations() {
         validationsStudent.initValidator();
         var validationMessages = validationsStudent.formValidated.validator.settings.messages;
-        validationMessages.student_name = "Student name required";
-        validationMessages.student_phone = "Valid phone required";
-        validationMessages.student_email = "Valid email required";
+        validationMessages.studentName = "Student name required";
+        validationMessages.studentPhone = "Valid phone required";
+        validationMessages.studentEmail = "Valid email required";
         validationMessages.studentImage = "Valid extensions: jpg, jpeg, png or gif";
         validationMessages.duplicateStudent = "Student with same name, phone & email found";
     }        
     
     function displayAfterSave(serverResponse, action){
-        let studentTemp = action === "Create" ? serverResponse.new_studentID  : students.studentHandled.details.student_id; 
+        let studentTemp = action === "Create" ? serverResponse.new_studentID  : students.studentHandled.details.studentID; 
         let studentToDisplay = $.grep(students.studentArray, function(e)
                                              { var tot = e;
-                                                 return e.student_id ===  studentTemp; });
+                                                 return e.studentID ===  studentTemp; });
         var so = studentObject();
-        students.studentHandled.details = new so.Student(studentToDisplay[0].student_id, 
-                                                        studentToDisplay[0].student_name, 
-                                                        studentToDisplay[0].student_phone, 
-                                                        studentToDisplay[0].student_email, 
-                                                        studentToDisplay[0].student_courses);
+        students.studentHandled.details = new so.Student(studentToDisplay[0].studentID, 
+                                                        studentToDisplay[0].studentName, 
+                                                        studentToDisplay[0].studentPhone, 
+                                                        studentToDisplay[0].studentEmail, 
+                                                        studentToDisplay[0].studentCourses);
         students.loadStudentView();
     }
     
     function deleteStudent(ajaxData) {
-        var confirmation = confirm("Are you sure you want to delete student number " + students.studentHandled.details.student_id + "?");
+        var confirmation = confirm("Are you sure you want to delete student number " + students.studentHandled.details.studentID + "?");
         if (confirmation === true) {
             // don't perform validations in case of delete
             serverRequest.sendServerRequest("Delete", ajaxData, common.afterCourseStudentSave);  

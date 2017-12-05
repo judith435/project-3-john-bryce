@@ -19,11 +19,11 @@
             
             while ($row = $resultSet->fetch())
             {                           
-                array_push($allStudents, new StudentModel(["student_id" => $row['student_id'], 
-                                                           "student_name" => $row['student_name'],
-                                                           "student_phone" => $row['student_phone'],
-                                                           "student_email" => $row['student_email'],
-                                                           "student_courses" => $row['student_courses']],$errorInInput, "select"));
+                array_push($allStudents, new StudentModel(["studentID" => $row['studentID'], 
+                                                           "studentName" => $row['studentName'],
+                                                           "studentPhone" => $row['studentPhone'],
+                                                           "studentEmail" => $row['studentEmail'],
+                                                           "studentCourses" => $row['studentCourses']],$errorInInput, "select"));
             }
             return $allStudents;
         }
@@ -53,7 +53,7 @@
                 $imgHandling->delete_image($student->getStudentID(), "student");
                 return $new_studentID;
             }
-            //if new student send new student id returned from mysql if update send student_id of updated student to handle_student_image function any errors 
+            //if new student send new student id returned from mysql if update send studentID of updated student to handle_student_image function any errors 
             //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
             $imgHandling->save_uploaded_image(
                 $method == "Create" ? $new_studentID :  $student->getStudentID(), 
@@ -66,7 +66,7 @@
             $student_bll->delete_student($params);
             //delete student image stored in images folder
             $imgHandling = new ImageHandling();
-            $imgHandling->delete_image($params["student_id"], "student");
+            $imgHandling->delete_image($params["studentID"], "student");
         }
         
         //used for js remote validation validationsStudent.js  method: studentAlreadyExists

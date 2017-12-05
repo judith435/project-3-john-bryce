@@ -103,12 +103,12 @@ var courses = (function() {
         var studentIDs = courseHandled.details.studentIDs.split(",");
         for (let i = 0; i < studentIDs.length; i++) {
                 let student = $.grep(students.studentArray, function(e){ 
-                    return e.student_id ===  parseInt(studentIDs[i]); 
+                    return e.studentID ===  parseInt(studentIDs[i]); 
                 });
                 studentHtml += "<div class='info-row-minor'>";
                 studentHtml += "<canvas  data-canvas-id='" + studentIDs[i] + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
                 studentHtml += "<div class='info-container'>";
-                studentHtml += "<label class='text-left'>" + student[0].student_name + "</label>";
+                studentHtml += "<label class='text-left'>" + student[0].studentName + "</label>";
                 studentHtml += "</div>";
                 studentHtml += "</div>";
         }
