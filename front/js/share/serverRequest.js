@@ -2,66 +2,37 @@
 
 var serverRequest = (function() {
 
-    function sendServerRequest( action, 
-                                inputData, 
-                                callBackFunction,
-                                fuImage, //name of input type file control
-                                imageName) //name of image in object model
-    {
-        var verb;
-        switch (action) {
-            case "Select":
-                verb = "GET";
-                break;
-            case "Add":
-                verb = "POST";
-                break;
-            case "Update":
-                verb = "PUT";
-                break;
-            case "Delete":
-                verb = "DELETE";
-                break;
-        }
+    function postToServer(inputData, verbChanged, fuImage, imageName) {
 
-        var verbChanged = false;
-        //image was selected and verb is PUT => must change to POST - images can only be transfered with post
-        // if($("#" + fuImage).val() && verb === "PUT"){ //image was selected and action = "update" (verb is PUT)
-        //     verb = "POST";
-        //     verbChanged = true;
-        // } 
-
-        var ajaxData = "";
-        if (verb === "POST"|| verb === "PUT" ){
-            ajaxData = new FormData();    
-            //because of  image upload new FormData() must be used to send data to server and thus it can no longer be sent simply as $("form").serialize() 
-            //the  individual input fields must be appeded to FormData() as key value pairs => statement below creates object from $("form").serialize() containing
-            //key value pairs of input data  
-            var inputDataPairs = 
-            JSON.parse('{"' + decodeURI(inputData.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}');
-            
-            for (var key in inputDataPairs) {
-                if (inputDataPairs.hasOwnProperty(key)) {
-                    // if (app.debugMode) {
-                    //     console.log("sendServerRequest parms from form data serialize  key: " + key + " -> value: " + inputDataPairs[key]);
-                    // }
-                    ajaxData.append(key, inputDataPairs[key]);
-                }
+        var ajaxData = new FormData();    
+        //because of  image upload new FormData() must be used to send data to server and thus it can no longer be sent simply as $("form").serialize() 
+        //the  individual input fields must be appeded to FormData() as key value pairs => statement below creates object from $("form").serialize() containing
+        //key value pairs of input data  
+        var inputDataPairs = 
+        JSON.parse('{"' + decodeURI(inputData.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}');
+        
+        for (var key in inputDataPairs) {
+            if (inputDataPairs.hasOwnProperty(key)) {
+                // if (app.debugMode) {
+                //     console.log("sendServerRequest parms from form data serialize  key: " + key + " -> value: " + inputDataPairs[key]);
+                // }
+                ajaxData.append(key, inputDataPairs[key]);
             }
-
-            //parm necessary to inform server of verb change to perform on server from POST to PUT 
-            if (verbChanged) {
-                ajaxData.append("verb_change", "update_with_image");
-            }
-
-            if($("#" + fuImage).val()){ //image was selected
-                var fileData = $("#" + fuImage).prop("files")[0]; 
-                ajaxData.append(imageName, fileData);
-            } 
         }
-        else { //select -GET , delete - DELETE  & update - PUT without image 
-                ajaxData = inputData;
+
+        //parm necessary to inform server of verb change to perform on server from POST to PUT 
+        if (verbChanged) {
+            ajaxData.append("verb_change", "update_with_image");
         }
+
+        if($("#" + fuImage).val()){ //image was selected
+            var fileData = $("#" + fuImage).prop("files")[0]; 
+            ajaxData.append(imageName, fileData);
+        } 
+        return ajaxData;
+    }
+
+    function callAjax(ajaxData, verb, callBackFunction) {
 
         // if (app.debugMode) {
         //     console.log("sendServerRequest before call to server");
@@ -101,6 +72,47 @@ var serverRequest = (function() {
                 alert("problem in sendServerRequest : " + data);
         });
         return false;
+
+    }
+
+    function sendServerRequest( action, 
+                                inputData, 
+                                callBackFunction,
+                                fuImage, //name of input type file control
+                                imageName) //name of image in object model
+    {
+        var verb;
+        switch (action) {
+            case "Select":
+                verb = "GET";
+                break;
+            case "Add":
+                verb = "POST";
+                break;
+            case "Update":
+                verb = "PUT";
+                break;
+            case "Delete":
+                verb = "DELETE";
+                break;
+        }
+
+        var verbChanged = false;
+        //image was selected and verb is PUT => must change to POST - images can only be transfered with post
+        if($("#" + fuImage).val() && verb === "PUT"){ //image was selected and action = "update" (verb is PUT)
+            verb = "POST";
+            verbChanged = true;
+        } 
+
+        var ajaxData = "";
+        if (verb === "POST"){
+            ajaxData = postToServer(inputData, verbChanged, fuImage, imageName);
+        }
+        else { //select -GET , delete - DELETE  & update - PUT without image 
+                ajaxData = inputData;
+        }
+
+        callAjax(ajaxData, verb, callBackFunction);
     }
         
     return {
