@@ -21,8 +21,8 @@ var courseSave = (function() {
         courses.courseHandled.details = new co.Course(  courseToDisplay[0].courseID, 
                                                 courseToDisplay[0].courseName, 
                                                 courseToDisplay[0].courseDescription, 
-                                                courseToDisplay[0].number_of_students_for_course, 
-                                                courseToDisplay[0].student_ids);
+                                                courseToDisplay[0].numberOfStudentsForCourse, 
+                                                courseToDisplay[0].studentIDs);
         courses.loadCourseView();
     }
 

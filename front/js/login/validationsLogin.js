@@ -9,13 +9,13 @@ var validationsLogin = (function() {
         formValidated.contents = $("#frmLogin");
         formValidated.validator = formValidated.contents.validate({
             rules:  {
-                user_email: {
+                userEmail: {
                     required: true,
                     normalizer: function(value) {
                         return $.trim(value);
                     } 
                 }, 
-                user_password: {
+                userPassword: {
                     required: true,
                     normalizer: function(value) {
                         return $.trim(value);

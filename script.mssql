@@ -51,7 +51,7 @@ CREATE  TABLE IF NOT EXISTS `school`.`courses` (
   `description` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 103
+AUTO_INCREMENT = 104
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -265,8 +265,8 @@ BEGIN
 	SELECT   id as courseID,
 			 name as courseName,
              description as courseDescription,
-             ifNull(number_of_students_for_course, 0) as number_of_students_for_course,  #students_found_for_course
-			 ifNull(student_ids, "") as student_ids	
+             ifNull(number_of_students_for_course, 0) as numberOfStudentsForCourse,  #students_found_for_course
+			 ifNull(student_ids, "") as studentIDs	
     FROM courses
     left outer join   
 		(select count(*) as number_of_students_for_course ,crs_id
@@ -571,6 +571,8 @@ DELIMITER ;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
 
 INSERT INTO `school`.`roles` (`name`) VALUES ('owner');
 INSERT INTO `school`.`roles` (`name`) VALUES ('manager');

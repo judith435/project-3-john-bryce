@@ -22,8 +22,8 @@
                 array_push($allCourses, new CourseModel(["courseID" => $row['courseID'], 
                                                          "courseName" => $row['courseName'],
                                                          "courseDescription" => $row['courseDescription'],
-                                                         "number_of_students_for_course" => $row['number_of_students_for_course'],
-                                                         "student_ids" => $row['student_ids']],
+                                                         "numberOfStudentsForCourse" => $row['numberOfStudentsForCourse'],
+                                                         "studentIDs" => $row['studentIDs']],
                                                          $errorInInput));
             }
             return $allCourses;

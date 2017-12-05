@@ -47,13 +47,13 @@ var serverRequest = (function() {
         //     console.log("sendServerRequest before call to server");
         //     console.log("ajaxData: " + JSON.stringify( ajaxData) + " verb: " + verb);
         // }
-
+        var undefinedType = undefined;
         $.ajax({
             type: verb,
             url: app.schoolApi,
             data: ajaxData,
-            contentType: verb === "POST" ? false : undefined,
-            processData: verb === "POST" ? false : undefined 
+            contentType: verb === "POST" ? false : undefinedType,
+            processData: verb === "POST" ? false : undefinedType 
         })
         .done(function(data)
         {

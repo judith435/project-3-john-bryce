@@ -8,7 +8,7 @@
 
             $loginCtrl = new LoginController;
             
-            if (array_key_exists("user_email", $params) && array_key_exists("user_password", $params)) {
+            if (array_key_exists("userEmail", $params) && array_key_exists("userPassword", $params)) {
                 //check login data of admin => occurs after login button is clicked on login panel => log in user (if login info ok)
                 return  $loginCtrl->getAdministratorByLogin($params);
             }

@@ -6,8 +6,8 @@ var login = (function() {
     function initValidations() {
         validationsLogin.initValidator();
         var validationMessages = validationsLogin.formValidated.validator.settings.messages;
-        validationMessages.user_email = "User name required";
-        validationMessages.user_password = "User password required";
+        validationMessages.userEmail = "User name required";
+        validationMessages.userPassword = "User password required";
     }        
 
     function setNavigationBarLoggedIn(admin) {

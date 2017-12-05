@@ -15,7 +15,7 @@
         }
 
         function getAdministratorByLogin($params) {
-            $login = new LoginModel($params["user_email"], $params["user_password"]);
+            $login = new LoginModel($params["userEmail"], $params["userPassword"]);
             //I decide to use the Administrator_BLL as BLL for LoginController because data retrieved is admin data
             $admin_bll = new Administrator_BLL();
             $row = $admin_bll->get_administrator_by_login($login);

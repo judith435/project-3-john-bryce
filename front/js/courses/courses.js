@@ -27,8 +27,8 @@ var courses = (function() {
             courseArray.push(new co.Course(serverData[i].courseID, 
                                            serverData[i].courseName,
                                            serverData[i].courseDescription, 
-                                           serverData[i].number_of_students_for_course, 
-                                           serverData[i].student_ids
+                                           serverData[i].numberOfStudentsForCourse, 
+                                           serverData[i].studentIDs
                                         ));
         } 
 
@@ -43,13 +43,13 @@ var courses = (function() {
                 //course data displayed in school aside
                 template = template.replace("{{courseID}}", courseArray[i].courseID);
                 template = template.replace("{{courseName}}", courseArray[i].courseName);
-                template = template.replace("{{number_of_students_for_course}}", courseArray[i].number_of_students_for_course);
+                template = template.replace("{{numberOfStudentsForCourse}}", courseArray[i].numberOfStudentsForCourse);
                 //course data used to create course object
                 template = template.replace("{{course-id}}", courseArray[i].courseID);
                 template = template.replace("{{course-name}}", courseArray[i].courseName);
                 template = template.replace("{{course-description}}", courseArray[i].courseDescription);
-                template = template.replace("{{number-of-students-for-course}}", courseArray[i].number_of_students_for_course);
-                template = template.replace("{{student-ids}}", courseArray[i].student_ids);
+                template = template.replace("{{number-of-students-for-course}}", courseArray[i].numberOfStudentsForCourse);
+                template = template.replace("{{student-ids}}", courseArray[i].studentIDs);
                 $("#courses").append(template);
             }
             commonModule.loadCanvasList($("#courses canvas"), app.courseImagePath, "schoolAside");
@@ -76,11 +76,11 @@ var courses = (function() {
                 $("#courseID").val(courseHandled.details.courseID);//set courseID in hidden field for update/delete
                 $("#courseName").val(courseHandled.details.courseName);
                 $("#courseDescription").val(courseHandled.details.courseDescription); 
-                if (courseHandled.details.number_of_students_for_course > 0){ //course has been assigned to students cannot be deleted
+                if (courseHandled.details.numberOfStudentsForCourse > 0){ //course has been assigned to students cannot be deleted
                     $("#btnDelete").hide(); 
                 }
                  displayCourseImage();
-                $("#studentTotal").html("Total " + courseHandled.details.number_of_students_for_course + " students taking this course");
+                $("#studentTotal").html("Total " + courseHandled.details.numberOfStudentsForCourse + " students taking this course");
             }
             else {//create
                     $("#cud-course-title").html(action + " Course");
@@ -100,7 +100,7 @@ var courses = (function() {
 
     function buildStudentList() {
         var studentHtml = "";
-        var studentIDs = courseHandled.details.student_ids.split(",");
+        var studentIDs = courseHandled.details.studentIDs.split(",");
         for (let i = 0; i < studentIDs.length; i++) {
                 let student = $.grep(students.studentArray, function(e){ 
                     return e.student_id ===  parseInt(studentIDs[i]); 
@@ -135,12 +135,12 @@ var courses = (function() {
         $.ajax("templates/school/courses/view-course.html").done(function(data) {
             $("#main-container").empty();
             $("#main-container").prepend(data);
-            var studentNumbers = courseHandled.details.number_of_students_for_course === 0 ? "no" :  courseHandled.details.number_of_students_for_course ;
+            var studentNumbers = courseHandled.details.numberOfStudentsForCourse === 0 ? "no" :  courseHandled.details.numberOfStudentsForCourse ;
             var courseText = courseHandled.details.courseName + ", " + studentNumbers + " students";
             $("#courseName").html(courseText);
             $("#CourseDescription").html(courseHandled.details.courseDescription); 
 
-            if (courseHandled.details.student_ids !== "") {// student_ids == "" - no students found for course being handled
+            if (courseHandled.details.studentIDs !== "") {// studentIDs == "" - no students found for course being handled
                 buildStudentList();
             }
 
