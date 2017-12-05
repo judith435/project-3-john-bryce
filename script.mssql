@@ -51,7 +51,7 @@ CREATE  TABLE IF NOT EXISTS `school`.`courses` (
   `description` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 100
+AUTO_INCREMENT = 103
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -128,10 +128,10 @@ DELIMITER ;
 
 DELIMITER $$
 USE `school`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `check_course_exists`(IN course_name VARCHAR(45))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `check_course_exists`(IN courseName VARCHAR(45))
 BEGIN
 
-	SELECT id FROM courses WHERE BINARY name = course_name;
+	SELECT id FROM courses WHERE BINARY name = courseName;
     
 END$$
 
@@ -178,10 +178,10 @@ DELIMITER ;
 
 DELIMITER $$
 USE `school`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_course`(IN course_id int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_course`(IN courseID int)
 BEGIN
 
-    delete from  `school`.`courses` where id = course_id;
+    delete from  `school`.`courses` where id = courseID;
     
 END$$
 
@@ -262,9 +262,9 @@ DELIMITER $$
 USE `school`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_courses`()
 BEGIN
-	SELECT   id as course_id,
-			 name as course_name,
-             description as course_description,
+	SELECT   id as courseID,
+			 name as courseName,
+             description as courseDescription,
              ifNull(number_of_students_for_course, 0) as number_of_students_for_course,  #students_found_for_course
 			 ifNull(student_ids, "") as student_ids	
     FROM courses
@@ -376,8 +376,8 @@ DELIMITER ;
 
 DELIMITER $$
 USE `school`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_course`(IN course_name VARCHAR(45),
-															IN course_description VARCHAR(255))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_course`(IN courseName VARCHAR(45),
+															IN courseDescription VARCHAR(255))
 BEGIN
 
 	DECLARE new_course_id int;
@@ -385,7 +385,7 @@ BEGIN
     INSERT INTO `school`.`courses`
     (`name`, description) 
     VALUES 
-    (course_name, course_description);    
+    (courseName, courseDescription);    
     
     SELECT LAST_INSERT_ID()
     INTO new_course_id;
@@ -491,15 +491,15 @@ DELIMITER ;
 
 DELIMITER $$
 USE `school`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_course`(IN course_id Int, 
-															IN course_name VARCHAR(45),
-															IN course_description VARCHAR(255))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_course`(IN courseID Int, 
+															IN courseName VARCHAR(45),
+															IN courseDescription VARCHAR(255))
 BEGIN
 
     update school.courses
-	set name = course_name,
-		description = course_description
-	where id = course_id;   
+	set name = courseName,
+		description = courseDescription
+	where id = courseID;   
     
 END$$
 
@@ -571,7 +571,6 @@ DELIMITER ;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
 
 INSERT INTO `school`.`roles` (`name`) VALUES ('owner');
 INSERT INTO `school`.`roles` (`name`) VALUES ('manager');

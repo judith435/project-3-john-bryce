@@ -10,7 +10,7 @@ var courses = (function() {
     
     function  displayCourseImage(){
         var dtForceReload = new Date();//way to force browser to reload picture after update of picture
-        var imgPath = app.courseImagePath + courseHandled.details.course_id + ".jpg?" + dtForceReload.getTime();
+        var imgPath = app.courseImagePath + courseHandled.details.courseID + ".jpg?" + dtForceReload.getTime();
         commonModule.setCanvas($("#canvasCourse")[0], imgPath, "regular");
     }
 
@@ -24,9 +24,9 @@ var courses = (function() {
         var co = courseObject();
         courseArray.length = 0; //clear data from previous calls to buildCourseTable
         for (let i = 0; i < serverData.length; i++) {
-            courseArray.push(new co.Course(serverData[i].course_id, 
-                                           serverData[i].course_name,
-                                           serverData[i].course_description, 
+            courseArray.push(new co.Course(serverData[i].courseID, 
+                                           serverData[i].courseName,
+                                           serverData[i].courseDescription, 
                                            serverData[i].number_of_students_for_course, 
                                            serverData[i].student_ids
                                         ));
@@ -41,13 +41,13 @@ var courses = (function() {
             for(let i=0; i < courseArray.length; i++) {
                 let template = data;
                 //course data displayed in school aside
-                template = template.replace("{{course_id}}", courseArray[i].course_id);
-                template = template.replace("{{course_name}}", courseArray[i].course_name);
+                template = template.replace("{{courseID}}", courseArray[i].courseID);
+                template = template.replace("{{courseName}}", courseArray[i].courseName);
                 template = template.replace("{{number_of_students_for_course}}", courseArray[i].number_of_students_for_course);
                 //course data used to create course object
-                template = template.replace("{{course-id}}", courseArray[i].course_id);
-                template = template.replace("{{course-name}}", courseArray[i].course_name);
-                template = template.replace("{{course-description}}", courseArray[i].course_description);
+                template = template.replace("{{course-id}}", courseArray[i].courseID);
+                template = template.replace("{{course-name}}", courseArray[i].courseName);
+                template = template.replace("{{course-description}}", courseArray[i].courseDescription);
                 template = template.replace("{{number-of-students-for-course}}", courseArray[i].number_of_students_for_course);
                 template = template.replace("{{student-ids}}", courseArray[i].student_ids);
                 $("#courses").append(template);
@@ -72,10 +72,10 @@ var courses = (function() {
             courseSave.btnSaveHandler(action);
             if(action === "Update"){
                 //place name and description of course being updated in input field
-                $("#cud-course-title").html( "Update Course Number: " + courseHandled.details.course_id);
-                $("#courseID").val(courseHandled.details.course_id);//set course_id in hidden field for update/delete
-                $("#courseName").val(courseHandled.details.course_name);
-                $("#courseDescription").val(courseHandled.details.course_description); 
+                $("#cud-course-title").html( "Update Course Number: " + courseHandled.details.courseID);
+                $("#courseID").val(courseHandled.details.courseID);//set courseID in hidden field for update/delete
+                $("#courseName").val(courseHandled.details.courseName);
+                $("#courseDescription").val(courseHandled.details.courseDescription); 
                 if (courseHandled.details.number_of_students_for_course > 0){ //course has been assigned to students cannot be deleted
                     $("#btnDelete").hide(); 
                 }
@@ -136,9 +136,9 @@ var courses = (function() {
             $("#main-container").empty();
             $("#main-container").prepend(data);
             var studentNumbers = courseHandled.details.number_of_students_for_course === 0 ? "no" :  courseHandled.details.number_of_students_for_course ;
-            var courseText = courseHandled.details.course_name + ", " + studentNumbers + " students";
+            var courseText = courseHandled.details.courseName + ", " + studentNumbers + " students";
             $("#courseName").html(courseText);
-            $("#CourseDescription").html(courseHandled.details.course_description); 
+            $("#CourseDescription").html(courseHandled.details.courseDescription); 
 
             if (courseHandled.details.student_ids !== "") {// student_ids == "" - no students found for course being handled
                 buildStudentList();

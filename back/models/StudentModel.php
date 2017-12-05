@@ -19,7 +19,7 @@
                 (array_key_exists("student_phone", $params) ? $params["student_phone"] : "", $errorInInput); 
             $this->setStudentEmail
                 (array_key_exists("student_email", $params) ? $params["student_email"] : "", $errorInInput); 
-            //different setters required update: data comes in form of cbCourse + course_id for every course selected from checkboxlist in html    
+            //different setters required update: data comes in form of cbCourse + courseID for every course selected from checkboxlist in html    
             //select data comes from sp in form of concatnated string containing all courses
             if ($action == "select") {    
                 $this->setStudentCourses_select($params["student_courses"]);

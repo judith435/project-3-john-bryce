@@ -5,18 +5,18 @@
     
     class CourseModel implements JsonSerializable {
 
-        private $course_id;
-        private $course_name;
-        private $course_description;
+        private $courseID;
+        private $courseName;
+        private $courseDescription;
         private $number_of_students_for_course;
         private $student_ids;
         
         function __construct($params, &$errorInInput) {
             $this->setCourseID
-                (array_key_exists("course_id", $params) ? $params["course_id"] : 0); 
-            $this->setCourseName($params["course_name"], $errorInInput);
+                (array_key_exists("courseID", $params) ? $params["courseID"] : 0); 
+            $this->setCourseName($params["courseName"], $errorInInput);
             $this->setCourseDescription
-                (array_key_exists("course_description", $params) ? $params["course_description"] : "", $errorInInput); 
+                (array_key_exists("courseDescription", $params) ? $params["courseDescription"] : "", $errorInInput); 
             //always assigng empty string -> this property is used for course retrival NOT course update     
             $this->setStudentsNumberForCourse
                (array_key_exists("number_of_students_for_course", $params) ? $params["number_of_students_for_course"] : "");    
@@ -25,7 +25,7 @@
         }  
 
         public function setCourseID($crs_id){
-            $this->course_id = $crs_id;
+            $this->courseID = $crs_id;
         }
 
         public function setCourseName($crs_name, &$errorInInput){
@@ -33,7 +33,7 @@
             if (!$validations->nameOK($crs_name)){
                 $errorInInput .= " Course Name must contain at least one letter\n";
             }
-            $this->course_name = rawurldecode($crs_name);
+            $this->courseName = rawurldecode($crs_name);
         }
 
         public function setCourseDescription($crs_description, &$errorInInput){
@@ -41,7 +41,7 @@
             if (!$validations->nameOK($crs_description)){
                 $errorInInput .= " Course Description must contain at least one letter\n";
             }
-            $this->course_description = rawurldecode($crs_description);
+            $this->courseDescription = rawurldecode($crs_description);
         }
 
         public function setStudentsNumberForCourse($stdnt_crs){
@@ -53,15 +53,15 @@
         }
 
         public function getCourseID(){
-            return $this->course_id;
+            return $this->courseID;
         }
 
         public function getCourseName(){
-            return $this->course_name;
+            return $this->courseName;
         }
 
         public function getCourseDescription(){
-            return $this->course_description;
+            return $this->courseDescription;
         }
 
         public function getStudentsNumberForCourse(){
@@ -74,9 +74,9 @@
 
         public function jsonSerialize() {
             return  [
-                        'course_id' => $this->getCourseID(),
-                        'course_name' => $this->getCourseName(),
-                        'course_description' => $this->getCourseDescription(),
+                        'courseID' => $this->getCourseID(),
+                        'courseName' => $this->getCourseName(),
+                        'courseDescription' => $this->getCourseDescription(),
                         'number_of_students_for_course' => $this->getStudentsNumberForCourse(),
                         'student_ids' => $this->getStudentIDs()
                     ];

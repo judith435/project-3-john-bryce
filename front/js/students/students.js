@@ -19,10 +19,10 @@ var students = (function() {
         var id = 1;
         for (let i = 0; i < courses.courseArray.length; i++) {
             $("<input/>",
-             { type: "checkbox", id: "cbCourse" + courses.courseArray[i].course_id, 
-                                 value: courses.courseArray[i].course_name,
-                                 name: "cbCourse" + courses.courseArray[i].course_id }).appendTo(container);
-            $("<span/>", { text: courses.courseArray[i].course_name }).appendTo(container);
+             { type: "checkbox", id: "cbCourse" + courses.courseArray[i].courseID, 
+                                 value: courses.courseArray[i].courseName,
+                                 name: "cbCourse" + courses.courseArray[i].courseID }).appendTo(container);
+            $("<span/>", { text: courses.courseArray[i].courseName }).appendTo(container);
             $("<br />").appendTo(container);
         }
     }
@@ -128,11 +128,11 @@ var students = (function() {
                 var studentCourses = studentHandled.details.student_courses.split(",");
                 for (let i = 0; i < studentCourses.length; i++) {
                     let courseID = parseInt(studentCourses[i].replace("cbCourse",""));
-                    let course = $.grep(courses.courseArray, function(e){ return e.course_id === courseID; });
+                    let course = $.grep(courses.courseArray, function(e){ return e.courseID === courseID; });
                     courseHtml += "<div class='info-row-minor'>";
                     courseHtml += "<canvas  data-canvas-id='" + courseID + "' class='img-fluid info-minor' width='40' height='50' ></canvas>";
                     courseHtml += "<div class='info-container'>";
-                    courseHtml += "<label class='text-left'>" + course[0].course_name + "</label>";
+                    courseHtml += "<label class='text-left'>" + course[0].courseName + "</label>";
                     courseHtml += "</div>";
                     courseHtml += "</div>";
                 }

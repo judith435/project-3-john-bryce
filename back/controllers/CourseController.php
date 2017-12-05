@@ -19,9 +19,9 @@
             
             while ($row = $resultSet->fetch())
             {                           
-                array_push($allCourses, new CourseModel(["course_id" => $row['course_id'], 
-                                                         "course_name" => $row['course_name'],
-                                                         "course_description" => $row['course_description'],
+                array_push($allCourses, new CourseModel(["courseID" => $row['courseID'], 
+                                                         "courseName" => $row['courseName'],
+                                                         "courseDescription" => $row['courseDescription'],
                                                          "number_of_students_for_course" => $row['number_of_students_for_course'],
                                                          "student_ids" => $row['student_ids']],
                                                          $errorInInput));
@@ -49,7 +49,7 @@
                 $imgHandling->delete_image($course->getCourseID(), "course");
                 return $new_courseID;
             }
-            //if new course send new course id returned from mysql if update send course_id of updated course to handle_course_image function any errors 
+            //if new course send new course id returned from mysql if update send courseID of updated course to handle_course_image function any errors 
             //in image selected by user or error in attempts to save image will be written to $ImageUploadError so they can be sent back to user
             $imgHandling->save_uploaded_image(
                 $method == "Create" ? $new_courseID :  $course->getCourseID(), 
@@ -62,7 +62,7 @@
             $course_bll->delete_course($params);
             //delete course image stored in images folder
             $imgHandling = new ImageHandling();
-            $imgHandling->delete_image($params["course_id"], "course");
+            $imgHandling->delete_image($params["courseID"], "course");
         }
 
         //used for js remote validation validationsCourse.js  method: courseAlreadyExists

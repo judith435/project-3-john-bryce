@@ -10,13 +10,13 @@ var validationsCourse = (function() {
             onkeyup: false,
             onfocusout: false,
                     rules:  {
-                course_name: {
+                courseName: {
                     required: true,
                     normalizer: function(value) {
                         return $.trim(value);
                     } 
                 }, 
-                course_description: {
+                courseDescription: {
                     required: true,
                     normalizer: function(value) {
                         return $.trim(value);
@@ -39,8 +39,8 @@ var validationsCourse = (function() {
             var courseImage = $("#courseImage").val().trim(); 
             var courseImgDeleteChecked = ($("#deleteImage").is(":checked"));
 
-            if (courseName === courses.courseHandled.details.course_name &&
-                courseDescription === courses.courseHandled.details.course_description &&
+            if (courseName === courses.courseHandled.details.courseName &&
+                courseDescription === courses.courseHandled.details.courseDescription &&
                 courseImage === "" && !courseImgDeleteChecked) { 
                     formValidated.validator.settings.messages.duplicateCourse = "No change in data - No update";
                     courseKeyNotExists = false;
@@ -49,7 +49,7 @@ var validationsCourse = (function() {
             formValidated.validator.settings.messages.duplicateCourse = "Course with same name found";
 
             //check course name has been changed - if NOT prevent running duplicateCourse test ==> it always going to exist
-            if (courseName === courses.courseHandled.details.course_name) {
+            if (courseName === courses.courseHandled.details.courseName) {
                 courseKeyNotExists = true;
                 return "end validations"; //no error "no change in admin key" end validations with true; 
             }  
@@ -59,11 +59,11 @@ var validationsCourse = (function() {
         function checkDuplicateCourseOnServer(courseName) {
             var ajaxData = {
                 ctrl: "course",
-                course_name: courseName
+                courseName: courseName
             }; 
     
           //   if (app.debugMode){
-          //       console.log("validations >>>  ajaxData.course_name  " + ajaxData.courseName);
+          //       console.log("validations >>>  ajaxData.courseName  " + ajaxData.courseName);
           //   }  
             
             $.ajax  ({
@@ -100,7 +100,7 @@ var validationsCourse = (function() {
                 //update course: no change made to data retrieved from db return relevant message to user
                 if (courseSave.courseAction.chosen === "Update") {
                     // if (app.debugMode){
-                    //     console.log("courseAlreadyExists() courseName from update: " + courses.courseHandled.details.course_name);
+                    //     console.log("courseAlreadyExists() courseName from update: " + courses.courseHandled.details.courseName);
                     // }
                     var result = checkCourseUpdate(courseName);
                     if (result === "end validations"){
