@@ -3,86 +3,98 @@
 -- email => judithguttmann@gmail.com password wedding5771  encrypted as "d32b080cc61f1d5"
 -- reason system requires login of any admin and without admin already  in db no way to start application
 
+-- MySQL Workbench Forward Engineering
+
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema school
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema school
+-- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `school` DEFAULT CHARACTER SET utf8 ;
 USE `school` ;
 
 -- -----------------------------------------------------
 -- Table `school`.`roles`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `school`.`roles` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`id`) )
+CREATE TABLE IF NOT EXISTS `school`.`roles` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
 -- Table `school`.`administrator`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `school`.`administrator` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(45) NOT NULL ,
-  `role` INT(11) NOT NULL ,
-  `phone` VARCHAR(45) NOT NULL ,
-  `email` VARCHAR(45) NOT NULL ,
-  `password` VARCHAR(15) NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_administrator_role_idx` (`role` ASC) ,
+CREATE TABLE IF NOT EXISTS `school`.`administrator` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `role` INT(11) NOT NULL,
+  `phone` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(15) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_administrator_role_idx` (`role` ASC),
   CONSTRAINT `fk_administrator_role `
-    FOREIGN KEY (`role` )
-    REFERENCES `school`.`roles` (`id` ))
+    FOREIGN KEY (`role`)
+    REFERENCES `school`.`roles` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 20
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
 -- Table `school`.`courses`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `school`.`courses` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(45) NOT NULL ,
-  `description` VARCHAR(255) NOT NULL ,
-  PRIMARY KEY (`id`) )
+CREATE TABLE IF NOT EXISTS `school`.`courses` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 104
+AUTO_INCREMENT = 25
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
 -- Table `school`.`students`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `school`.`students` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(45) NOT NULL ,
-  `phone` VARCHAR(45) NOT NULL ,
-  `email` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`id`) )
+CREATE TABLE IF NOT EXISTS `school`.`students` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `phone` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 42
+AUTO_INCREMENT = 21
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
 -- Table `school`.`courses_students`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `school`.`courses_students` (
-  `crs_id` INT(11) NOT NULL ,
-  `stdnt_id` INT(11) NOT NULL ,
-  PRIMARY KEY (`crs_id`, `stdnt_id`) ,
-  INDEX `fk_cs_students_idx` (`stdnt_id` ASC) ,
+CREATE TABLE IF NOT EXISTS `school`.`courses_students` (
+  `crs_id` INT(11) NOT NULL,
+  `stdnt_id` INT(11) NOT NULL,
+  PRIMARY KEY (`crs_id`, `stdnt_id`),
+  INDEX `fk_cs_students_idx` (`stdnt_id` ASC),
   CONSTRAINT `fk_cs_courses`
-    FOREIGN KEY (`crs_id` )
-    REFERENCES `school`.`courses` (`id` ),
+    FOREIGN KEY (`crs_id`)
+    REFERENCES `school`.`courses` (`id`),
   CONSTRAINT `fk_cs_students`
-    FOREIGN KEY (`stdnt_id` )
-    REFERENCES `school`.`students` (`id` ))
+    FOREIGN KEY (`stdnt_id`)
+    REFERENCES `school`.`students` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -143,15 +155,15 @@ DELIMITER ;
 
 DELIMITER $$
 USE `school`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `check_student_exists`(IN student_name VARCHAR(45),
-																   in student_phone VARCHAR(45),
-																   in student_email VARCHAR(45))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `check_student_exists`(IN studentName VARCHAR(45),
+																   in studentPhone VARCHAR(45),
+																   in studentEmail VARCHAR(45))
 BEGIN
 
 	SELECT id FROM students 
-	WHERE BINARY name = student_name 
-	and BINARY phone = student_phone
-	and BINARY email = student_email;
+	WHERE BINARY name = studentName 
+	and BINARY phone = studentPhone
+	and BINARY email = studentEmail;
     
 END$$
 
@@ -193,11 +205,11 @@ DELIMITER ;
 
 DELIMITER $$
 USE `school`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_student`(IN student_id int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_student`(IN studentID int)
 BEGIN
 
-	delete from  `school`.`courses_students` where stdnt_id = student_id;
-    delete from  `school`.`students` where id = student_id;
+	delete from  `school`.`courses_students` where stdnt_id = studentID;
+    delete from  `school`.`students` where id = studentID;
     
 END$$
 
@@ -314,11 +326,11 @@ USE `school`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_students`()
 BEGIN
 
-	SELECT   students.id as student_id,
-				 students.name as student_name,
-				 students.phone as student_phone,
-				 students.email as student_email,
-				 ifNull(courses.student_courses, "") as student_courses 
+	SELECT   students.id as studentID,
+				 students.name as studentName,
+				 students.phone as studentPhone,
+				 students.email as studentEmail,
+				 ifNull(courses.student_courses, "") as studentCourses 
 		FROM students
 		left outer  JOIN                                       
 			( SELECT  group_concat(concat(concat("cbCourse", crs_id)) order by course_name separator ',') as student_courses ,stdnt_id        
@@ -401,10 +413,10 @@ DELIMITER ;
 
 DELIMITER $$
 USE `school`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_student`(in student_name VARCHAR(45),
-									in student_phone VARCHAR(45),
-									in student_email VARCHAR(45),
-                                    in student_courses varchar(255))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_student`(in studentName VARCHAR(45),
+									in studentPhone VARCHAR(45),
+									in studentEmail VARCHAR(45),
+                                    in studentCourses varchar(255))
 BEGIN
 
 	DECLARE string_position INT Default 0 ; #used to extract individual course from courses string in course_loop
@@ -435,9 +447,9 @@ BEGIN
 		 email
 		) 
 		VALUES 
-		(student_name, 
-		 student_phone,
-		 student_email);    
+		(studentName, 
+		 studentPhone,
+		 studentEmail);    
 		
 		SELECT LAST_INSERT_ID()
 		INTO new_student_id;
@@ -446,7 +458,7 @@ BEGIN
 		course_loop: while string_position < 255 
 			do
 			 SET string_position = string_position + 1;
-			 SET course = Split_String(student_courses, ",", string_position);
+			 SET course = Split_String(studentCourses, ",", string_position);
 			 IF course = '' THEN
 				LEAVE course_loop;
 			 END IF;
@@ -511,11 +523,11 @@ DELIMITER ;
 
 DELIMITER $$
 USE `school`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_student`(in student_id int,
-															 in student_name VARCHAR(45),
-															 in student_phone VARCHAR(45),
-															 in student_email VARCHAR(45),
-															 in student_courses varchar(255))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_student`(in studentID int,
+															 in studentName VARCHAR(45),
+															 in studentPhone VARCHAR(45),
+															 in studentEmail VARCHAR(45),
+															 in studentCourses varchar(255))
 BEGIN
 
 	DECLARE string_position INT Default 0 ; #used to extract individual course from courses string in course_loop
@@ -525,48 +537,47 @@ BEGIN
 	DECLARE exit handler for sqlexception 
 	  BEGIN
 		ROLLBACK; -- error
-		set student_id = -1;
-        SELECT student_id;
+		set studentID = -1;
+        SELECT studentID;
 	  END;
 
 	DECLARE exit handler for sqlwarning
 	 BEGIN
 		ROLLBACK; -- WARNING
-		set student_id = -1;
-        SELECT student_id;
+		set studentID = -1;
+        SELECT studentID;
 	 END;
 
 	START TRANSACTION;
     
 		UPDATE school.students
 		SET
-		name = student_name,
-		phone = student_phone,
-		email = student_email
-		WHERE id = student_id;
+		name = studentName,
+		phone = studentPhone,
+		email = studentEmail
+		WHERE id = studentID;
 		
 		# delete all courses for student and then reinsert them according to input parm student_courses
-		delete from school.courses_students where stdnt_id = student_id;
+		delete from school.courses_students where stdnt_id = studentID;
 		
 		#loop over courses string and insert row into courses_students for every row extracted 
 		course_loop: while string_position < 255 
 			do
 			 SET string_position = string_position + 1;
-			 SET course = Split_String(student_courses, ",", string_position);
+			 SET course = Split_String(studentCourses, ",", string_position);
 			 IF course = '' THEN
 				LEAVE course_loop;
 			 END IF;
-			 insert into courses_students values (course, student_id);
+			 insert into courses_students values (course, studentID);
 		end while;
 
-		SELECT student_id; #return student_id to php - if -1 update failes
+		SELECT studentID; #return student_id to php - if -1 update failes
 
     COMMIT;
 
 END$$
 
 DELIMITER ;
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
