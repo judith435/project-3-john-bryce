@@ -262,9 +262,9 @@ var administration = (function() {
     };
 
     return {
-        loadAdminAside: loadAdminAside, //function: used by login.js
-        adminHandled: adminHandled, //data: used by validationsAdministrator.js
-        action: action  //data: used by validationsAdministrator.js
+        loadAdminAside, //function: used by login.js
+        adminHandled, //data: used by validationsAdministrator.js
+        action  //data: used by validationsAdministrator.js
     };
 
 }());
