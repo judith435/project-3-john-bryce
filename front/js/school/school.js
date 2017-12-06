@@ -54,8 +54,8 @@ var school = (function() {
 
     return {
 
-        loadSchoolAside: loadSchoolAside,
-        loadSchoolMain: loadSchoolMain
+        loadSchoolAside,
+        loadSchoolMain
     };
 
 }());

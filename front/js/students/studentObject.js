@@ -9,6 +9,6 @@ var studentObject = function() {
             }
         
     return {
-            Student: Student
+            Student
            }; 
     };

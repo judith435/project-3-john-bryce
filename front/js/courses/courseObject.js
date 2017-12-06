@@ -9,6 +9,6 @@ var courseObject = function() {
             }
         
     return {
-            Course: Course
+            Course
            }; 
     };

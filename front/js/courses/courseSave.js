@@ -58,10 +58,10 @@ var courseSave = (function() {
 
 
     return {
-                btnSaveHandler : btnSaveHandler,
-                courseAction: courseAction, //data: data used by validationsCourse.js ->  need to know if update or insert
-                initValidations: initValidations,
-                displayAfterSave: displayAfterSave //used by common.js
+                btnSaveHandler,
+                courseAction, //data: data used by validationsCourse.js ->  need to know if update or insert
+                initValidations,
+                displayAfterSave
            };
         
 }());

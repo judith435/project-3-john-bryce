@@ -22,7 +22,7 @@ var loginHandling = (function() {
     }
 
     return {
-        getLoginStatus: getLoginStatus
+        getLoginStatus
     };
 
 }());

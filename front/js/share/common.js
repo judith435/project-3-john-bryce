@@ -86,11 +86,11 @@ var common = (function() {
     
 
   return {
-            setCanvas : setCanvas,
-            clearImage: clearImage, 
-            uploadImage : uploadImage,
-            loadCanvasList : loadCanvasList,
-            afterCourseStudentSave: afterCourseStudentSave
+            setCanvas,
+            clearImage,
+            uploadImage,
+            loadCanvasList,
+            afterCourseStudentSave
       };
 
 

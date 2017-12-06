@@ -2,7 +2,7 @@
   "globals": {
     "app": true,
     "administration": true,
-    "AdministratorObject": true,
+    "administratorObject": true,
     "validationsAdministrator": true,
     "courseObject": true,
     "courses": true,

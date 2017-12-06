@@ -27,8 +27,8 @@ var validationsLogin = (function() {
     }
 
     return {
-        initValidator: initValidator,
-        formValidated: formValidated
+        initValidator,
+        formValidated
     };
 
 }());

@@ -166,13 +166,13 @@ var students = (function() {
 
     return {
 
-        loadStudentCUD: loadStudentCUD,  //function: used by school.js
-        loadStudentView: loadStudentView,  //function: used by studentSave.js
-        showStudents: showStudents,  //function: used by school.js/courses.js
-        studentSelected: studentSelected, //fucntion: used by school.js
-        studentArray : studentArray, //data: used by courses.js to build list of students in view-course.html
-        studentsRetrieved: studentsRetrieved, //data: flag used to signal to course.js that building studentArray has completed after course update 
-        studentHandled: studentHandled, //data: student data used by validationsStudent.js 
+        loadStudentCUD,  //function: used by school.js
+        loadStudentView,  //function: used by studentSave.js
+        showStudents, //function: used by school.js/courses.js
+        studentSelected, //fucntion: used by school.js
+        studentArray,//data: used by courses.js to build list of students in view-course.html
+        studentsRetrieved, //data: flag used to signal to course.js that building studentArray has completed after course update 
+        studentHandled //data: student data used by validationsStudent.js 
     };
 
 }());

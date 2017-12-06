@@ -44,7 +44,7 @@ var login = (function() {
             alert(serverData);
         }
         else { 
-            var ao = new AdministratorObject();
+            var ao = new administratorObject();
             var admin  = new ao.Administrator(
                                                 serverData.adminID, 
                                                 serverData.adminName,
@@ -78,8 +78,8 @@ var login = (function() {
         
 
     return {
-        setUpLogin: setUpLogin,
-        setNavigationBarLoggedIn : setNavigationBarLoggedIn
+        setUpLogin,
+        setNavigationBarLoggedIn
     };
 
 }());

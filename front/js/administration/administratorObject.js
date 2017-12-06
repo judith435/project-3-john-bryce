@@ -1,4 +1,4 @@
-var AdministratorObject = function() {
+var administratorObject = function() {
     
             function Administrator(admrID, admrName, roleID, roleName, admrPH, admrE) {
                 this.adminID = admrID;
@@ -10,6 +10,6 @@ var AdministratorObject = function() {
                 }
         
     return {
-              Administrator: Administrator
+              Administrator
            }; 
     };

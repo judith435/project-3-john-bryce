@@ -110,7 +110,7 @@ var serverRequest = (function() {
     }
         
     return {
-             sendServerRequest: sendServerRequest
+             sendServerRequest
            };
 
 

@@ -59,10 +59,10 @@ var studentSave = (function() {
     }  
         
     return {
-                initValidations: initValidations, //used by students.js
-                btnSaveHandler: btnSaveHandler, //used by students.js
-                studentAction: studentAction, //data: data used by validationsStudent.js ->  need to know if update or insert
-                displayAfterSave: displayAfterSave //used by common.js
+                initValidations, //used by students.js
+                btnSaveHandler, //used by students.js
+                studentAction,//data: data used by validationsStudent.js ->  need to know if update or insert
+                displayAfterSave //used by common.js
             };
         
 }());

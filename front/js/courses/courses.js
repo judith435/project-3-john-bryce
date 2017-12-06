@@ -171,13 +171,13 @@ var courses = (function() {
 
     return {
 
-        loadCourseCUD: loadCourseCUD, //function:  used by school.js
-        loadCourseView: loadCourseView, //function:  used by courseSave.js
-        showCourses: showCourses, //function: used by school.js/students.js/courseSave.js
-        courseSelected: courseSelected, //fucntion: used by school.js
-        courseArray : courseArray, //data: used by students.js to build course checkboxlist
-        coursesRetrieved: coursesRetrieved, //data: flag used to signal to student.js that building courseArray has completed after student update 
-        courseHandled : courseHandled, //data: course data used by validationsCourse.js 
+        loadCourseCUD, //function:  used by school.js
+        loadCourseView, //function:  used by courseSave.js
+        showCourses, //function: used by school.js/students.js/courseSave.js
+        courseSelected, //fucntion: used by school.js
+        courseArray, //data: used by students.js to build course checkboxlist
+        coursesRetrieved, //data: flag used to signal to student.js that building courseArray has completed after student update 
+        courseHandled //data: course data used by validationsCourse.js 
     };
 
 }());

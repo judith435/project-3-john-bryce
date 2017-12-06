@@ -29,8 +29,8 @@ var logout = (function() {
     }
 
     return {
-        setNavigationBarLoggedOut : setNavigationBarLoggedOut,
-        logout: logout
+        setNavigationBarLoggedOut,
+        logout
     };
 
 }());
