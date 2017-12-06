@@ -62,7 +62,7 @@ var validationsCourse = (function() {
         function checkDuplicateCourseOnServer(courseName) {
             var ajaxData = {
                 ctrl: "course",
-                courseName: courseName
+                courseName
             }; 
     
           //   if (app.debugMode){

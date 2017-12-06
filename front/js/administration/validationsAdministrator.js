@@ -82,8 +82,8 @@ var validationsAdministrator = (function() {
         function checkDuplicateAdminOnServer(adminName, adminEmail) {
             var ajaxData = {
                 ctrl: "administrator",
-                adminName: adminName,
-                adminEmail: adminEmail
+                adminName,
+                adminEmail
               }; 
     
             // if (app.debugMode){

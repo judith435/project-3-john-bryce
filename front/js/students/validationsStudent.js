@@ -81,9 +81,9 @@ var validationsStudent = (function() {
         function checkDuplicateStudentOnServer(studentName, studentPhone, studentEmail) {
             var ajaxData = {
                 ctrl: "student",
-                studentName: studentName,
-                studentPhone: studentPhone,
-                studentEmail: studentEmail
+                studentName,
+                studentPhone,
+                studentEmail
             }; 
     
             // if (app.debugMode){
