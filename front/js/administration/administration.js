@@ -72,7 +72,7 @@ var administration = (function() {
             return;
         }
         //build array of administrator objects with data returned from server
-        var ao = new administratorObject();
+        var ao = administratorObject();
         var administratorsArray = [];
         for (let i = 0; i < serverData.length; i++) {
             administratorsArray.push(new ao.Administrator(serverData[i].adminID, 
@@ -229,7 +229,7 @@ var administration = (function() {
         var adminRoleName = row.find("#admin-role-name").text();
         var adminPhone = row.find("#admin-phone").text();
         var adminEmail = row.find("#admin-email").text();
-        var ao = new administratorObject();
+        var ao =  administratorObject();
         adminHandled.details = new ao.Administrator(parseInt(adminID), 
                                                     adminName, 
                                                     parseInt(adminRoleID), 

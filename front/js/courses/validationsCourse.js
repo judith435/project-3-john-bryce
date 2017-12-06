@@ -12,13 +12,13 @@ var validationsCourse = (function() {
                     rules:  {
                 courseName: {
                     required: true,
-                    normalizer: function(value) {
+                    normalizer(value) {
                         return $.trim(value);
                     } 
                 }, 
                 courseDescription: {
                     required: true,
-                    normalizer: function(value) {
+                    normalizer(value) {
                         return $.trim(value);
                     } 
                 },

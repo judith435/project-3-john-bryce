@@ -12,26 +12,26 @@ var validationsAdministrator = (function() {
             rules:  {
                 adminName: {
                     required: true,
-                    normalizer: function(value) {
+                    normalizer(value) {
                         return $.trim(value);
                     } 
                 }, 
                 adminPhone: {
                     required: true,
-                    normalizer: function(value) {
+                    normalizer(value) {
                         return $.trim(value);
                     } 
                 },
                 adminEmail: {
                     required: true,
                     email: true,
-                    normalizer: function(value) {
+                    normalizer(value) {
                         return $.trim(value);
                     } 
                 },
                 adminPassword: {
                     required: true,
-                    normalizer: function(value) {
+                    normalizer(value) {
                         return $.trim(value);
                     } 
                 },

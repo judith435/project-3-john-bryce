@@ -44,7 +44,7 @@ var login = (function() {
             alert(serverData);
         }
         else { 
-            var ao = new administratorObject();
+            var ao = administratorObject();
             var admin  = new ao.Administrator(
                                                 serverData.adminID, 
                                                 serverData.adminName,

@@ -12,20 +12,20 @@ var validationsStudent = (function() {
             rules:  {
                 studentName: {
                     required: true,
-                    normalizer: function(value) {
+                    normalizer(value) {
                         return $.trim(value);
                     } 
                 }, 
                 studentPhone: {
                     required: true,
-                    normalizer: function(value) {
+                    normalizer(value) {
                         return $.trim(value);
                     } 
                 },
                 studentEmail: {
                     required: true,
                     email: true,
-                    normalizer: function(value) {
+                    normalizer(value) {
                         return $.trim(value);
                     } 
                 },

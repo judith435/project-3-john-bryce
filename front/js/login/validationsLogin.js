@@ -11,13 +11,13 @@ var validationsLogin = (function() {
             rules:  {
                 userEmail: {
                     required: true,
-                    normalizer: function(value) {
+                    normalizer(value) {
                         return $.trim(value);
                     } 
                 }, 
                 userPassword: {
                     required: true,
-                    normalizer: function(value) {
+                    normalizer(value) {
                         return $.trim(value);
                     } 
                 }, 
