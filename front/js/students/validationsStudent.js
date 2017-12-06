@@ -31,7 +31,10 @@ var validationsStudent = (function() {
                 },
                 studentImage: {
                     extension: "jpg|jpeg|png|gif"
-                  }, 
+                }, 
+                studentImageSize: {
+                    checkImageSize: true
+                }, 
                 duplicateStudent: {  
                     studentAlreadyExists: true
                 } 
@@ -139,7 +142,18 @@ var validationsStudent = (function() {
                 return studentKeyNotExists;
             });
       
-
+            $.validator.addMethod(
+                "checkImageSize", 
+                function() {
+                    let image = $("#studentImage").prop("files")[0]; 
+                    if (image !== undefined) {
+                        if (image.size > 5000000) {
+                           formValidated.validator.settings.messages.studentImageSize = "Image larger than 5MB - actual size: " + image.size + " bytes";
+                           return false;
+                        }
+                    }
+                    return true;
+            });
     }
 
     return {

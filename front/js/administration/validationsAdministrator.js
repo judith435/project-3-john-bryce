@@ -41,6 +41,9 @@ var validationsAdministrator = (function() {
                 adminImage: {
                     extension: "jpg|jpeg|png|gif"
                 }, 
+                adminImageSize: {
+                    checkImageSize: true
+                }, 
                 duplicateAdmin: {  
                     adminAlreadyExists: true
                 } 
@@ -138,6 +141,20 @@ var validationsAdministrator = (function() {
                 checkDuplicateAdminOnServer(adminName, adminEmail);  
                 return adminKeyNotExists;
             });
+
+            $.validator.addMethod(
+                "checkImageSize", 
+                function() {
+                    let image = $("#adminImage").prop("files")[0]; 
+                    if (image !== undefined) {
+                        if (image.size > 5000000) {
+                           formValidated.validator.settings.messages.adminImageSize = "Image larger than 5MB - actual size: " + image.size + " bytes";
+                           return false;
+                        }
+                    }
+                    return true;
+            });
+
     }
 
     return {
