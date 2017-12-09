@@ -70,7 +70,7 @@
             $course_bll = new Course_BLL();
             $course_id = $course_bll->check_course_exists($params);
             if ($course_id == false){ //no course found with given course name
-                $course_id = ["id" => -1];
+                $course_id = ["status" => -1];
             }
             return $course_id;
         }

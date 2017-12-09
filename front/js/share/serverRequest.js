@@ -69,8 +69,8 @@ var serverRequest = (function() {
                 return;
             }
             //security breach by administrator sales - DON'T call callback method
-            if (serverResponse.status === "administrator sales attempted forbidden action") { 
-                alert(serverResponse.status +  "  " + serverResponse.action);
+            if (serverResponse.message === "administrator sales attempted forbidden action") { 
+                alert(serverResponse.status + "\n" + serverResponse.action + "\n" + serverResponse.message);
                 return;
             }
             //use call back function to ensure ajax request has returned before continuing

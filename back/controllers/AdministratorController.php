@@ -68,7 +68,7 @@
             $admin_bll = new Administrator_BLL();
             $adminID = $admin_bll->check_admin_exists($params);
             if ($adminID == false){ //no admin found with given admin name & email
-                $adminID = ["id" => -1];
+                $adminID = ["status" => -1];
             }
             return $adminID;
         }

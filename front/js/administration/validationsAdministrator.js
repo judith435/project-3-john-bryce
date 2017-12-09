@@ -98,15 +98,13 @@ var validationsAdministrator = (function() {
                 })
                 .done(function(data)
                 {
-                    var admin = JSON.parse(data);
-                    if ($.inArray(status, admin)) {//call to server revealed admin sales accessing admin menu
-                        if (admin.status === "error") {
-                            alert("Following error(s) occured in " + admin.action + ":\n" + admin.message);
-                            adminKeyNotExists = true; //error occured - cancel validation
-                        }
+                    var serverResponse = JSON.parse(data);
+                    if (serverResponse.status === "no longer logged in") { 
+                        login.setUpLogin(); //no = user not logged in
+                        return;
                     }
                     //-1 means student with same student name was not found
-                    adminKeyNotExists = ( admin.id === -1 ) ?  true : false;
+                    adminKeyNotExists = (serverResponse.status === -1) ?  true : false;
                     // if(app.debugMode){
                     //     console.log("check admin name & phone does not already exist" + data);
                     // }

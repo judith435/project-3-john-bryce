@@ -77,9 +77,14 @@ var validationsCourse = (function() {
                     })
                     .done(function(data)
                     {
-                      var course = JSON.parse(data);
+                      var serverResponse = JSON.parse(data);
+                        //user no longer logged in on server (session no longer exists - make user login again) DON'T call callback method
+                        if (serverResponse.status === "no longer logged in") { 
+                            login.setUpLogin(); //no = user not logged in
+                            return;
+                        }
                       //-1 means course with same course name was not found
-                      courseKeyNotExists = ( course.id === -1 ) ?  true : false;
+                      courseKeyNotExists = ( serverResponse.status === -1 ) ?  true : false;
                       // if(app.debugMode){
                       //   console.log("check course name does not already exist" + data);
                       // }

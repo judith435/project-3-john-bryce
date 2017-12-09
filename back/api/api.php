@@ -52,7 +52,7 @@
                ($params['ctrl'] ==  'course' && $method != "GET" )) {  //no access (CUD) to update course data allowed for sales - only read (GET) allowed 
                 $response_array['status'] = 'error';  
                 $response_array['action'] = $method . ' ' . $params['ctrl'];
-                $response_array['message'] = 'administrator sales attempted forbidden actions';
+                $response_array['message'] = 'administrator sales attempted forbidden action';
                 echo json_encode($response_array);
                 return;
             }
