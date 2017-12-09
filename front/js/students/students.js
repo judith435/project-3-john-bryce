@@ -5,13 +5,11 @@ var students = (function() {
     var studentArray = [];
     var studentHandled = {};  //create object (in return statement) that can be referenced by validationsStudent.js
     var studentsRetrieved = {};
-    var serverRequestModule  = serverRequest;//refernce serverRequest.js file and all its exposed function sendServerRequest
-    var commonModule  = common;//refernce common.js file and all its exposed functions
 
     function displayStudentImage(){
         var dtForceReload = new Date();//way to force browser to reload picture after update of picture
         var imgPath = app.studentImagePath + studentHandled.details.studentID + ".jpg?" + dtForceReload.getTime();
-        commonModule.setCanvas($("#canvasStudent")[0], imgPath, "regular");
+        common.setCanvas($("#canvasStudent")[0], imgPath, "regular");
     }
 
     function buildCoursesCBL() {
@@ -62,14 +60,14 @@ var students = (function() {
                 template = template.replace("{{student-courses}}", studentArray[i].studentCourses);
                 $("#students").append(template);
             }
-            commonModule.loadCanvasList($("#students canvas"), app.studentImagePath, "schoolAside");
+            common.loadCanvasList($("#students canvas"), app.studentImagePath, "schoolAside");
         });
     }    
 
     function showStudents(){
         var ajaxData = { ctrl: "student" };
         studentsRetrieved.status = false;
-        serverRequestModule.sendServerRequest("Select", ajaxData, buildStudentTable); 
+        serverRequest.sendServerRequest("Select", ajaxData, buildStudentTable); 
         return false;
     }
 
@@ -105,11 +103,11 @@ var students = (function() {
                 }
 
             $("#studentImage").change(function() {
-                commonModule.uploadImage($("#canvasStudent")[0], this);
+                common.uploadImage($("#canvasStudent")[0], this);
             });
 
             $("#btnCancel").off().click(function() {
-                commonModule.clearImage($("#canvasStudent")[0], $("#studentImage")[0]);
+                common.clearImage($("#canvasStudent")[0], $("#studentImage")[0]);
             });
 
         });
@@ -138,7 +136,7 @@ var students = (function() {
                 }
                 $("#courseList").append(courseHtml);
                 //load images for all canvas elements created
-                commonModule.loadCanvasList($("#courseList canvas"), app.courseImagePath, "small");
+                common.loadCanvasList($("#courseList canvas"), app.courseImagePath, "small");
             }
             displayStudentImage();
             $("#btnEdit").off().click(function() {

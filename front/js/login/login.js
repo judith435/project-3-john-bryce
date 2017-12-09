@@ -1,8 +1,6 @@
 "use strict";
 var login = (function() {
     
-    var serverRequestModule  = serverRequest; //refernce serverRequest.js file and all its exposed function sendServerRequest
-    
     function initValidations() {
         validationsLogin.initValidator();
         var validationMessages = validationsLogin.formValidated.validator.settings.messages;
@@ -69,7 +67,7 @@ var login = (function() {
             $("#btnLogin").off().click(function() {
                 if (validationsLogin.formValidated.contents.valid()){
                     var formContents = $("form").serialize();
-                    serverRequestModule.sendServerRequest("Select", formContents, afterLogin); 
+                    serverRequest.sendServerRequest("Select", formContents, afterLogin); 
                     return false;
                 }
             });

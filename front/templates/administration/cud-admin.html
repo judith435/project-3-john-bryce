@@ -10,71 +10,71 @@
         <!-- save role_id of admin updating data in hidden field => if ddlRoles disabled form.serialize will not send roleID to server
         data required for server validation   -->
         <input  type="hidden" id="role_id" name="roleID" > 
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-left">
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 text-left">
             <span class="float-md-left">
                 <button class="btn btn-primary btnSave" id="btnUpdateInsert" type="button">Save</button>
                 <input  type="text" name="duplicateAdmin"  class="validation_errors">
             </span>
         </div>
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-right">
             <span class="float-md-right">
                 <button class="btn btn-primary text-right btnSave" formnovalidate id="btnDelete" type="button">Delete</button>
             </span>
         </div>
     </div>
     <div class="form-group row">
-        <label for="adminName" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-form-label text-left">Name</label>
-        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11 text-left">
+        <label for="adminName" class="col-xs-12 col-sm-12 col-md-1 col-lg-1 col-form-label text-left">Name</label>
+        <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 text-left">
             <input type="text" class="form-control" id="adminName" name="adminName" maxlength="45" placeholder="Enter new Administrator name" maxlength="50">
         </div>
     </div>
     <div class="form-group row">
-        <label for="adminPhone" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-form-label text-left">Phone</label>
-        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11 text-left">
+        <label for="adminPhone" class="col-xs-12 col-sm-12 col-md-1 col-lg-1 col-form-label text-left">Phone</label>
+        <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 text-left">
             <input type="text" id="adminPhone"  class="form-control" name="adminPhone" maxlength="45" placeholder="Enter new Administrator phone">
         </div>
     </div>
     <div class="form-group row">
-        <label for="adminEmail" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-form-label text-left">Email</label>
-        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11 text-left">
+        <label for="adminEmail" class="col-xs-12 col-sm-12 col-md-1 col-lg-1 col-form-label text-left">Email</label>
+        <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 text-left">
             <input type="text" id="adminEmail"  class="form-control" name="adminEmail" maxlength="45" placeholder="Enter new Administrator email">
         </div>
     </div>
     <div class="form-group row">
-        <label for="adminPassword" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-form-label text-left">Password</label>
-        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11 text-left">
+        <label for="adminPassword" class="col-xs-12 col-sm-12 col-md-1 col-lg-1 col-form-label text-left">Password</label>
+        <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 text-left">
             <input type="text" id="adminPassword"  class="form-control" name="adminPassword" maxlength="15" placeholder="Enter new Administrator password">
         </div>
     </div>
     <div class="form-group row">
-        <label for="RoleDDL" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-form-label text-left">Role</label>
-        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11 text-left">
+        <label for="RoleDDL" class="col-xs-12 col-sm-12 col-md-1 col-lg-1 col-form-label text-left">Role</label>
+        <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 text-left">
             <select id="RoleDDL"  class="form-control" name="roleID"></select>
         </div>
     </div>
     <div class="form-group row">
-        <label for="adminImage" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-form-label text-left">Image</label>
-        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11 text-left">
+        <label for="adminImage" class="col-xs-12 col-sm-12 col-md-1 col-lg-1 col-form-label text-left">Image</label>
+        <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 text-left">
             <span>valid extensions jpg, jpeg, png or gif, size up to 5 MB</span>
         </div>
     </div>
     <div class="form-group row">
-        <span class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-form-label text-left"></span>
-        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+        <span class="col-xs-12 col-sm-12 col-md-1 col-lg-1 col-form-label text-left"></span>
+        <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
             <input type="file" class="btn btn-info pull-left" id="adminImage" name="adminImage">
             <button class="btn btn-default pull-left" id="btnCancel" type="button">Cancel</button>
         </div>
     </div>
     <div id="cbDeleteImage" class="form-group row">
-        <span class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-form-label"></span>
-        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+        <span class="col-xs-12 col-sm-12 col-md-1 col-lg-1 col-form-label"></span>
+        <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
             <input type="checkbox" class="pull-left"  id="deleteImage" name="delete_image">
             <span class="pull-left">To delete administrator image on server check checkbox and click save</span>
         </div>
     </div>
     <div class="form-group row text-left">
-        <label class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-form-label text-left"></label>
-        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+        <label class="col-xs-12 col-sm-12 col-md-1 col-lg-1 col-form-label text-left"></label>
+        <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
             <figure>
                 <canvas id="canvasAdmin"  class="img-fluid"  width="80" height="100" ></canvas>
                 <figcaption>image dimensions: width="80px" height="100px"</figcaption>

@@ -2,15 +2,12 @@
 
 var school = (function() {
 
-    var coursesModule  = courses;//refernce courses.js file and all its exposed functions
-    var studentsModule  = students;//refernce students.js file and all its exposed functions
-    
     function loadSchoolMain() { 
         $.ajax("templates/school/school-summary.html").done(function(data) {
             $("#main-container").empty();
             $("#main-container").prepend(data);
-            coursesModule.showCourses();
-            studentsModule.showStudents();
+            courses.showCourses();
+            students.showStudents();
         });
     }
 
@@ -22,11 +19,11 @@ var school = (function() {
             $("#side-container").addClass("bordered-right");
             
             $(document).off().on("click",".courses-flex #courses tr",function(e){
-                coursesModule.courseSelected($(this));
+                courses.courseSelected($(this));
             });
 
             $(document).on("click",".students-flex #students tr",function(e){
-                studentsModule.studentSelected($(this));
+                students.studentSelected($(this));
             });
 
             if (sessionStorage.getItem("administrator") === null) { //admin session object not found MUST immediately log in again 
@@ -41,10 +38,10 @@ var school = (function() {
 
             $( ".add-button" ).off().click(function() {
                 if (this.id === "btnAddCourse"){
-                    coursesModule.loadCourseCUD("Add");
+                    courses.loadCourseCUD("Add");
                 }
                 else {  
-                    studentsModule.loadStudentCUD("Add");
+                    students.loadStudentCUD("Add");
                 }
             });
             loadSchoolMain();

@@ -5,9 +5,6 @@ var administration = (function() {
     var action = {}; //create object (in return statement) that can be referenced by validationsAdministrator.js
     var adminHandled = {};  //create object (in return statement) that can be referenced by validationsAdministrator.js
     var adminLoggedIn;
-    var serverRequestModule  = serverRequest; //refernce serverRequest.js file and all its exposed function sendServerRequest
-    var commonModule  = common; //refernce common.js file and all its exposed functions
-    var validationsAdministratorModule  = validationsAdministrator; //refernce validationsAdministrator.js file and all its exposed functions
     
     
     function setRolesDdlForUpdate(roles) {
@@ -55,8 +52,8 @@ var administration = (function() {
     }
 
     function initValidations() {//used for jquery validation plugin
-        validationsAdministratorModule.initValidator();
-        var validationMessages = validationsAdministratorModule.formValidated.validator.settings.messages;
+        validationsAdministrator.initValidator();
+        var validationMessages = validationsAdministrator.formValidated.validator.settings.messages;
         validationMessages.adminName = "Administrator name required";
         validationMessages.adminPhone = "Valid phone required";
         validationMessages.adminEmail = "Valid email required";
@@ -105,13 +102,13 @@ var administration = (function() {
 
                 $("#administrators").append(template);
             }
-            commonModule.loadCanvasList($("#administrators canvas"), app.adminImagePath, "adminAside");
+            common.loadCanvasList($("#administrators canvas"), app.adminImagePath, "adminAside");
         });
     }
 
     function showAdministrators(){
         var ajaxData = { ctrl: "administrator" };
-        serverRequestModule.sendServerRequest("Select", ajaxData, buildAdminTable); 
+        serverRequest.sendServerRequest("Select", ajaxData, buildAdminTable); 
         return false;
     }
 
@@ -138,7 +135,7 @@ var administration = (function() {
         var confirmation = confirm("Are you sure you want to delete administrator number " + adminHandled.details.adminID + "?");
         if (confirmation === true) {
             // don't perform validations in case of delete
-            serverRequestModule.sendServerRequest("Delete", ajaxData, afterSave);  
+            serverRequest.sendServerRequest("Delete", ajaxData, afterSave);  
             return false;
         }
     }
@@ -155,8 +152,8 @@ var administration = (function() {
             } 
 
             verb =  action.chosen === "Add" ? "Add" : "Update"; 
-            if (validationsAdministratorModule.formValidated.contents.valid()){
-                serverRequestModule.sendServerRequest
+            if (validationsAdministrator.formValidated.contents.valid()){
+                serverRequest.sendServerRequest
                         (verb, ajaxData, afterSave, "adminImage", "adminImage");  
                 return false;
             }
@@ -178,7 +175,7 @@ var administration = (function() {
             $("#main-container").prepend(data);
             if (sessionStorage.getItem("roles") == null) {
                 var ajaxData = { ctrl: "role" };
-                serverRequestModule.sendServerRequest("Select", ajaxData, callbackSaveRoles); 
+                serverRequest.sendServerRequest("Select", ajaxData, callbackSaveRoles); 
             }
             else {
                 buildRolesDDL();
@@ -198,7 +195,7 @@ var administration = (function() {
 
                 var dtForceReload = new Date();//way to force browser to reload picture after update of picture
                 var imgPath = app.adminImagePath + adminHandled.details.adminID + ".jpg?" + dtForceReload.getTime();
-                commonModule.setCanvas($("#canvasAdmin")[0], imgPath, "regular");
+                common.setCanvas($("#canvasAdmin")[0], imgPath, "regular");
 
                 if(adminLoggedIn.adminID === adminHandled.details.adminID) { //administrator cannot delete himself
                   $("#btnDelete").hide(); 
@@ -212,11 +209,11 @@ var administration = (function() {
 
             
             $("#adminImage").change(function() {
-                commonModule.uploadImage($("#canvasAdmin")[0], this);
+                common.uploadImage($("#canvasAdmin")[0], this);
             });
 
             $("#btnCancel").off().click(function() {
-                commonModule.clearImage($("#canvasAdmin")[0], $("#adminImage")[0]);
+                common.clearImage($("#canvasAdmin")[0], $("#adminImage")[0]);
             });
 
         });

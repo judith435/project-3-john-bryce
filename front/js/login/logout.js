@@ -1,8 +1,6 @@
 "use strict";
 var logout = (function() {
     
-    var serverRequestModule  = serverRequest; //refernce serverRequest.js file and all its exposed function sendServerRequest
-    
     function setNavigationBarLoggedOut() {
         $("#login").show();
         $("#admr-summary").text("");
@@ -24,7 +22,7 @@ var logout = (function() {
     function logout(){
         login.setUpLogin(); //set page / navigation bar to logged out state
         var ajaxData = { ctrl: "login" };
-        serverRequestModule.sendServerRequest("Delete", ajaxData, afterLogout);//remove login session object on server 
+        serverRequest.sendServerRequest("Delete", ajaxData, afterLogout);//remove login session object on server 
         return false;
     }
 

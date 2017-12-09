@@ -2,7 +2,7 @@
     require_once '../bl/Administrator_BLL.php';
     require_once '../models/AdministratorModel.php';
     require_once '../models/LoginModel.php';
-    require_once '../share/SuperGlobals.php';
+    // require_once '../share/SuperGlobals.php';
     
     class LoginController {
 
@@ -31,8 +31,10 @@
                                                          "adminPhone" => $row['adminPhone'],
                                                          "adminEmail" => $row['adminEmail']],
                                                           $errorInInput);
-                $super_global = new SuperGlobals();                                          
-                $super_global->setAdminSession($administrator);
+                $session_name = "user_logged_in";
+                $_SESSION[$session_name] = $administrator;
+                //$super_global = new SuperGlobals();                                          
+                //$super_global->setAdminSession($administrator);
                // $_SESSION["user_logged_in"] =  $administrator; 
                 return $administrator;  
             }
@@ -41,8 +43,11 @@
         }
 
         function endLogin() {
-            $super_global = new SuperGlobals();                                          
-            $super_global->deleteAdminSession();
+            $session_name = "user_logged_in";
+            unset($_SESSION[$session_name]);
+
+            // $super_global = new SuperGlobals();                                          
+            // $super_global->deleteAdminSession();
             //unset($_SESSION['user_logged_in']);
             return "no";
         }

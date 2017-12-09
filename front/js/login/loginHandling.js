@@ -1,7 +1,6 @@
 "use strict";
 var loginHandling = (function() {
 
-    var serverRequestModule  = serverRequest; //refernce serverRequest.js file and all its exposed function sendServerRequest
     
     function handleLoginStatus(userLoginStatus) {
         //userLoggedIn = session object on server / sessionStorage.getItem("administrator") on client
