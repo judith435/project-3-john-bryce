@@ -17,9 +17,12 @@
         $error_handling->HandleError($exception); 
     }
 
-    //define root folder for php back - presently only used in connection with  image handling but could be used in other contexts later 
-    define ('SITE_ROOT', realpath(dirname(__FILE__)));
-    $GLOBALS['siteRoot'] = substr(SITE_ROOT, 0, strrpos(SITE_ROOT,"\\"));  //remove \\api from path
+    //define root folder for project - presently only used in connection with  image handling but could be used in other contexts later 
+    define ('PROJECT_ROOT', realpath(dirname(__FILE__))); //current file: api.php path
+    $PROJECT_ROOT = substr(PROJECT_ROOT, 0, strrpos(PROJECT_ROOT,"\\"));  //remove \\api from path
+    $project_root = substr($PROJECT_ROOT, 0, strrpos($PROJECT_ROOT,"\\"));  //remove \\back from path
+    $GLOBALS['projectRoot'] = $project_root;  
+    
 
     $method = $_SERVER['REQUEST_METHOD']; // verb
     $params = []; //contains data sent to server from client in REST protocol

@@ -19,16 +19,16 @@
                     $target_dir = "\\" . UPLOAD_FOLDER . "\\" . $entity . "s\\";
                     
                     //check if image directory exists - if not create int
-                    if (!file_exists( $GLOBALS['siteRoot'] . "\\" . $image_dir . "\\" )) {
-                        mkdir($GLOBALS['siteRoot'] . "\\" . $image_dir . "\\", 0777, true);
+                    if (!file_exists( $GLOBALS['projectRoot'] . "\\" . $image_dir . "\\" )) {
+                        mkdir($GLOBALS['projectRoot'] . "\\" . $image_dir . "\\", 0777, true);
                     }
                     //check if courses/students & administrator directory (under image directory) 
                     //exists - if not create it
-                    if (!file_exists( $GLOBALS['siteRoot'] . "\\" . $target_dir . "\\" )) {
-                        mkdir($GLOBALS['siteRoot'] . "\\" . $target_dir . "\\", 0777, true);
+                    if (!file_exists( $GLOBALS['projectRoot'] . "\\" . $target_dir . "\\" )) {
+                        mkdir($GLOBALS['projectRoot'] . "\\" . $target_dir . "\\", 0777, true);
                     }
 
-                    $target_file =  $GLOBALS['siteRoot'] . $target_dir .  "image_for_" . $entity ."_id_" . $identity . ".jpg";
+                    $target_file =  $GLOBALS['projectRoot'] . $target_dir .  "image_for_" . $entity ."_id_" . $identity . ".jpg";
 
                     if($_FILES[$imageName]['type'] != 'image/jpeg') {//convert all non jpg files (gif & bmp) to jpg
                         // create image resource
@@ -65,7 +65,7 @@
 
         public function delete_image($identity, $entity) {
             //$glob_pattern contains name of image (if image for entity - course/student/admin exist)
-            $glob_pattern = $GLOBALS['siteRoot'] . "\\" . UPLOAD_FOLDER.  "\\" . 
+            $glob_pattern = $GLOBALS['projectRoot'] . "\\" . UPLOAD_FOLDER.  "\\" . 
                             $entity . "s\\/" . "image_for_" . $entity ."_id_" . $identity . ".{jpg}";
             $image = glob($glob_pattern, GLOB_BRACE); //set $image to image if exist
             if (!empty($image)) {
