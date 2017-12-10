@@ -125,7 +125,7 @@ var validationsCourse = (function() {
                 "checkImageSize", 
                 function() {
                     let image = $("#courseImage").prop("files")[0]; 
-                    if (image !== undefined) {
+                    if (image !== undefined && image !== null) {
                         if (image.size > 5000000) {
                            formValidated.validator.settings.messages.courseImageSize = "Image larger than 5MB - actual size: " + image.size + " bytes";
                            return false;

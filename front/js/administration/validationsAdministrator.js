@@ -144,7 +144,7 @@ var validationsAdministrator = (function() {
                 "checkImageSize", 
                 function() {
                     let image = $("#adminImage").prop("files")[0]; 
-                    if (image !== undefined) {
+                    if (image !== undefined && image !== null) {
                         if (image.size > 5000000) {
                            formValidated.validator.settings.messages.adminImageSize = "Image larger than 5MB - actual size: " + image.size + " bytes";
                            return false;
