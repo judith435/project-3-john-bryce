@@ -137,7 +137,7 @@ var administration = (function() {
             var ajaxData = {
                 ctrl: "administrator",
                 adminID: $("#adminID").val() 
-             }
+             };
             // don't perform validations in case of delete
             serverRequest.sendServerRequest("Delete", ajaxData, afterSave);  
             return false;

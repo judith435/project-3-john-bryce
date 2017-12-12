@@ -33,7 +33,7 @@ var courseSave = (function() {
             var ajaxData = {
                 ctrl: "course",
                 courseID: $("#courseID").val() 
-            }
+            };
             serverRequest.sendServerRequest("Delete", ajaxData, common.afterCourseStudentSave);  
             return false;
         }
