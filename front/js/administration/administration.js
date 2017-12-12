@@ -43,9 +43,7 @@ var administration = (function() {
         }
 
         $("#RoleDDL").off().on("change", function() { //save role name selected in hidden input so it can be sent to server
-            alert("in  $(#RoleDDL).off().on(change, function()");
             if (adminHandled.details.roleID !== parseInt($("#RoleDDL").val())) {
-                 alert (">>> saving role name for server <<<");
                 $("#roleName").val($("#RoleDDL option:selected" ).text());
             }
         });

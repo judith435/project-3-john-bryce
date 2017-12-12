@@ -8,10 +8,12 @@
         function checkUserLoggedIn() {
 
             if(array_key_exists('user_logged_in',$_SESSION) && !empty($_SESSION['user_logged_in'])) {
-                 return $_SESSION["user_logged_in"];
+                $response['loginStatus'] = 'user logged in';  
+                return $response;
             }
-            return  "no" ; //no one logged in
-        }
+            $response['loginStatus'] = 'no one logged in';  
+            return $response;
+    }
 
         function getAdministratorByLogin($params) {
             $login = new LoginModel($params["userEmail"], $params["userPassword"]);
@@ -31,15 +33,19 @@
                                                          "adminEmail" => $row['adminEmail']],
                                                           $errorInInput);
                 $_SESSION["user_logged_in"] = $administrator;
-                return $administrator;  
+
+                $response_array['loginStatus'] = 'admin found';  
+                $response_array['adminDetails'] = $administrator;
+                return $response_array;
             }
-            
-            return "no administrator with this email and password found";
+            $response_array['loginStatus'] = 'no administrator with this email and password found';  
+            return $response_array;
         }
 
         function endLogin() {
             unset($_SESSION['user_logged_in']);
-            return "no";
+            $response['loginStatus'] = 'no one logged in';  
+            return $response;
         }
     }
 ?>

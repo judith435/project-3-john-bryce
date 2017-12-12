@@ -34,22 +34,22 @@ var login = (function() {
     }
 
     function afterLogin(serverData) {
-        if (serverData.status === "error") { 
+        if (serverData.loginStatus === "error") { 
             alert("error in login - please contact support center ");
             return;
         }
-        if (serverData === "no administrator with this email and password found") {
-            alert(serverData);
+        if (serverData.loginStatus === "no administrator with this email and password found") {
+            alert(serverData.loginStatus);
         }
         else { 
             var ao = administratorObject();
             var admin  = new ao.Administrator(
-                                                serverData.adminID, 
-                                                serverData.adminName,
-                                                serverData.roleID, 
-                                                serverData.roleName, 
-                                                serverData.adminPhone,
-                                                serverData.adminEmail);
+                                                serverData["adminDetails"].adminID, 
+                                                serverData["adminDetails"].adminName,
+                                                serverData["adminDetails"].roleID, 
+                                                serverData["adminDetails"].roleName, 
+                                                serverData["adminDetails"].adminPhone,
+                                                serverData["adminDetails"].adminEmail);
             sessionStorage.setItem("administrator", JSON.stringify(admin));   
             setNavigationBarLoggedIn(admin); 
         }

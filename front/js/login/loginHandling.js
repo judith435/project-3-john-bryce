@@ -2,9 +2,9 @@
 var loginHandling = (function() {
 
     
-    function handleLoginStatus(userLoginStatus) {
+    function handleLoginStatus(serverResponse) {
         //userLoggedIn = session object on server / sessionStorage.getItem("administrator") on client
-        if (userLoginStatus === "no" || //response from server was that user no longer logged-in
+        if (serverResponse.loginStatus === "no one logged in" || //response from server was that user no longer logged-in
             sessionStorage.getItem("administrator") === null) {  
                 login.setUpLogin();
         }

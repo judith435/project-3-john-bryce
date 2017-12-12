@@ -28,10 +28,14 @@ var studentSave = (function() {
         students.loadStudentView();
     }
     
-    function deleteStudent(ajaxData) {
+    function deleteStudent() {
         var confirmation = confirm("Are you sure you want to delete student number " + students.studentHandled.details.studentID + "?");
         if (confirmation === true) {
             // don't perform validations in case of delete
+            var ajaxData = {
+                ctrl: "student",
+                studentID: $("#studentID").val() 
+            };
             serverRequest.sendServerRequest("Delete", ajaxData, common.afterCourseStudentSave);  
             return false;
         }
@@ -41,13 +45,13 @@ var studentSave = (function() {
         
         $(".btnSave").off().click(function() {
             var verb;
-            var ajaxData = $("#frmCUD").serialize();
 
             if (this.id === "btnDelete") { 
-                deleteStudent(ajaxData);
+                deleteStudent();
                 return false;
             }
 
+            var ajaxData = $("#frmCUD").serialize();
             studentAction.chosen = action;
             verb =  action === "Add" ? "Add" : "Update"; 
             if (validationsStudent.formValidated.contents.valid()){

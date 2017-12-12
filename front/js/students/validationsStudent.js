@@ -105,7 +105,7 @@ var validationsStudent = (function() {
                             return;
                         }
                         //-1 means student with same student name, phone $ email was not found
-                        studentKeyNotExists = ( serverResponse.status === -1 ) ?  true : false;
+                        studentKeyNotExists = ( serverResponse.studentID === -1 ) ?  true : false;
                         // if(app.debugMode){
                         //     console.log("check student name does not already exist" + data);
                         // }

@@ -72,11 +72,14 @@
         //used for js remote validation validationsStudent.js  method: studentAlreadyExists
         function get_student_by_details($params) { 
             $student_bll = new Student_BLL();
-            $student_id = $student_bll->check_student_exists($params);
-            if ($student_id == false){ //no student found with given student name
-                $student_id = ["status" => -1];
+            $result = $student_bll->check_student_exists($params);
+            $studentID = $result[id];
+            if ($studentID == false){ //no student found with given student name, mail & phone
+                $studentID = -1;
             }
-            return $student_id;
+            $response_array['status'] = 'ok';  
+            $response_array['studentID'] = $studentID;
+            return $response_array;
         }
     }
 ?>
