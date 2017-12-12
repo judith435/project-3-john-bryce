@@ -68,11 +68,14 @@
         //used for js remote validation validationsCourse.js  method: courseAlreadyExists
         function getCourseByName($params) {  
             $course_bll = new Course_BLL();
-            $course_id = $course_bll->check_course_exists($params);
-            if ($course_id == false){ //no course found with given course name
-                $course_id = ["status" => -1];
+            $result = $course_bll->check_course_exists($params);
+            $courseID = $result[id];
+            if ($courseID == false){ //no course found with given course name
+                $courseID = -1;
             }
-            return $course_id;
+            $response_array['status'] = 'ok';  
+            $response_array['courseID'] = $courseID;
+            return $response_array;
         }
     }
 ?>

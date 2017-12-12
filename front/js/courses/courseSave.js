@@ -26,10 +26,14 @@ var courseSave = (function() {
         courses.loadCourseView();
     }
 
-    function deleteCourse(ajaxData) {
+    function deleteCourse() {
         var confirmation = confirm("Are you sure you want to delete course number " + courses.courseHandled.details.courseID + "?");
         if (confirmation === true) {
             // don't perform validations in case of delete
+            var ajaxData = {
+                ctrl: "course",
+                courseID: $("#courseID").val() 
+            }
             serverRequest.sendServerRequest("Delete", ajaxData, common.afterCourseStudentSave);  
             return false;
         }
@@ -39,13 +43,13 @@ var courseSave = (function() {
         
         $(".btnSave").off().click(function() {
             var verb;
-            var ajaxData = $("#frmCUD").serialize();
 
             if(this.id === "btnDelete"){ 
-                deleteCourse(ajaxData);
+                deleteCourse();
                 return false;
             }
 
+            var ajaxData = $("#frmCUD").serialize();
             courseAction.chosen = action;
             verb =  action === "Add" ? "Add" : "Update"; 
             if (validationsCourse.formValidated.contents.valid()){

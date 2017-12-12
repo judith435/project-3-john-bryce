@@ -100,7 +100,7 @@ var validationsAdministrator = (function() {
                 {
                     var serverResponse = JSON.parse(data);
                     if (serverResponse.status === "no longer logged in") { 
-                        login.setUpLogin(); //no = user not logged in
+                        login.setUpLogin(); 
                         return;
                     }
                     //-1 means admin with same admin name & email was not found

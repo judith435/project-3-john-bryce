@@ -84,7 +84,9 @@
             $response_array['status'] = 'ok'; 
             $response_array['action'] = $function . ' administrator';
             $response_array['message'] = ' administrator ' . ($function == "Create" ? 'added' : 'updated') . ' successfully';  
-            $response_array['new_adminID'] = $new_adminID;
+            if ($function == "Create"){
+                $response_array['new_adminID'] = $new_adminID;
+            }
             if ($ImageUploadError != "") { //errors in administrator image upload
                 $response_array['message'] .= "\n however; following errors in administrator image upload: " . $ImageUploadError ;  
             }

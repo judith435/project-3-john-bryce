@@ -84,7 +84,7 @@ var validationsCourse = (function() {
                             return;
                         }
                       //-1 means course with same course name was not found
-                      courseKeyNotExists = ( serverResponse.status === -1 ) ?  true : false;
+                      courseKeyNotExists = ( serverResponse.courseID === -1 ) ?  true : false;
                       // if(app.debugMode){
                       //   console.log("check course name does not already exist" + data);
                       // }

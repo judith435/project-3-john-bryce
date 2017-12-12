@@ -54,7 +54,9 @@
             $response_array['status'] = 'ok'; 
             $response_array['action'] = $function . ' course';
             $response_array['message'] = ' course ' . ($function == "Create" ? 'added' : 'updated') . ' successfully';  
-            $response_array['new_courseID'] = $new_courseID;
+            if ($function == "Create") {
+                $response_array['new_courseID'] = $new_courseID;
+            }
             if ($ImageUploadError != "") { //errors in course image upload
                 $response_array['message'] .= "\n however; following errors in course image upload: " . $ImageUploadError ;  
             }
