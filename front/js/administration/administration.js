@@ -131,9 +131,14 @@ var administration = (function() {
         loadAdminMain();
     }  
 
-    function deleteAdmin(ajaxData) {
+    function deleteAdmin() {
         var confirmation = confirm("Are you sure you want to delete administrator number " + adminHandled.details.adminID + "?");
         if (confirmation === true) {
+            alert ( $("#adminID").val());
+            var ajaxData = {
+                ctrl: "administrator",
+                adminID: $("#adminID").val() 
+             }
             // don't perform validations in case of delete
             serverRequest.sendServerRequest("Delete", ajaxData, afterSave);  
             return false;
@@ -144,13 +149,13 @@ var administration = (function() {
         
         $(".btnSave").off().click(function() {
             var verb;
-            var ajaxData = $("#frmCUD").serialize();
 
             if(this.id === "btnDelete"){ 
-                deleteAdmin(ajaxData);
+                deleteAdmin();
                 return;
             } 
 
+            var ajaxData = $("#frmCUD").serialize();
             verb =  action.chosen === "Add" ? "Add" : "Update"; 
             if (validationsAdministrator.formValidated.contents.valid()){
                 serverRequest.sendServerRequest

@@ -103,8 +103,8 @@ var validationsAdministrator = (function() {
                         login.setUpLogin(); //no = user not logged in
                         return;
                     }
-                    //-1 means student with same student name was not found
-                    adminKeyNotExists = (serverResponse.status === -1) ?  true : false;
+                    //-1 means admin with same admin name & email was not found
+                    adminKeyNotExists = (serverResponse.adminID === -1) ?  true : false;
                     // if(app.debugMode){
                     //     console.log("check admin name & phone does not already exist" + data);
                     // }

@@ -66,11 +66,14 @@
         //used for js remote validation validationsAdministrator.js  method: adminAlreadyExists
         function getAdministratorByNameEmail($params) { 
             $admin_bll = new Administrator_BLL();
-            $adminID = $admin_bll->check_admin_exists($params);
+            $result = $admin_bll->check_admin_exists($params);
+            $adminID = $result[id];
             if ($adminID == false){ //no admin found with given admin name & email
-                $adminID = ["status" => -1];
-            }
-            return $adminID;
+                $adminID = -1; 
+            } 
+            $response_array['status'] = 'ok';  
+            $response_array['adminID'] = $adminID;
+            return $response_array;
         }
 
         function delete_Admin($params) {
