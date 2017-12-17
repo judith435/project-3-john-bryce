@@ -34,7 +34,6 @@ var administration = (function() {
 
         //disable owner => no new owner may be created or updated to
         var roleOwner = $.grep(roles, function(e){ 
-            var lala = e;
             return e.roleName ===  "owner";}); //must retrive id of owner to be able to disable it
         $("option[value='" + roleOwner[0].roleID + "']").attr("disabled", "disabled").siblings().removeAttr("disabled");
 
